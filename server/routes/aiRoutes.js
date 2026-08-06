@@ -11,10 +11,9 @@ router.get('/history', requireAuth, (req, res) => {
   return res.json({ history });
 });
 
-// 2. Post Chat Message & Get In-House AI Response
-router.post('/chat', requireAuth, (req, res) => {
-  const { message } = req.body;
-  if (!message || !message.trim()) {
+// Helper for AI processing
+const handleAiMessage = (req, res, userMessage) => {
+  if (!userMessage || !userMessage.trim()) {
     return res.status(400).json({ error: 'Message content cannot be empty.' });
   }
 
@@ -25,7 +24,7 @@ router.post('/chat', requireAuth, (req, res) => {
   const mealPlan = db.getMealPlan(userId);
 
   // Save User Message
-  db.appendChatMessage(userId, 'user', message.trim());
+  db.appendChatMessage(userId, 'user', userMessage.trim());
 
   // Context bundle for local AI engine
   const context = {
@@ -36,16 +35,30 @@ router.post('/chat', requireAuth, (req, res) => {
   };
 
   // Generate In-House AI Response
-  const aiResult = processAiQuery(message, context);
+  const aiResult = processAiQuery(userMessage, context);
 
   // Save Assistant Response
   db.appendChatMessage(userId, 'assistant', aiResult.message);
 
   return res.json({
-    userMessage: message,
+    userMessage: userMessage.trim(),
+    response: aiResult.message,
     reply: aiResult.message,
+    requiresMedicalNotice: aiResult.requiresMedicalNotice || false,
     history: db.getChatHistory(userId)
   });
+};
+
+// 2. Post Chat Message & Get In-House AI Response (/chat)
+router.post('/chat', requireAuth, (req, res) => {
+  const { message } = req.body;
+  return handleAiMessage(req, res, message);
+});
+
+// 3. Post Query (/query alias)
+router.post('/query', requireAuth, (req, res) => {
+  const { query, message } = req.body;
+  return handleAiMessage(req, res, query || message);
 });
 
 export default router;

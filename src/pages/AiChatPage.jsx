@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { processAiQuery } from '../utils/aiEngine';
-import { Bot, Send, User, Sparkles, AlertCircle, Dumbbell, Utensils, Zap, Globe } from 'lucide-react';
+import { Bot, Send, User, Sparkles, AlertCircle, Dumbbell, Utensils, Zap, Globe, Search } from 'lucide-react';
 
 export const AiChatPage = () => {
   const { user, onboarding } = useAuth();
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
-      text: `Hey ${user?.name || 'Student'}! 👋 I'm your WeightBuddy AI Companion.\n\n🌐 **Multi-Language Support**: Ask me in **English, Hinglish (Hindi + English), Hindi, Spanish, or French**!\n\nAsk me about:\n• Easy Home vs Gym Exercise Routines\n• Cheap INR Hostel Meal Ideas\n• Exam Season Nutrition & Focus Tips`,
+      text: `Hey ${user?.name || 'Student'}! 👋 I'm your WeightBuddy AI Nutrition & Food Companion.\n\n🌐 **Multi-Language Support**: Ask me in **English, Hinglish, Hindi, Spanish, or French**!\n\nAsk me about ANY food item (e.g. *Samosa, Biryani, Maggi, Paneer, Eggs, Chicken, Rice, Dosa, Pizza*), recipes, macro breakdowns, or home vs gym exercises! 🥗💪`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -55,7 +55,7 @@ export const AiChatPage = () => {
 
       const data = await res.json();
       if (res.ok) {
-        botResponseText = data.response;
+        botResponseText = data.response || data.reply;
         isMedical = data.requiresMedicalNotice;
       } else {
         const clientResult = processAiQuery(text, { userName: user?.name, onboarding });
@@ -88,11 +88,13 @@ export const AiChatPage = () => {
     }
   };
 
-  const quickPrompts = [
-    { label: '💪 Easy Home Workout (No Gym)', query: 'Give me an easy home exercise routine with no gym equipment' },
-    { label: '🇮🇳 Cheap INR Protein Foods', query: 'Best cheap high-protein hostel foods under 50 INR' },
-    { label: '🗣️ Talk in Hinglish', query: 'Hostel ke liye sasta high protein diet batao' },
-    { label: '🧠 Exam Cramming Fuel', query: 'What should I eat during late night exam studying?' }
+  const foodQuickChips = [
+    { label: '🍕 Samosa / Junk Food', query: 'What is the nutrition in Samosa?' },
+    { label: '🍲 Biryani Calories', query: 'How many calories in Chicken Biryani?' },
+    { label: '🍜 Is Maggi Healthy?', query: 'Is Maggi good for student weight loss?' },
+    { label: '🧀 Paneer Macros', query: 'Nutritional value of 100g Paneer' },
+    { label: '🥚 Eggs & Protein', query: 'Calories and protein in 2 eggs' },
+    { label: '💪 Home Exercise Routine', query: 'Easy home exercise routine with no gym equipment' }
   ];
 
   return (
@@ -102,16 +104,16 @@ export const AiChatPage = () => {
           <div className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>
             <Globe size={12} /> Speaks English, Hinglish, Hindi, Spanish & More
           </div>
-          <h1 className="font-heading" style={{ fontSize: '1.8rem', fontWeight: 800 }}>In-House AI Companion</h1>
+          <h1 className="font-heading" style={{ fontSize: '1.8rem', fontWeight: 800 }}>AI Food & Nutrition Intelligence</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
-            Self-contained intelligence for student nutrition, home vs gym workouts, and campus wellness.
+            Ask about ANY food item, calorie counts, recipes, or home vs gym exercises.
           </p>
         </div>
       </div>
 
       {/* QUICK SUGGESTION CHIPS */}
       <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
-        {quickPrompts.map((chip, idx) => (
+        {foodQuickChips.map((chip, idx) => (
           <button
             key={idx}
             onClick={() => handleSend(chip.query)}
@@ -152,7 +154,7 @@ export const AiChatPage = () => {
               key={idx}
               style={{
                 display: 'flex',
-                justifyContent: isUser ? 'flex-end' : 'flex-start',
+                justify: isUser ? 'flex-end' : 'flex-start',
                 alignItems: 'flex-start',
                 gap: '0.65rem'
               }}
@@ -220,7 +222,7 @@ export const AiChatPage = () => {
         })}
         {loading && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.82rem' }}>
-            <Bot size={16} className="animate-spin" /> Thinking...
+            <Bot size={16} className="animate-spin" /> Analyzing Nutrition & Food Data...
           </div>
         )}
         <div ref={messagesEndRef} />
@@ -233,7 +235,7 @@ export const AiChatPage = () => {
       >
         <input
           type="text"
-          placeholder="Ask in English, Hinglish ('hostel food sasta'), Hindi, Spanish..."
+          placeholder="Ask about ANY food (e.g. Samosa, Biryani, Maggi, Paneer, Eggs, Oats, Chicken)..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           className="form-input"
