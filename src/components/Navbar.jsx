@@ -28,47 +28,49 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       <div style={{
         maxWidth: '1280px',
         margin: '0 auto',
-        padding: '0.85rem 1.75rem',
+        padding: '0.75rem 1.75rem',
         display: 'flex',
         alignItems: 'center',
         justify: 'space-between'
       }}>
-        {/* Previous Clean Loved Logo */}
+        {/* Perfectly Resized & Balanced Brand Logo */}
         <div 
           onClick={() => setActiveTab(user ? 'dashboard' : 'landing')} 
-          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
+          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.65rem' }}
         >
           <div style={{
-            width: '38px',
-            height: '38px',
-            borderRadius: '8px',
+            width: '32px',
+            height: '32px',
+            borderRadius: '7px',
             background: '#ffffff',
             display: 'flex',
             alignItems: 'center',
-            justify: 'center',
+            justifyContent: 'center',
             fontWeight: 900,
             color: '#050507',
-            fontSize: '1.3rem',
+            fontSize: '1.15rem',
             fontFamily: 'var(--font-heading)',
-            boxShadow: '0 4px 18px rgba(255, 255, 255, 0.3)'
+            boxShadow: '0 3px 12px rgba(255, 255, 255, 0.25)',
+            flexShrink: 0
           }}>
             W
           </div>
           <div>
-            <div className="font-heading" style={{ fontSize: '1.35rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.02em' }}>
+            <div className="font-heading" style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
               Weight<span style={{ color: '#d97706' }}>Buddy</span>
             </div>
             <span style={{
               display: 'flex',
               alignItems: 'center',
               gap: '0.25rem',
-              fontSize: '0.65rem',
+              fontSize: '0.62rem',
               color: 'var(--text-muted)',
-              letterSpacing: '0.06em',
+              letterSpacing: '0.05em',
               fontWeight: 700,
-              textTransform: 'uppercase'
+              textTransform: 'uppercase',
+              marginTop: '0.1rem'
             }}>
-              <Sparkles size={10} color="#d97706" /> Student Fitness Platform
+              <Sparkles size={9} color="#d97706" /> Student Fitness Engine
             </span>
           </div>
         </div>
@@ -81,11 +83,11 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
             alignItems: 'center',
             gap: '0.4rem',
             background: 'rgba(255,255,255,0.08)',
-            padding: '0.4rem 0.8rem',
+            padding: '0.35rem 0.75rem',
             borderRadius: 'var(--radius-sm)',
             border: '1.5px solid var(--border-medium)'
           }}>
-            <Globe size={15} color="#d97706" />
+            <Globe size={14} color="#d97706" />
             <select
               value={currency}
               onChange={(e) => changeCurrency(e.target.value)}
@@ -120,9 +122,9 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.45rem',
-                      padding: '0.5rem 0.95rem',
+                      padding: '0.45rem 0.85rem',
                       borderRadius: 'var(--radius-sm)',
-                      fontSize: '0.88rem',
+                      fontSize: '0.85rem',
                       fontWeight: 800,
                       color: isActive ? '#050507' : 'var(--text-secondary)',
                       background: isActive ? '#ffffff' : 'transparent',
@@ -132,7 +134,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                       boxShadow: isActive ? '0 4px 15px rgba(255, 255, 255, 0.3)' : 'none'
                     }}
                   >
-                    <Icon size={16} color={isActive ? '#050507' : 'currentColor'} />
+                    <Icon size={15} color={isActive ? '#050507' : 'currentColor'} />
                     {item.label}
                   </button>
                 );
@@ -146,21 +148,21 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                   borderRadius: 'var(--radius-sm)',
                   color: '#ffffff',
                   cursor: 'pointer',
-                  padding: '0.5rem 0.65rem',
+                  padding: '0.45rem 0.6rem',
                   display: 'flex',
                   alignItems: 'center',
                   marginLeft: '0.2rem'
                 }}
               >
-                <LogOut size={16} color="#ffffff" />
+                <LogOut size={15} color="#ffffff" />
               </button>
             </nav>
           ) : (
             <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center' }}>
-              <button className="btn-secondary" onClick={() => setActiveTab('login')} style={{ padding: '0.55rem 1.35rem', fontSize: '0.88rem' }}>
+              <button className="btn-secondary" onClick={() => setActiveTab('login')} style={{ padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}>
                 Sign In
               </button>
-              <button className="btn-primary" onClick={() => setActiveTab('signup')} style={{ padding: '0.55rem 1.35rem', fontSize: '0.88rem' }}>
+              <button className="btn-primary" onClick={() => setActiveTab('signup')} style={{ padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}>
                 Get Started Free
               </button>
             </div>
@@ -231,7 +233,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
               color: '#ffffff',
               background: 'rgba(239, 68, 68, 0.25)',
               border: 'none',
-              borderRadius: 'var(--radius-sm)',
+              borderRadius: 'var(--radius-md)',
               marginTop: '0.5rem',
               fontWeight: 800
             }}
