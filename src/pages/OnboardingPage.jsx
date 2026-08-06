@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { calculateBmiFlexible } from '../utils/bmiCalculator';
+import { calculateBmiFlexible, feetInchesToCm, lbsToKg } from '../utils/bmiCalculator';
 import { ArrowRight, ArrowLeft, Check, Sparkles, Utensils, Scale, Activity, Flame, ShieldCheck } from 'lucide-react';
 
 export const OnboardingPage = ({ setActiveTab }) => {
@@ -46,15 +46,23 @@ export const OnboardingPage = ({ setActiveTab }) => {
     setError(null);
     try {
       const token = localStorage.getItem('wb_token');
+      
+      // Calculate final Height in CM & Weight in KG
+      let finalHeightCm = heightUnit === 'cm' ? Number(heightCm) : feetInchesToCm(heightFeet, heightInches);
+      let finalWeightKg = weightUnit === 'kg' ? Number(weightVal) : lbsToKg(weightVal);
+
+      if (!finalHeightCm || finalHeightCm <= 0) finalHeightCm = 172;
+      if (!finalWeightKg || finalWeightKg <= 0) finalWeightKg = 68;
+
       const payload = {
-        age: Number(age),
-        sex,
-        heightCm: previewMetrics.heightCmNum,
-        weightKg: previewMetrics.weightKgNum,
-        activityLevel,
-        scheduleDensity,
-        dietaryRestrictions: [dietaryCategory],
-        goal
+        age: Number(age) || 21,
+        sex: sex || 'male',
+        heightCm: Number(finalHeightCm),
+        weightKg: Number(finalWeightKg),
+        activityLevel: activityLevel || 'moderate',
+        scheduleDensity: scheduleDensity || 'moderate',
+        dietaryRestrictions: [dietaryCategory || 'vegetarian'],
+        goal: goal || 'gain_muscle'
       };
 
       const res = await fetch('/api/user/onboarding', {

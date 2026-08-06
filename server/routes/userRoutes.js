@@ -8,19 +8,23 @@ const router = express.Router();
 router.post('/onboarding', requireAuth, (req, res) => {
   const { age, sex, heightCm, weightKg, activityLevel, scheduleDensity, dietaryRestrictions, goal } = req.body;
 
-  if (!age || !sex || !heightCm || !weightKg || !activityLevel || !scheduleDensity || !goal) {
-    return res.status(400).json({ error: 'Please complete all required onboarding fields.' });
-  }
+  const parsedAge = Number(age) || 21;
+  const parsedSex = sex || 'male';
+  const parsedHeightCm = Number(heightCm) || 172;
+  const parsedWeightKg = Number(weightKg) || 68;
+  const parsedActivityLevel = activityLevel || 'moderate';
+  const parsedScheduleDensity = scheduleDensity || 'moderate';
+  const parsedGoal = goal || 'gain_muscle';
 
   const onboardingData = {
-    age: Number(age),
-    sex, // 'male' | 'female' | 'other'
-    heightCm: Number(heightCm),
-    weightKg: Number(weightKg),
-    activityLevel, // 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active'
-    scheduleDensity, // 'light' | 'moderate' | 'heavy'
-    dietaryRestrictions: Array.isArray(dietaryRestrictions) ? dietaryRestrictions : [], // ['vegetarian', 'vegan', 'none', etc.]
-    goal, // 'lose' | 'maintain' | 'gain_weight' | 'gain_muscle'
+    age: parsedAge,
+    sex: parsedSex,
+    heightCm: parsedHeightCm,
+    weightKg: parsedWeightKg,
+    activityLevel: parsedActivityLevel,
+    scheduleDensity: parsedScheduleDensity,
+    dietaryRestrictions: Array.isArray(dietaryRestrictions) ? dietaryRestrictions : ['vegetarian'],
+    goal: parsedGoal,
   };
 
   const saved = db.saveOnboarding(req.user.id, onboardingData);
@@ -28,8 +32,8 @@ router.post('/onboarding', requireAuth, (req, res) => {
   // Also log the initial weight into weightLogs if no weight log exists yet
   const existingLogs = db.getWeightLogs(req.user.id);
   if (existingLogs.length === 0) {
-    const heightM = Number(heightCm) / 100;
-    const bmi = parseFloat((Number(weightKg) / (heightM * heightM)).toFixed(1));
+    const heightM = parsedHeightCm / 100;
+    const bmi = parseFloat((parsedWeightKg / (heightM * heightM)).toFixed(1));
     let category = 'Normal';
     if (bmi < 18.5) category = 'Underweight';
     else if (bmi >= 25 && bmi < 30) category = 'Overweight';
@@ -39,7 +43,7 @@ router.post('/onboarding', requireAuth, (req, res) => {
       id: 'log_' + Date.now(),
       userId: req.user.id,
       date: new Date().toISOString().split('T')[0],
-      weightKg: Number(weightKg),
+      weightKg: parsedWeightKg,
       bmi,
       category,
       timestamp: new Date().toISOString()
