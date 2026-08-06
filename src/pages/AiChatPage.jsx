@@ -101,10 +101,10 @@ export const AiChatPage = () => {
     <div className="animate-fade-in" style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem 1.5rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
         <div>
-          <div className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>
+          <div className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>
             <Globe size={12} /> Speaks English, Hinglish, Hindi, Spanish & More
           </div>
-          <h1 className="font-heading" style={{ fontSize: '1.8rem', fontWeight: 800 }}>AI Food & Nutrition Intelligence</h1>
+          <h1 className="font-heading" style={{ fontSize: '1.8rem', fontWeight: 800, color: '#ffffff' }}>AI Food & Nutrition Intelligence</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
             Ask about ANY food item, calorie counts, recipes, or home vs gym exercises.
           </p>
@@ -120,11 +120,11 @@ export const AiChatPage = () => {
             style={{
               padding: '0.45rem 0.85rem',
               borderRadius: 'var(--radius-full)',
-              background: 'rgba(255, 255, 255, 0.04)',
+              background: 'rgba(255, 255, 255, 0.08)',
               border: '1px solid var(--border-subtle)',
-              color: 'var(--text-secondary)',
+              color: '#ffffff',
               fontSize: '0.78rem',
-              fontWeight: 600,
+              fontWeight: 700,
               cursor: 'pointer',
               transition: 'all 0.2s ease'
             }}
@@ -140,8 +140,8 @@ export const AiChatPage = () => {
         maxHeight: '520px',
         overflowY: 'auto',
         padding: '1.5rem',
-        background: '#141414',
-        border: '1px solid var(--border-medium)',
+        background: '#09090d',
+        border: '1.5px solid var(--border-medium)',
         display: 'flex',
         flexDirection: 'column',
         gap: '1.25rem',
@@ -161,30 +161,32 @@ export const AiChatPage = () => {
             >
               {!isUser && (
                 <div style={{
-                  width: '32px',
-                  height: '32px',
+                  width: '34px',
+                  height: '34px',
                   borderRadius: '10px',
-                  background: 'rgba(16, 185, 129, 0.15)',
-                  color: 'var(--accent-primary)',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  color: '#ffffff',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0
                 }}>
-                  <Bot size={18} />
+                  <Bot size={18} color="#ffffff" />
                 </div>
               )}
 
               <div style={{
                 maxWidth: '80%',
-                padding: '0.9rem 1.1rem',
+                padding: '0.9rem 1.2rem',
                 borderRadius: isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                background: isUser ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.04)',
-                color: isUser ? '#000' : 'var(--text-primary)',
-                border: isUser ? 'none' : '1px solid var(--border-subtle)',
-                fontSize: '0.88rem',
+                background: isUser ? '#ffffff' : '#14141a',
+                color: isUser ? '#050507' : '#ffffff',
+                border: isUser ? '1.5px solid #ffffff' : '1.5px solid var(--border-subtle)',
+                fontSize: '0.92rem',
+                fontWeight: isUser ? '700' : '400',
                 lineHeight: '1.6',
-                whiteSpace: 'pre-line'
+                whiteSpace: 'pre-line',
+                boxShadow: isUser ? '0 4px 15px rgba(255, 255, 255, 0.25)' : 'none'
               }}>
                 {msg.isMedical && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#fca5a5', fontWeight: 700, marginBottom: '0.4rem', fontSize: '0.8rem' }}>
@@ -194,7 +196,8 @@ export const AiChatPage = () => {
                 {msg.text}
                 <div style={{
                   fontSize: '0.68rem',
-                  color: isUser ? 'rgba(0,0,0,0.6)' : 'var(--text-muted)',
+                  fontWeight: 600,
+                  color: isUser ? 'rgba(5, 5, 7, 0.65)' : 'var(--text-muted)',
                   marginTop: '0.4rem',
                   textAlign: 'right'
                 }}>
@@ -204,17 +207,18 @@ export const AiChatPage = () => {
 
               {isUser && (
                 <div style={{
-                  width: '32px',
-                  height: '32px',
+                  width: '34px',
+                  height: '34px',
                   borderRadius: '10px',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  color: 'var(--text-primary)',
+                  background: '#ffffff',
+                  color: '#050507',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  fontWeight: 900,
                   flexShrink: 0
                 }}>
-                  <User size={18} />
+                  <User size={18} color="#050507" />
                 </div>
               )}
             </div>
@@ -239,9 +243,9 @@ export const AiChatPage = () => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           className="form-input"
-          style={{ flex: 1, padding: '0.75rem 1rem' }}
+          style={{ flex: 1, padding: '0.8rem 1.1rem' }}
         />
-        <button type="submit" className="btn-primary" disabled={loading} style={{ padding: '0.75rem 1.4rem' }}>
+        <button type="submit" className="btn-primary" disabled={loading} style={{ padding: '0.8rem 1.6rem' }}>
           <Send size={16} /> Send
         </button>
       </form>
