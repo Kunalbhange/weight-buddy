@@ -8,7 +8,70 @@ import { createRateLimiter } from '../middleware/rateLimiter.js';
 const router = express.Router();
 
 // Strict rate limiter for login and password reset
-const authLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 5 });
+const authLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 10 });
+
+// 0. Quick Demo Guest Login (Skip Sign In for temporary testing)
+router.post('/demo-login', async (req, res) => {
+  try {
+    const demoEmail = 'guest_student@weightbuddy.app';
+    let demoUser = db.findUserByEmail(demoEmail);
+
+    if (!demoUser) {
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash('demopass123', salt);
+      demoUser = {
+        id: 'usr_guest_demo_2026',
+        email: demoEmail,
+        name: 'Guest Student',
+        passwordHash,
+        isVerified: true,
+        createdAt: new Date().toISOString()
+      };
+      db.addUser(demoUser);
+
+      // Pre-fill demo onboarding
+      db.saveOnboarding(demoUser.id, {
+        age: 21,
+        sex: 'female',
+        heightCm: 168,
+        weightKg: 64,
+        activityLevel: 'light',
+        scheduleDensity: 'heavy',
+        dietaryRestrictions: ['vegetarian'],
+        goal: 'maintain'
+      });
+
+      // Add baseline weight log
+      db.addWeightLog({
+        id: 'log_demo_initial',
+        userId: demoUser.id,
+        date: new Date().toISOString().split('T')[0],
+        weightKg: 64,
+        weightLbs: 141.1,
+        bmi: 22.7,
+        category: 'Normal',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    const token = generateToken(demoUser);
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    return res.json({
+      message: 'Logged in as Demo Guest Student!',
+      token,
+      user: { id: demoUser.id, email: demoUser.email, name: demoUser.name, isVerified: true }
+    });
+  } catch (err) {
+    console.error('Demo login error:', err);
+    return res.status(500).json({ error: 'Failed to initiate guest demo session.' });
+  }
+});
 
 // 1. Signup
 router.post('/signup', async (req, res) => {
@@ -43,17 +106,15 @@ router.post('/signup', async (req, res) => {
 
     db.addUser(newUser);
 
-    // Create self-hosted verification token (valid for 24h)
     const verificationToken = crypto.randomBytes(32).toString('hex');
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
     db.createVerificationToken(userId, verificationToken, expiresAt);
 
     const token = generateToken(newUser);
 
-    // Set HttpOnly cookie
     res.cookie('token', token, {
       httpOnly: true,
-      secure: false, // development/local
+      secure: false,
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
@@ -61,7 +122,7 @@ router.post('/signup', async (req, res) => {
       message: 'Account created successfully!',
       user: { id: newUser.id, email: newUser.email, name: newUser.name, isVerified: newUser.isVerified },
       token,
-      verificationToken // returned for easy in-app self-verification demo
+      verificationToken
     });
   } catch (err) {
     console.error('Signup error:', err);
@@ -136,17 +197,16 @@ router.post('/forgot-password', authLimiter, (req, res) => {
 
   const user = db.findUserByEmail(email);
   if (!user) {
-    // Return friendly response to prevent email enumeration
     return res.json({ message: 'If an account exists with this email, a reset token has been generated.' });
   }
 
   const resetToken = crypto.randomBytes(32).toString('hex');
-  const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString(); // 15 mins single-use
+  const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
   db.createResetToken(user.id, resetToken, expiresAt);
 
   return res.json({
     message: 'Reset token generated successfully.',
-    resetToken // returned in-app for self-contained reset simulation
+    resetToken
   });
 });
 

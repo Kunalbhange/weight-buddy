@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch current user from server on load
   const fetchMe = async (authToken = token) => {
     if (!authToken) {
       setLoading(false);
@@ -30,7 +29,6 @@ export const AuthProvider = ({ children }) => {
         setOnboarding(data.onboarding);
         setError(null);
       } else {
-        // Token invalid
         localStorage.removeItem('wb_token');
         setToken(null);
         setUser(null);
@@ -72,6 +70,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Instant Guest Demo Login (Skip Sign In)
+  const demoLogin = async () => {
+    setError(null);
+    try {
+      const res = await fetch('/api/auth/demo-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Guest login failed.');
+
+      localStorage.setItem('wb_token', data.token);
+      setToken(data.token);
+      setUser(data.user);
+      await fetchMe(data.token);
+      return data;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  };
+
   const signup = async (name, email, password) => {
     setError(null);
     try {
@@ -100,7 +121,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
     } catch (e) {
-      // ignore server logout error
+      // ignore
     }
     localStorage.removeItem('wb_token');
     setToken(null);
@@ -120,6 +141,7 @@ export const AuthProvider = ({ children }) => {
       loading,
       error,
       login,
+      demoLogin,
       signup,
       logout,
       fetchMe,

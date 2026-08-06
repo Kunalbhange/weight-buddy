@@ -1,4 +1,4 @@
-/* Premium Black & White Design System for WeightBuddy */
+/* Premium Black & White Compact Design System for WeightBuddy */
 :root {
   --bg-main: #0a0a0a;
   --bg-surface: #141414;
@@ -26,8 +26,8 @@
   --font-body: 'Plus Jakarta Sans', sans-serif;
   
   --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
   --radius-full: 9999px;
   
   --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(255, 255, 255, 0.05);
@@ -46,11 +46,11 @@ body {
   background-color: var(--bg-main);
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 0.98rem; /* Medium comfortable font size */
-  font-weight: 500;
+  font-size: 0.88rem; /* Small compact sleek font size */
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
+  line-height: 1.5;
   min-height: 100vh;
   overflow-x: hidden;
   background-image: 
@@ -68,15 +68,15 @@ h1, h2, h3, h4, .font-heading {
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
   background: #27272a;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #3f3f46;
@@ -103,44 +103,44 @@ h1, h2, h3, h4, .font-heading {
   box-shadow: 0 12px 35px -10px rgba(0, 0, 0, 0.9), 0 0 15px rgba(16, 185, 129, 0.1);
 }
 
-/* Premium Buttons - Medium Sizing */
+/* Compact Sleek Buttons */
 .btn-primary {
   background: var(--accent-primary);
   color: #000;
   font-weight: 700;
-  font-size: 0.95rem;
-  padding: 0.75rem 1.4rem;
+  font-size: 0.86rem;
+  padding: 0.65rem 1.25rem;
   border-radius: var(--radius-full);
   border: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   transition: all var(--transition-normal);
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
   text-decoration: none;
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
   transform: translateY(-1px);
-  box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.45);
 }
 
 .btn-secondary {
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
   font-weight: 600;
-  font-size: 0.95rem;
-  padding: 0.75rem 1.4rem;
+  font-size: 0.86rem;
+  padding: 0.65rem 1.25rem;
   border-radius: var(--radius-full);
   border: 1px solid var(--border-subtle);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   transition: all var(--transition-normal);
   text-decoration: none;
 }
@@ -151,15 +151,37 @@ h1, h2, h3, h4, .font-heading {
   color: #fff;
 }
 
+.btn-demo {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
+  color: #34d399;
+  font-weight: 700;
+  font-size: 0.86rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all var(--transition-normal);
+}
+
+.btn-demo:hover {
+  background: rgba(16, 185, 129, 0.3);
+  border-color: var(--accent-primary);
+  color: #fff;
+}
+
 .btn-danger {
   background: rgba(239, 68, 68, 0.15);
   color: #fca5a5;
   border: 1px solid rgba(239, 68, 68, 0.3);
-  padding: 0.65rem 1.25rem;
+  padding: 0.6rem 1.1rem;
   border-radius: var(--radius-md);
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   transition: all var(--transition-normal);
 }
 .btn-danger:hover {
@@ -173,17 +195,17 @@ h1, h2, h3, h4, .font-heading {
   background: rgba(10, 10, 10, 0.8);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
-  padding: 3px;
-  gap: 3px;
+  padding: 2px;
+  gap: 2px;
 }
 
 .unit-toggle-btn {
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  padding: 0.35rem 0.85rem;
+  padding: 0.3rem 0.75rem;
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -198,10 +220,10 @@ h1, h2, h3, h4, .font-heading {
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.3rem 0.8rem;
+  gap: 0.3rem;
+  padding: 0.25rem 0.7rem;
   border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -225,16 +247,16 @@ h1, h2, h3, h4, .font-heading {
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* Form Controls - Medium typography */
+/* Form Controls - Compact scale */
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
-  margin-bottom: 1.25rem;
+  gap: 0.35rem;
+  margin-bottom: 1.1rem;
 }
 
 .form-label {
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-secondary);
 }
@@ -244,8 +266,8 @@ h1, h2, h3, h4, .font-heading {
   border: 1px solid var(--border-subtle);
   color: var(--text-primary);
   border-radius: var(--radius-sm);
-  padding: 0.75rem 1rem;
-  font-size: 0.95rem;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.88rem;
   font-family: inherit;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
@@ -258,10 +280,10 @@ h1, h2, h3, h4, .font-heading {
 
 /* Keyframes & Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
