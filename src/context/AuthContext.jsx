@@ -100,6 +100,33 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Instant 1-Click Demo Account Login
+  const demoLogin = async () => {
+    setError(null);
+    const demoEmail = 'student.demo@weightbuddy.edu';
+    const demoPass = 'demo123456';
+    try {
+      // Try logging in first
+      return await login(demoEmail, demoPass);
+    } catch (err) {
+      // If demo user doesn't exist, create it automatically
+      try {
+        await signup('Alex (Student Demo)', demoEmail, demoPass);
+        return await login(demoEmail, demoPass);
+      } catch (signupErr) {
+        // Fallback local mock user session
+        const mockUser = { id: 'demo-user-123', name: 'Alex Morgan', email: demoEmail, isVerified: true };
+        const mockOnboarding = { age: 20, sex: 'other', heightCm: 175, weightKg: 68, goal: 'maintain', scheduleDensity: 'medium' };
+        const mockToken = 'mock-demo-jwt-token-12345';
+        localStorage.setItem('wb_token', mockToken);
+        setToken(mockToken);
+        setUser(mockUser);
+        setOnboarding(mockOnboarding);
+        return { user: mockUser };
+      }
+    }
+  };
+
   const logout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
@@ -127,6 +154,7 @@ export const AuthProvider = ({ children }) => {
       error,
       login,
       signup,
+      demoLogin,
       logout,
       fetchMe,
       updateOnboardingState,

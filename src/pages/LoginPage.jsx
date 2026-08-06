@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { LogIn, Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, Utensils, Dumbbell, Sparkles } from 'lucide-react';
+import { LogIn, Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, Utensils, Zap, Sparkles } from 'lucide-react';
 
 export const LoginPage = ({ setActiveTab }) => {
-  const { login } = useAuth();
+  const { login, demoLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [demoLoading, setDemoLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -20,6 +21,20 @@ export const LoginPage = ({ setActiveTab }) => {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDemoClick = async () => {
+    setDemoLoading(true);
+    setError(null);
+    try {
+      await demoLogin();
+      setActiveTab('dashboard');
+    } catch (err) {
+      setError('Instant demo access issue. Redirecting...');
+      setActiveTab('dashboard');
+    } finally {
+      setDemoLoading(false);
     }
   };
 
@@ -42,7 +57,7 @@ export const LoginPage = ({ setActiveTab }) => {
           background: '#141414',
           border: '1.5px solid var(--border-medium)'
         }}>
-          <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
             <div style={{
               width: '44px',
               height: '44px',
@@ -51,15 +66,37 @@ export const LoginPage = ({ setActiveTab }) => {
               color: '#ffffff',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
+              justify: 'center',
               margin: '0 auto 0.75rem'
             }}>
               <LogIn size={22} color="#ffffff" />
             </div>
             <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff' }}>Student Account Sign In</h2>
             <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
-              Enter your registered student email and password.
+              Enter your registered student email and password or use instant demo access.
             </p>
+          </div>
+
+          {/* INSTANT 1-CLICK DEMO ACCESS BUTTON */}
+          <div style={{ marginBottom: '1.5rem' }}>
+            <button 
+              type="button" 
+              className="btn-glass-cyan" 
+              onClick={handleDemoClick} 
+              disabled={demoLoading}
+              style={{ width: '100%', padding: '0.85rem', fontSize: '0.95rem', background: '#d97706', color: '#050507', border: '1.5px solid #d97706', fontWeight: 900 }}
+            >
+              <Zap size={18} color="#050507" /> {demoLoading ? 'Launching Instant Demo...' : '⚡ Instant 1-Click Demo Login (Inspect Site)'}
+            </button>
+            <div style={{ textAlign: 'center', marginTop: '0.4rem', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+              Inspect total site with pre-filled student diet & weight logs instantly!
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+            <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 700 }}>OR SIGN IN WITH EMAIL</span>
+            <div style={{ flex: 1, height: '1px', background: 'var(--border-subtle)' }} />
           </div>
 
           {error && (
@@ -146,7 +183,7 @@ export const LoginPage = ({ setActiveTab }) => {
             color: 'var(--text-muted)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justify: 'center',
             gap: '0.4rem'
           }}>
             <ShieldCheck size={14} color="#d97706" /> Protected by bcrypt password hashing & rate-limiting.
