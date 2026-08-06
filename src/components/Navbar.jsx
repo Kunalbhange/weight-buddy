@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { CURRENCY_MAP } from '../utils/currency';
-import { LayoutDashboard, Utensils, Activity, Bot, Settings, LogOut, Menu, X, Globe, Dumbbell, Sparkles } from 'lucide-react';
+import { LayoutDashboard, Utensils, Activity, Bot, Settings, LogOut, Menu, X, Globe, Dumbbell } from 'lucide-react';
 
 export const Navbar = ({ activeTab, setActiveTab }) => {
   const { user, logout, currency, changeCurrency } = useAuth();
@@ -21,9 +21,9 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      background: 'rgba(7, 7, 10, 0.88)',
-      backdropFilter: 'blur(20px)',
-      borderBottom: '1.5px solid var(--border-subtle)'
+      background: 'rgba(12, 13, 16, 0.92)',
+      backdropFilter: 'blur(16px)',
+      borderBottom: '1px solid var(--border-subtle)'
     }}>
       <div style={{
         maxWidth: '1280px',
@@ -31,59 +31,56 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
         padding: '0.85rem 1.75rem',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justify: 'space-between'
       }}>
-        {/* Brand Logo */}
+        {/* Classic Clean Brand Logo */}
         <div 
           onClick={() => setActiveTab(user ? 'dashboard' : 'landing')} 
-          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.85rem' }}
+          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
         >
           <div style={{
-            width: '42px',
-            height: '42px',
-            borderRadius: '14px',
-            background: 'linear-gradient(135deg, #10b981 0%, #8b5cf6 100%)',
+            width: '36px',
+            height: '36px',
+            borderRadius: '8px',
+            background: '#10b981',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontWeight: 900,
-            color: '#fff',
-            fontSize: '1.4rem',
-            fontFamily: 'var(--font-heading)',
-            boxShadow: '0 4px 20px rgba(139, 92, 246, 0.45)'
+            fontWeight: 800,
+            color: '#06261c',
+            fontSize: '1.25rem',
+            fontFamily: 'var(--font-heading)'
           }}>
             W
           </div>
           <div>
-            <div className="font-heading" style={{ fontSize: '1.35rem', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
-              Weight<span style={{ background: 'linear-gradient(135deg, #10b981, #34d399)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Buddy</span>
+            <div className="font-heading" style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+              Weight<span style={{ color: 'var(--accent-emerald-light)' }}>Buddy</span>
             </div>
             <span style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.3rem',
+              display: 'block',
               fontSize: '0.65rem',
-              color: '#a78bfa',
-              letterSpacing: '0.06em',
-              fontWeight: 800,
+              color: 'var(--text-muted)',
+              letterSpacing: '0.04em',
+              fontWeight: 600,
               textTransform: 'uppercase'
             }}>
-              <Sparkles size={10} color="#a78bfa" /> Student Health & Nutrition Platform
+              Student Nutrition Platform
             </span>
           </div>
         </div>
 
         {/* Desktop Navigation */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-          {/* Currency Selector Pill */}
+          {/* Currency Selector */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.45rem',
+            gap: '0.4rem',
             background: 'rgba(255,255,255,0.06)',
-            padding: '0.4rem 0.85rem',
-            borderRadius: 'var(--radius-full)',
-            border: '1.5px solid var(--border-medium)'
+            padding: '0.4rem 0.8rem',
+            borderRadius: 'var(--radius-sm)',
+            border: '1px solid var(--border-medium)'
           }}>
             <Globe size={15} color="var(--accent-emerald-light)" />
             <select
@@ -94,13 +91,13 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                 border: 'none',
                 color: 'var(--text-primary)',
                 fontSize: '0.82rem',
-                fontWeight: 800,
+                fontWeight: 600,
                 cursor: 'pointer',
                 outline: 'none'
               }}
             >
               {Object.keys(CURRENCY_MAP).map(code => (
-                <option key={code} value={code} style={{ background: '#0f0f15', color: '#fff' }}>
+                <option key={code} value={code} style={{ background: '#14161d', color: '#fff' }}>
                   {CURRENCY_MAP[code].label}
                 </option>
               ))}
@@ -108,7 +105,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
           </div>
 
           {user ? (
-            <nav className="desktop-nav" style={{ display: 'flex', gap: '0.45rem', alignItems: 'center' }}>
+            <nav className="desktop-nav" style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
               {navItems.map(item => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
@@ -120,19 +117,18 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.45rem',
-                      padding: '0.5rem 0.95rem',
-                      borderRadius: 'var(--radius-full)',
-                      fontSize: '0.85rem',
-                      fontWeight: 800,
-                      color: isActive ? '#fff' : 'var(--text-secondary)',
-                      background: isActive ? 'var(--grad-emerald)' : 'transparent',
-                      border: isActive ? 'none' : '1.5px solid transparent',
+                      padding: '0.5rem 0.9rem',
+                      borderRadius: 'var(--radius-sm)',
+                      fontSize: '0.88rem',
+                      fontWeight: 600,
+                      color: isActive ? '#06261c' : 'var(--text-secondary)',
+                      background: isActive ? '#10b981' : 'transparent',
+                      border: isActive ? 'none' : '1px solid transparent',
                       cursor: 'pointer',
-                      transition: 'var(--transition-tactile)',
-                      boxShadow: isActive ? '0 4px 18px rgba(16, 185, 129, 0.45)' : 'none'
+                      transition: 'var(--transition-normal)'
                     }}
                   >
-                    <Icon size={16} color={isActive ? '#fff' : 'currentColor'} />
+                    <Icon size={16} color={isActive ? '#06261c' : 'currentColor'} />
                     {item.label}
                   </button>
                 );
@@ -142,8 +138,8 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                 title="Logout"
                 style={{
                   background: 'rgba(255,255,255,0.06)',
-                  border: '1.5px solid var(--border-medium)',
-                  borderRadius: 'var(--radius-full)',
+                  border: '1px solid var(--border-medium)',
+                  borderRadius: 'var(--radius-sm)',
                   color: 'var(--text-muted)',
                   cursor: 'pointer',
                   padding: '0.5rem 0.65rem',
@@ -189,8 +185,8 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       {user && mobileMenuOpen && (
         <div style={{
           padding: '1rem',
-          background: '#0f0f15',
-          borderBottom: '1.5px solid var(--border-subtle)',
+          background: '#14161d',
+          borderBottom: '1px solid var(--border-subtle)',
           display: 'flex',
           flexDirection: 'column',
           gap: '0.5rem'
@@ -206,9 +202,9 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                   alignItems: 'center',
                   gap: '0.65rem',
                   padding: '0.8rem 1rem',
-                  borderRadius: 'var(--radius-md)',
+                  borderRadius: 'var(--radius-sm)',
                   fontSize: '0.9rem',
-                  fontWeight: 800,
+                  fontWeight: 600,
                   color: activeTab === item.id ? '#34d399' : 'var(--text-primary)',
                   background: activeTab === item.id ? 'rgba(16, 185, 129, 0.15)' : 'transparent',
                   border: 'none',
@@ -229,11 +225,11 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
               gap: '0.65rem',
               padding: '0.8rem 1rem',
               color: '#fca5a5',
-              background: 'rgba(239, 68, 68, 0.18)',
+              background: 'rgba(239, 68, 68, 0.15)',
               border: 'none',
-              borderRadius: 'var(--radius-md)',
+              borderRadius: 'var(--radius-sm)',
               marginTop: '0.5rem',
-              fontWeight: 800
+              fontWeight: 600
             }}
           >
             <LogOut size={18} />
