@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { calculateBmiDetails, lbsToKg, inchesToCm } from '../utils/bmiCalculator';
-import { Sparkles, ArrowRight, ArrowLeft, Check, Calendar, Activity, Utensils, Target } from 'lucide-react';
+import { lbsToKg, inchesToCm, feetInchesToCm } from '../utils/bmiCalculator';
+import { Sparkles, ArrowRight, ArrowLeft, Check, Calendar, Utensils, Target } from 'lucide-react';
 
 export const OnboardingPage = ({ setActiveTab }) => {
   const { updateOnboardingState } = useAuth();
@@ -9,15 +9,18 @@ export const OnboardingPage = ({ setActiveTab }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Unit System
-  const [unitSystem, setUnitSystem] = useState('metric'); // 'metric' | 'imperial'
+  // Independent Height & Weight Unit Selection
+  const [heightUnit, setHeightUnit] = useState('cm'); // 'cm' | 'ft_in'
+  const [weightUnit, setWeightUnit] = useState('kg'); // 'kg' | 'lbs'
 
-  // Form State
+  // Input Values
   const [age, setAge] = useState(20);
   const [sex, setSex] = useState('female');
   
-  // Height & Weight input fields
-  const [heightVal, setHeightVal] = useState(168); // cm or inches
+  const [heightCm, setHeightCm] = useState(168);
+  const [heightFeet, setHeightFeet] = useState(5);
+  const [heightInches, setHeightInches] = useState(6);
+
   const [weightVal, setWeightVal] = useState(64); // kg or lbs
 
   const [activityLevel, setActivityLevel] = useState('light');
@@ -46,20 +49,23 @@ export const OnboardingPage = ({ setActiveTab }) => {
     try {
       const token = localStorage.getItem('wb_token');
 
-      // Standardize to metric for database backend
-      let heightCm = Number(heightVal);
-      let weightKg = Number(weightVal);
+      // Standardize Height to cm
+      let finalHeightCm = Number(heightCm);
+      if (heightUnit === 'ft_in') {
+        finalHeightCm = feetInchesToCm(heightFeet, heightInches);
+      }
 
-      if (unitSystem === 'imperial') {
-        heightCm = inchesToCm(heightVal);
-        weightKg = lbsToKg(weightVal);
+      // Standardize Weight to kg
+      let finalWeightKg = Number(weightVal);
+      if (weightUnit === 'lbs') {
+        finalWeightKg = lbsToKg(weightVal);
       }
 
       const payload = {
         age: Number(age),
         sex,
-        heightCm: Math.round(heightCm),
-        weightKg: parseFloat(weightKg.toFixed(1)),
+        heightCm: Math.round(finalHeightCm),
+        weightKg: parseFloat(finalWeightKg.toFixed(1)),
         activityLevel,
         scheduleDensity,
         dietaryRestrictions,
@@ -118,48 +124,15 @@ export const OnboardingPage = ({ setActiveTab }) => {
           </div>
         )}
 
-        {/* STEP 1: BASICS & UNIT SYSTEM */}
+        {/* STEP 1: BASICS & FLEXIBLE UNITS */}
         {step === 1 && (
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Sparkles size={20} color="var(--accent-primary)" />
-                <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800 }}>Basic Metrics</h2>
-              </div>
-
-              {/* Unit Toggle Pill */}
-              <div className="unit-toggle-group">
-                <button
-                  type="button"
-                  className={`unit-toggle-btn ${unitSystem === 'metric' ? 'active' : ''}`}
-                  onClick={() => {
-                    if (unitSystem === 'imperial') {
-                      setHeightVal(168);
-                      setWeightVal(64);
-                    }
-                    setUnitSystem('metric');
-                  }}
-                >
-                  Metric (kg/cm)
-                </button>
-                <button
-                  type="button"
-                  className={`unit-toggle-btn ${unitSystem === 'imperial' ? 'active' : ''}`}
-                  onClick={() => {
-                    if (unitSystem === 'metric') {
-                      setHeightVal(66); // ~66 inches
-                      setWeightVal(141); // ~141 lbs
-                    }
-                    setUnitSystem('imperial');
-                  }}
-                >
-                  Imperial (lbs/in)
-                </button>
-              </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <Sparkles size={20} color="var(--accent-primary)" />
+              <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800 }}>Basic Metrics</h2>
             </div>
-
             <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.75rem' }}>
-              Enter your current height and weight in {unitSystem === 'metric' ? 'Metric (cm, kg)' : 'Imperial (inches, lbs)'}.
+              Select height and weight units independently (e.g. <strong>lbs + cm</strong>, <strong>ft/in + kgs</strong>).
             </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
@@ -177,28 +150,72 @@ export const OnboardingPage = ({ setActiveTab }) => {
                 </select>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">
-                  Height ({unitSystem === 'metric' ? 'cm' : 'inches'})
-                </label>
-                <input 
-                  type="number" 
-                  step="0.5" 
-                  value={heightVal} 
-                  onChange={(e) => setHeightVal(e.target.value)} 
-                  className="form-input" 
-                />
+              {/* HEIGHT INPUT WITH UNIT TOGGLE */}
+              <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                  <label className="form-label">Height Unit</label>
+                  <div className="unit-toggle-group">
+                    <button
+                      type="button"
+                      className={`unit-toggle-btn ${heightUnit === 'cm' ? 'active' : ''}`}
+                      onClick={() => setHeightUnit('cm')}
+                    >
+                      cm
+                    </button>
+                    <button
+                      type="button"
+                      className={`unit-toggle-btn ${heightUnit === 'ft_in' ? 'active' : ''}`}
+                      onClick={() => setHeightUnit('ft_in')}
+                    >
+                      ft + in
+                    </button>
+                  </div>
+                </div>
+
+                {heightUnit === 'cm' ? (
+                  <input 
+                    type="number" step="0.5" placeholder="e.g. 168"
+                    value={heightCm} onChange={(e) => setHeightCm(e.target.value)} 
+                    className="form-input" 
+                  />
+                ) : (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                    <div>
+                      <label className="form-label" style={{ fontSize: '0.8rem' }}>Feet (ft)</label>
+                      <input type="number" min="3" max="8" value={heightFeet} onChange={(e) => setHeightFeet(e.target.value)} className="form-input" />
+                    </div>
+                    <div>
+                      <label className="form-label" style={{ fontSize: '0.8rem' }}>Inches (in)</label>
+                      <input type="number" min="0" max="11" value={heightInches} onChange={(e) => setHeightInches(e.target.value)} className="form-input" />
+                    </div>
+                  </div>
+                )}
               </div>
 
-              <div className="form-group">
-                <label className="form-label">
-                  Current Weight ({unitSystem === 'metric' ? 'kg' : 'lbs'})
-                </label>
+              {/* WEIGHT INPUT WITH UNIT TOGGLE */}
+              <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                  <label className="form-label">Weight Unit</label>
+                  <div className="unit-toggle-group">
+                    <button
+                      type="button"
+                      className={`unit-toggle-btn ${weightUnit === 'kg' ? 'active' : ''}`}
+                      onClick={() => setWeightUnit('kg')}
+                    >
+                      kgs
+                    </button>
+                    <button
+                      type="button"
+                      className={`unit-toggle-btn ${weightUnit === 'lbs' ? 'active' : ''}`}
+                      onClick={() => setWeightUnit('lbs')}
+                    >
+                      lbs
+                    </button>
+                  </div>
+                </div>
                 <input 
-                  type="number" 
-                  step="0.5" 
-                  value={weightVal} 
-                  onChange={(e) => setWeightVal(e.target.value)} 
+                  type="number" step="0.5" placeholder={weightUnit === 'kg' ? 'e.g. 64.0' : 'e.g. 141.0'}
+                  value={weightVal} onChange={(e) => setWeightVal(e.target.value)} 
                   className="form-input" 
                 />
               </div>

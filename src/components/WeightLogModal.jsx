@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { X, Scale, CheckCircle } from 'lucide-react';
 
 export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
-  const [unitSystem, setUnitSystem] = useState('metric'); // 'metric' (kg/cm) | 'imperial' (lbs/inches)
+  const [weightUnit, setWeightUnit] = useState('kg'); // 'kg' | 'lbs'
+  const [waistUnit, setWaistUnit] = useState('cm'); // 'cm' | 'in'
+  
   const [weightVal, setWeightVal] = useState('');
   const [waistVal, setWaistVal] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
@@ -17,6 +19,9 @@ export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
     setError(null);
     try {
       const token = localStorage.getItem('wb_token');
+      // Pass weightUnit and waistUnit separately
+      const unitSystem = weightUnit === 'lbs' ? 'imperial' : 'metric';
+      
       const res = await fetch('/api/metrics/log', {
         method: 'POST',
         headers: {
@@ -75,33 +80,13 @@ export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
           <X size={20} />
         </button>
 
-        <div style={{ display: 'flex', alignItems: 'center', justify: 'space-between', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Scale size={22} color="var(--accent-primary)" />
-            <h3 className="font-heading" style={{ fontSize: '1.3rem' }}>Log Weight Entry</h3>
-          </div>
-
-          {/* Unit Toggle Pill */}
-          <div className="unit-toggle-group">
-            <button
-              type="button"
-              className={`unit-toggle-btn ${unitSystem === 'metric' ? 'active' : ''}`}
-              onClick={() => setUnitSystem('metric')}
-            >
-              Metric (kg/cm)
-            </button>
-            <button
-              type="button"
-              className={`unit-toggle-btn ${unitSystem === 'imperial' ? 'active' : ''}`}
-              onClick={() => setUnitSystem('imperial')}
-            >
-              Imperial (lbs/in)
-            </button>
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+          <Scale size={22} color="var(--accent-primary)" />
+          <h3 className="font-heading" style={{ fontSize: '1.3rem' }}>Log Weight Entry</h3>
         </div>
 
         <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
-          Track your weight in {unitSystem === 'metric' ? 'Kilograms (kg)' : 'Pounds (lbs)'}. BMI is computed automatically.
+          Mix units as you prefer. BMI and history logs will compute conversions automatically.
         </p>
 
         {error && (
@@ -111,14 +96,31 @@ export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
         )}
 
         <form onSubmit={handleSubmit}>
+          {/* WEIGHT FIELD WITH UNIT TOGGLE */}
           <div className="form-group">
-            <label className="form-label">
-              Weight ({unitSystem === 'metric' ? 'kg' : 'lbs'}) *
-            </label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem' }}>
+              <label className="form-label">Weight</label>
+              <div className="unit-toggle-group">
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${weightUnit === 'kg' ? 'active' : ''}`}
+                  onClick={() => setWeightUnit('kg')}
+                >
+                  kgs
+                </button>
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${weightUnit === 'lbs' ? 'active' : ''}`}
+                  onClick={() => setWeightUnit('lbs')}
+                >
+                  lbs
+                </button>
+              </div>
+            </div>
             <input 
               type="number" 
               step="0.1" 
-              placeholder={unitSystem === 'metric' ? 'e.g. 68.5' : 'e.g. 151.0'}
+              placeholder={weightUnit === 'kg' ? 'e.g. 68.5' : 'e.g. 151.0'}
               className="form-input"
               value={weightVal}
               onChange={(e) => setWeightVal(e.target.value)}
@@ -126,22 +128,39 @@ export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">
-              Waist Measurement ({unitSystem === 'metric' ? 'cm' : 'inches'}) [Optional]
-            </label>
+          {/* WAIST FIELD WITH UNIT TOGGLE */}
+          <div className="form-group" style={{ marginTop: '1.25rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem' }}>
+              <label className="form-label">Waist Measurement [Optional]</label>
+              <div className="unit-toggle-group">
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${waistUnit === 'cm' ? 'active' : ''}`}
+                  onClick={() => setWaistUnit('cm')}
+                >
+                  cm
+                </button>
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${waistUnit === 'in' ? 'active' : ''}`}
+                  onClick={() => setWaistUnit('in')}
+                >
+                  inches
+                </button>
+              </div>
+            </div>
             <input 
               type="number" 
               step="0.1" 
-              placeholder={unitSystem === 'metric' ? 'e.g. 78' : 'e.g. 30.7'}
+              placeholder={waistUnit === 'cm' ? 'e.g. 78' : 'e.g. 30.7'}
               className="form-input"
               value={waistVal}
               onChange={(e) => setWaistVal(e.target.value)}
             />
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Used for simple body fat estimation.</span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Used for formula-based body fat estimation.</span>
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ marginTop: '1.25rem' }}>
             <label className="form-label">Date</label>
             <input 
               type="date" 

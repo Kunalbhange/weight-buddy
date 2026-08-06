@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { ChartView } from '../components/ChartView';
 import { WeightLogModal } from '../components/WeightLogModal';
-import { calculateBmiDetails, cmToInches, inchesToCm, kgToLbs, lbsToKg } from '../utils/bmiCalculator';
+import { calculateBmiFlexible, kgToLbs, lbsToKg, cmToInches, inchesToCm, cmToFeetInches } from '../utils/bmiCalculator';
 import { Activity, Scale, AlertTriangle, Plus, Calendar, Info, Award } from 'lucide-react';
 
 export const BmiMetricsPage = () => {
@@ -13,13 +13,17 @@ export const BmiMetricsPage = () => {
   const [loading, setLoading] = useState(true);
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
 
-  // Unit System Toggle: 'metric' | 'imperial'
-  const [unitSystem, setUnitSystem] = useState('metric');
+  // Independent Unit Toggles!
+  const [weightUnit, setWeightUnit] = useState('kg'); // 'kg' | 'lbs'
+  const [heightUnit, setHeightUnit] = useState('cm'); // 'cm' | 'ft_in'
+  const [waistUnit, setWaistUnit] = useState('cm'); // 'cm' | 'in'
 
-  // Live Calculator inputs
-  const [heightVal, setHeightVal] = useState(onboarding?.heightCm || 170); // cm or inches
-  const [weightVal, setWeightVal] = useState(onboarding?.weightKg || 70); // kg or lbs
-  const [waistVal, setWaistVal] = useState(78); // cm or inches
+  // Input Values
+  const [heightCm, setHeightCm] = useState(onboarding?.heightCm || 170);
+  const [heightFeet, setHeightFeet] = useState(5);
+  const [heightInches, setHeightInches] = useState(7);
+  const [weightVal, setWeightVal] = useState(onboarding?.weightKg || 70);
+  const [waistVal, setWaistVal] = useState(78);
 
   const fetchLogs = async () => {
     setLoading(true);
@@ -45,9 +49,18 @@ export const BmiMetricsPage = () => {
     fetchLogs();
   }, []);
 
-  // Calculate live numbers
   const sex = onboarding?.sex || 'other';
-  const computed = calculateBmiDetails(weightVal, heightVal, unitSystem, sex, waistVal);
+  const computed = calculateBmiFlexible({
+    weightVal,
+    weightUnit,
+    heightVal: heightCm,
+    heightUnit,
+    heightFeet,
+    heightInchesVal: heightInches,
+    sex,
+    waistVal,
+    waistUnit
+  });
 
   return (
     <div className="animate-fade-in" style={{ maxWidth: '1100px', margin: '0 auto', padding: '2rem 1.5rem' }}>
@@ -60,10 +73,10 @@ export const BmiMetricsPage = () => {
         marginBottom: '2rem'
       }}>
         <div>
-          <div className="badge badge-emerald" style={{ marginBottom: '0.4rem' }}>Body Composition & Trends</div>
+          <div className="badge badge-emerald" style={{ marginBottom: '0.4rem' }}>Flexible Unit Calculators</div>
           <h1 className="font-heading" style={{ fontSize: '2rem', fontWeight: 800 }}>BMI & Measurement Calculator</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-            Instant mathematical BMI calculation, waist ratio analysis, and timestamped progress history.
+            Mix height & weight units freely: <strong>lbs + cm</strong>, <strong>ft/in + kgs</strong>, or <strong>lbs + ft/in</strong>.
           </p>
         </div>
 
@@ -72,87 +85,118 @@ export const BmiMetricsPage = () => {
         </button>
       </div>
 
-      {/* CALCULATOR & LIVE METRICS SECTION WITH DUAL UNITS */}
+      {/* CALCULATOR & LIVE METRICS WITH SEPARATE TOGGLES */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
         {/* Input Card */}
         <div className="glass-card" style={{ padding: '1.75rem', background: '#141414' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1.25rem' }}>
-            <h3 className="font-heading" style={{ fontSize: '1.25rem' }}>Live Calculator Input</h3>
+          <h3 className="font-heading" style={{ fontSize: '1.25rem', marginBottom: '1.25rem' }}>Live Calculator Input</h3>
 
-            {/* Unit Toggle Pill */}
-            <div className="unit-toggle-group">
-              <button
-                type="button"
-                className={`unit-toggle-btn ${unitSystem === 'metric' ? 'active' : ''}`}
-                onClick={() => {
-                  if (unitSystem === 'imperial') {
-                    setHeightVal(inchesToCm(heightVal));
-                    setWeightVal(lbsToKg(weightVal));
-                    if (waistVal) setWaistVal(inchesToCm(waistVal));
-                  }
-                  setUnitSystem('metric');
-                }}
-              >
-                Metric (cm/kg)
-              </button>
-              <button
-                type="button"
-                className={`unit-toggle-btn ${unitSystem === 'imperial' ? 'active' : ''}`}
-                onClick={() => {
-                  if (unitSystem === 'metric') {
-                    setHeightVal(cmToInches(heightVal));
-                    setWeightVal(kgToLbs(weightVal));
-                    if (waistVal) setWaistVal(cmToInches(waistVal));
-                  }
-                  setUnitSystem('imperial');
-                }}
-              >
-                Imperial (in/lbs)
-              </button>
+          {/* HEIGHT INPUT WITH UNIT TOGGLE */}
+          <div className="form-group">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+              <label className="form-label">Height Unit</label>
+              <div className="unit-toggle-group">
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${heightUnit === 'cm' ? 'active' : ''}`}
+                  onClick={() => setHeightUnit('cm')}
+                >
+                  cm
+                </button>
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${heightUnit === 'ft_in' ? 'active' : ''}`}
+                  onClick={() => setHeightUnit('ft_in')}
+                >
+                  ft + in
+                </button>
+              </div>
             </div>
+
+            {heightUnit === 'cm' ? (
+              <input 
+                type="number" step="0.5" placeholder="e.g. 175"
+                value={heightCm} onChange={(e) => setHeightCm(e.target.value)}
+                className="form-input" 
+              />
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                <div>
+                  <label className="form-label" style={{ fontSize: '0.8rem' }}>Feet (ft)</label>
+                  <input type="number" min="3" max="8" value={heightFeet} onChange={(e) => setHeightFeet(e.target.value)} className="form-input" />
+                </div>
+                <div>
+                  <label className="form-label" style={{ fontSize: '0.8rem' }}>Inches (in)</label>
+                  <input type="number" min="0" max="11" value={heightInches} onChange={(e) => setHeightInches(e.target.value)} className="form-input" />
+                </div>
+              </div>
+            )}
           </div>
 
-          <div className="form-group">
-            <label className="form-label">
-              Height ({unitSystem === 'metric' ? 'cm' : 'inches'})
-            </label>
+          {/* WEIGHT INPUT WITH UNIT TOGGLE */}
+          <div className="form-group" style={{ marginTop: '1.25rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+              <label className="form-label">Weight Unit</label>
+              <div className="unit-toggle-group">
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${weightUnit === 'kg' ? 'active' : ''}`}
+                  onClick={() => {
+                    if (weightUnit === 'lbs') setWeightVal(lbsToKg(weightVal));
+                    setWeightUnit('kg');
+                  }}
+                >
+                  kgs
+                </button>
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${weightUnit === 'lbs' ? 'active' : ''}`}
+                  onClick={() => {
+                    if (weightUnit === 'kg') setWeightVal(kgToLbs(weightVal));
+                    setWeightUnit('lbs');
+                  }}
+                >
+                  lbs
+                </button>
+              </div>
+            </div>
             <input 
-              type="number" 
-              step="0.5"
-              value={heightVal} 
-              onChange={(e) => setHeightVal(e.target.value)} 
+              type="number" step="0.1" placeholder={weightUnit === 'kg' ? 'e.g. 68.5' : 'e.g. 151.0'}
+              value={weightVal} onChange={(e) => setWeightVal(e.target.value)} 
               className="form-input" 
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">
-              Weight ({unitSystem === 'metric' ? 'kg' : 'lbs'})
-            </label>
+          {/* WAIST INPUT WITH UNIT TOGGLE */}
+          <div className="form-group" style={{ marginTop: '1.25rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+              <label className="form-label">Waist Measurement</label>
+              <div className="unit-toggle-group">
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${waistUnit === 'cm' ? 'active' : ''}`}
+                  onClick={() => setWaistUnit('cm')}
+                >
+                  cm
+                </button>
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${waistUnit === 'in' ? 'active' : ''}`}
+                  onClick={() => setWaistUnit('in')}
+                >
+                  inches
+                </button>
+              </div>
+            </div>
             <input 
-              type="number" 
-              step="0.1" 
-              value={weightVal} 
-              onChange={(e) => setWeightVal(e.target.value)} 
-              className="form-input" 
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">
-              Waist Circumference ({unitSystem === 'metric' ? 'cm' : 'inches'}) [Optional]
-            </label>
-            <input 
-              type="number" 
-              step="0.5" 
-              value={waistVal} 
-              onChange={(e) => setWaistVal(e.target.value)} 
+              type="number" step="0.1" placeholder={waistUnit === 'cm' ? 'e.g. 78' : 'e.g. 30.7'}
+              value={waistVal} onChange={(e) => setWaistVal(e.target.value)} 
               className="form-input" 
             />
           </div>
         </div>
 
-        {/* Results Card Displaying Both Units & Categories */}
+        {/* Results Card */}
         <div className="glass-card" style={{ padding: '1.75rem', background: '#141414', textAlign: 'center' }}>
           <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Computed Body Mass Index</div>
           <div className="font-heading" style={{ fontSize: '3.6rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
@@ -162,7 +206,7 @@ export const BmiMetricsPage = () => {
             {computed.category}
           </div>
 
-          {/* Both Unit Categories Breakdown */}
+          {/* Dual Unit Conversions Display */}
           <div style={{
             marginTop: '1.25rem',
             padding: '1rem',
@@ -179,7 +223,7 @@ export const BmiMetricsPage = () => {
             </div>
             <div>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>IMPERIAL</div>
-              <strong style={{ color: 'var(--text-primary)' }}>{computed.weightLbs} lbs</strong> • {computed.heightInches} in
+              <strong style={{ color: 'var(--text-primary)' }}>{computed.weightLbs} lbs</strong> • {computed.heightFtIn}
             </div>
           </div>
 
@@ -229,7 +273,7 @@ export const BmiMetricsPage = () => {
         <ChartView logs={logs} goal={onboarding?.goal} />
       </div>
 
-      {/* HISTORICAL LOGS TABLE SHOWING BOTH KG & LBS */}
+      {/* HISTORICAL LOGS TABLE */}
       <div className="glass-card" style={{ padding: '1.75rem', background: '#141414' }}>
         <h3 className="font-heading" style={{ fontSize: '1.3rem', marginBottom: '1rem' }}>Timestamped Weight Log History</h3>
 
@@ -241,8 +285,8 @@ export const BmiMetricsPage = () => {
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border-medium)', color: 'var(--text-muted)' }}>
                   <th style={{ padding: '0.75rem' }}>Date</th>
-                  <th style={{ padding: '0.75rem' }}>Weight (Metric)</th>
-                  <th style={{ padding: '0.75rem' }}>Weight (Imperial)</th>
+                  <th style={{ padding: '0.75rem' }}>Weight (kgs)</th>
+                  <th style={{ padding: '0.75rem' }}>Weight (lbs)</th>
                   <th style={{ padding: '0.75rem' }}>BMI</th>
                   <th style={{ padding: '0.75rem' }}>Category</th>
                   <th style={{ padding: '0.75rem' }}>Waist</th>
