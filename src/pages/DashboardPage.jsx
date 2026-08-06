@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { ChartView } from '../components/ChartView';
+import { MacroChartView } from '../components/MacroChartView';
 import { WeightLogModal } from '../components/WeightLogModal';
 import { MealSwapperModal } from '../components/MealSwapperModal';
 import { 
   Utensils, Activity, Bot, Sparkles, Scale, RefreshCw, ChevronLeft, ChevronRight, 
-  DollarSign, Clock, AlertTriangle, Lightbulb, CheckCircle2 
+  DollarSign, Clock, AlertTriangle, Lightbulb, Bell, Zap, Flame, Dumbbell, Trophy 
 } from 'lucide-react';
 
 export const DashboardPage = ({ setActiveTab }) => {
@@ -26,7 +27,6 @@ export const DashboardPage = ({ setActiveTab }) => {
       const token = localStorage.getItem('wb_token');
       const headers = { 'Authorization': `Bearer ${token}` };
 
-      // Fetch meal plan & metrics logs
       const [planRes, metricsRes] = await Promise.all([
         fetch('/api/diet/plan', { headers }),
         fetch('/api/metrics/logs', { headers })
@@ -56,9 +56,12 @@ export const DashboardPage = ({ setActiveTab }) => {
 
   const slides = [
     { id: 'meals', title: "Today's Meal Plan", icon: Utensils },
-    { id: 'bmi', title: "BMI & Body Snapshot", icon: Activity },
-    { id: 'trend', title: "Weight Trend & Milestones", icon: Scale },
-    { id: 'aiTip', title: "AI Tip of the Day", icon: Bot }
+    { id: 'bmi', title: "BMI Snapshot", icon: Activity },
+    { id: 'trend', title: "Weight Trend Chart", icon: Scale },
+    { id: 'macros', title: "Nutrition & Macro Distribution", icon: Flame },
+    { id: 'automations', title: "Student Automations", icon: Bell },
+    { id: 'aiTip', title: "AI Tip of the Day", icon: Bot },
+    { id: 'gymPosters', title: "Gym & Fitness Motivation", icon: Dumbbell }
   ];
 
   return (
@@ -73,25 +76,25 @@ export const DashboardPage = ({ setActiveTab }) => {
         marginBottom: '2rem'
       }}>
         <div>
-          <h1 className="font-heading" style={{ fontSize: '2rem', fontWeight: 800 }}>
+          <h1 className="font-heading" style={{ fontSize: '2.1rem', fontWeight: 800 }}>
             Hey, {user?.name || 'Student'}! 👋
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.2rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginTop: '0.2rem' }}>
             {onboarding?.scheduleDensity === 'heavy' ? '⚡ Heavy Schedule Mode Active (Quick 5-10m Meals)' : '🎯 Active Goal: Maintain & Build Energy'}
           </p>
         </div>
 
         <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <button className="btn-secondary" onClick={() => setIsLogModalOpen(true)} style={{ padding: '0.6rem 1.1rem', fontSize: '0.85rem' }}>
+          <button className="btn-secondary" onClick={() => setIsLogModalOpen(true)} style={{ padding: '0.6rem 1.1rem', fontSize: '0.9rem' }}>
             <Scale size={16} /> Log Weight
           </button>
-          <button className="btn-primary" onClick={() => setActiveTab('ai')} style={{ padding: '0.6rem 1.1rem', fontSize: '0.85rem' }}>
+          <button className="btn-primary" onClick={() => setActiveTab('ai')} style={{ padding: '0.6rem 1.1rem', fontSize: '0.9rem' }}>
             <Bot size={16} /> Ask AI Assistant
           </button>
         </div>
       </div>
 
-      {/* SWIPEABLE / SLIDE CARDS CONTROLLER */}
+      {/* SWIPEABLE / SLIDE CARDS TAB NAVIGATOR */}
       <div style={{
         display: 'flex',
         gap: '0.5rem',
@@ -110,31 +113,31 @@ export const DashboardPage = ({ setActiveTab }) => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                padding: '0.6rem 1.25rem',
+                padding: '0.6rem 1.2rem',
                 borderRadius: 'var(--radius-full)',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
-                background: isActive ? 'rgba(16, 185, 129, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                border: isActive ? '1px solid var(--accent-primary)' : '1px solid var(--border-subtle)',
+                fontSize: '0.88rem',
+                fontWeight: 700,
+                color: isActive ? '#000' : 'var(--text-secondary)',
+                background: isActive ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.03)',
+                border: isActive ? 'none' : '1px solid var(--border-subtle)',
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
                 transition: 'all 0.2s ease'
               }}
             >
-              <Icon size={16} color={isActive ? 'var(--accent-primary)' : 'currentColor'} />
+              <Icon size={16} color={isActive ? '#000' : 'currentColor'} />
               {slide.title}
             </button>
           );
         })}
       </div>
 
-      {/* SLIDE CARD DISPLAY WIDGET CONTAINER */}
+      {/* SLIDE DISPLAY CONTAINER */}
       <div className="glass-card" style={{
         padding: '2rem',
         background: '#141414',
         border: '1px solid var(--border-medium)',
-        minHeight: '420px',
+        minHeight: '440px',
         position: 'relative'
       }}>
 
@@ -148,7 +151,7 @@ export const DashboardPage = ({ setActiveTab }) => {
               </div>
               <button 
                 onClick={() => setActiveTab('diet')}
-                style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}
+                style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', fontSize: '0.9rem', fontWeight: 700, cursor: 'pointer' }}
               >
                 View Full Week →
               </button>
@@ -176,11 +179,11 @@ export const DashboardPage = ({ setActiveTab }) => {
                       }}>
                         <div>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
-                            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>{type}</span>
-                            {meal.isBudget && <span className="badge badge-amber" style={{ fontSize: '0.65rem' }}>Budget</span>}
+                            <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>{type}</span>
+                            {meal.isBudget && <span className="badge badge-amber" style={{ fontSize: '0.7rem' }}>Budget ({meal.costEst})</span>}
                           </div>
-                          <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '0.4rem' }}>{meal.name}</h4>
-                          <div style={{ fontSize: '0.8rem', color: 'var(--text-accent)', marginBottom: '0.6rem' }}>
+                          <h4 style={{ fontSize: '0.98rem', fontWeight: 700, marginBottom: '0.4rem' }}>{meal.name}</h4>
+                          <div style={{ fontSize: '0.85rem', color: 'var(--accent-primary)', fontWeight: 600, marginBottom: '0.6rem' }}>
                             {meal.calories} kcal • {meal.protein}g protein
                           </div>
                         </div>
@@ -191,8 +194,8 @@ export const DashboardPage = ({ setActiveTab }) => {
                             background: 'none',
                             border: '1px solid var(--border-subtle)',
                             color: 'var(--text-secondary)',
-                            fontSize: '0.75rem',
-                            padding: '0.35rem 0.6rem',
+                            fontSize: '0.78rem',
+                            padding: '0.4rem 0.65rem',
                             borderRadius: 'var(--radius-sm)',
                             cursor: 'pointer',
                             display: 'flex',
@@ -218,7 +221,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                   justify: 'space-around',
                   flexWrap: 'wrap',
                   gap: '1rem',
-                  fontSize: '0.85rem',
+                  fontSize: '0.9rem',
                   textAlign: 'center'
                 }}>
                   <div>Target Calories: <strong>{mealPlan.dailyCalorieTarget} kcal</strong></div>
@@ -254,34 +257,31 @@ export const DashboardPage = ({ setActiveTab }) => {
                 <div className="badge badge-emerald" style={{ fontSize: '0.85rem', padding: '0.4rem 1rem' }}>
                   {metrics?.category || 'Normal Weight'}
                 </div>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '1rem', lineHeight: '1.5' }}>
+                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginTop: '1rem', lineHeight: '1.5' }}>
                   {metrics?.explanation || 'Your weight is in a healthy, balanced standard range for your height.'}
                 </p>
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Latest Weight Entry</div>
-                  <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)' }}>{metrics?.weightKg || onboarding?.weightKg || 68} kg</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Logged on {metrics?.date || 'Today'}</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Latest Weight Entry</div>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                    {metrics?.weightKg || onboarding?.weightKg || 68} kg / {metrics?.weightLbs || 150} lbs
+                  </div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Logged on {metrics?.date || 'Today'}</div>
                 </div>
 
                 <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Body Fat Estimate (Formula-based)</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Body Fat Estimate (Formula-based)</div>
                   <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)' }}>{metrics?.bodyFatPct ? `${metrics.bodyFatPct}%` : '18.2%'}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Non-clinical math estimation</div>
-                </div>
-
-                <div style={{ padding: '0.85rem', background: 'rgba(245, 158, 11, 0.08)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(245, 158, 11, 0.2)', fontSize: '0.75rem', color: '#fbbf24', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                  <AlertTriangle size={18} style={{ flexShrink: 0 }} />
-                  <div>Note: BMI is a standard baseline statistical metric, not clinical medical advice.</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Non-clinical math estimation</div>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* SLIDE 3: WEIGHT TREND & MILESTONES */}
+        {/* SLIDE 3: WEIGHT TREND CHART */}
         {activeSlide === 2 && (
           <div className="animate-fade-in">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
@@ -289,7 +289,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                 <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>Progress History</span>
                 <h3 className="font-heading" style={{ fontSize: '1.4rem' }}>Weight & BMI Trajectory</h3>
               </div>
-              <button className="btn-secondary" onClick={() => setIsLogModalOpen(true)} style={{ padding: '0.4rem 0.9rem', fontSize: '0.8rem' }}>
+              <button className="btn-secondary" onClick={() => setIsLogModalOpen(true)} style={{ padding: '0.4rem 0.9rem', fontSize: '0.85rem' }}>
                 <Scale size={14} /> Add Log Entry
               </button>
             </div>
@@ -298,8 +298,64 @@ export const DashboardPage = ({ setActiveTab }) => {
           </div>
         )}
 
-        {/* SLIDE 4: AI TIP OF THE DAY */}
+        {/* SLIDE 4: NUTRITION & MACRO DISTRIBUTION CHART */}
         {activeSlide === 3 && (
+          <div className="animate-fade-in">
+            <div style={{ marginBottom: '1.5rem' }}>
+              <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>Macro Breakdown</span>
+              <h3 className="font-heading" style={{ fontSize: '1.4rem' }}>Nutrition & Energy Ratio Chart</h3>
+            </div>
+
+            <MacroChartView 
+              calories={mealPlan?.dailyCalorieTarget || 2100}
+              protein={mealPlan?.macroSplit?.protein || 130}
+              carbs={mealPlan?.macroSplit?.carbs || 240}
+              fat={mealPlan?.macroSplit?.fat || 60}
+            />
+          </div>
+        )}
+
+        {/* SLIDE 5: UNIQUE STUDENT AUTOMATIONS SLIDE */}
+        {activeSlide === 4 && (
+          <div className="animate-fade-in">
+            <div style={{ marginBottom: '1.5rem' }}>
+              <span className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>Smart Automations</span>
+              <h3 className="font-heading" style={{ fontSize: '1.4rem' }}>Campus Life Automated Reminders</h3>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem' }}>
+              <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#fbbf24', fontWeight: 700, marginBottom: '0.4rem' }}>
+                  <Bell size={18} /> Exam Week Prep Nudges
+                </div>
+                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                  Automatically shifts meal suggestions to 5-minute quick oats & protein shakes during your scheduled midterm & final dates.
+                </p>
+              </div>
+
+              <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-primary)', fontWeight: 700, marginBottom: '0.4rem' }}>
+                  <Zap size={18} /> Weekly Auto Summary Report
+                </div>
+                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                  Generates an in-house Sunday digest: <em>"3 logs recorded, BMI trend flat, 85% of budget meals followed."</em>
+                </p>
+              </div>
+
+              <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#34d399', fontWeight: 700, marginBottom: '0.4rem' }}>
+                  <Clock size={18} /> Late Night Study Hydration Alert
+                </div>
+                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                  Prevents late-night craving sugar crashes during late assignments with high-protein water & tea nudges.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* SLIDE 6: AI NUTRITION TIP OF THE DAY */}
+        {activeSlide === 5 && (
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
               <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>Daily Guidance</span>
@@ -327,6 +383,42 @@ export const DashboardPage = ({ setActiveTab }) => {
           </div>
         )}
 
+        {/* SLIDE 7: MOTIVATIONAL GYM POSTERS GALLERY */}
+        {activeSlide === 6 && (
+          <div className="animate-fade-in">
+            <div style={{ marginBottom: '1.5rem' }}>
+              <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>Student Fitness Motivation</span>
+              <h3 className="font-heading" style={{ fontSize: '1.4rem' }}>Gym & Athletics Motivation Wall</h3>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+              <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-medium)' }}>
+                <img 
+                  src="/images/poster1.jpg" 
+                  alt="Discipline Over Excuses" 
+                  style={{ width: '100%', height: '240px', objectFit: 'cover' }} 
+                />
+                <div style={{ padding: '1rem', textAlign: 'center' }}>
+                  <h4 style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--text-primary)' }}>DISCIPLINE OVER EXCUSES</h4>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Consistency in the dorm, consistency in the gym.</p>
+                </div>
+              </div>
+
+              <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-medium)' }}>
+                <img 
+                  src="/images/poster2.jpg" 
+                  alt="Fuel Your Ambition" 
+                  style={{ width: '100%', height: '240px', objectFit: 'cover' }} 
+                />
+                <div style={{ padding: '1rem', textAlign: 'center' }}>
+                  <h4 style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--accent-primary)' }}>FUEL YOUR AMBITION</h4>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Proper student nutrition fuels academic & physical gains.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Slide Controls Footer */}
         <div style={{
           display: 'flex',
@@ -338,9 +430,9 @@ export const DashboardPage = ({ setActiveTab }) => {
         }}>
           <button 
             onClick={() => setActiveSlide((activeSlide - 1 + slides.length) % slides.length)}
-            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem', fontSize: '0.85rem' }}
+            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem', fontSize: '0.88rem' }}
           >
-            <ChevronLeft size={18} /> Previous Widget
+            <ChevronLeft size={18} /> Previous Slide
           </button>
 
           <div style={{ display: 'flex', gap: '0.4rem' }}>
@@ -362,9 +454,9 @@ export const DashboardPage = ({ setActiveTab }) => {
 
           <button 
             onClick={() => setActiveSlide((activeSlide + 1) % slides.length)}
-            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem', fontSize: '0.85rem' }}
+            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem', fontSize: '0.88rem' }}
           >
-            Next Widget <ChevronRight size={18} />
+            Next Slide <ChevronRight size={18} />
           </button>
         </div>
       </div>
