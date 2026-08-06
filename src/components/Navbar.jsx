@@ -21,14 +21,14 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      background: 'rgba(8, 8, 10, 0.9)',
-      backdropFilter: 'blur(16px)',
-      borderBottom: '1px solid var(--border-subtle)'
+      background: 'rgba(6, 6, 8, 0.85)',
+      backdropFilter: 'blur(20px)',
+      borderBottom: '1.5px solid var(--border-subtle)'
     }}>
       <div style={{
-        maxWidth: '1240px',
+        maxWidth: '1280px',
         margin: '0 auto',
-        padding: '0.75rem 1.5rem',
+        padding: '0.85rem 1.75rem',
         display: 'flex',
         alignItems: 'center',
         justify: 'space-between'
@@ -36,44 +36,54 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
         {/* Brand Logo */}
         <div 
           onClick={() => setActiveTab(user ? 'dashboard' : 'landing')} 
-          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.6rem' }}
+          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
         >
           <div style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '10px',
+            width: '38px',
+            height: '38px',
+            borderRadius: '12px',
             background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontWeight: 800,
+            fontWeight: 900,
             color: '#000',
-            fontSize: '1.15rem',
-            fontFamily: 'var(--font-heading)'
+            fontSize: '1.25rem',
+            fontFamily: 'var(--font-heading)',
+            boxShadow: '0 4px 15px rgba(16, 185, 129, 0.4)'
           }}>
             W
           </div>
           <div>
-            <span className="font-heading" style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+            <span className="font-heading" style={{ fontSize: '1.3rem', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
               Weight<span style={{ color: 'var(--accent-primary)' }}>Buddy</span>
             </span>
             <span style={{
               display: 'block',
               fontSize: '0.62rem',
               color: 'var(--text-muted)',
-              letterSpacing: '0.05em',
+              letterSpacing: '0.06em',
+              fontWeight: 700,
               textTransform: 'uppercase'
             }}>
-              Free For Students • INR Default
+              Student Nutrition Platform
             </span>
           </div>
         </div>
 
         {/* Desktop Navigation */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          {/* Currency Selector Dropdown */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(255,255,255,0.04)', padding: '0.3rem 0.6rem', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-subtle)' }}>
-            <Globe size={14} color="var(--accent-primary)" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+          {/* Currency Selector Pill */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            background: 'rgba(255,255,255,0.05)',
+            padding: '0.35rem 0.75rem',
+            borderRadius: 'var(--radius-full)',
+            border: '1.5px solid var(--border-subtle)'
+          }}>
+            <Globe size={15} color="var(--accent-primary)" />
             <select
               value={currency}
               onChange={(e) => changeCurrency(e.target.value)}
@@ -81,14 +91,14 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                 background: 'none',
                 border: 'none',
                 color: 'var(--text-primary)',
-                fontSize: '0.78rem',
-                fontWeight: 700,
+                fontSize: '0.8rem',
+                fontWeight: 800,
                 cursor: 'pointer',
                 outline: 'none'
               }}
             >
               {Object.keys(CURRENCY_MAP).map(code => (
-                <option key={code} value={code} style={{ background: '#141414', color: '#fff' }}>
+                <option key={code} value={code} style={{ background: '#101014', color: '#fff' }}>
                   {CURRENCY_MAP[code].label}
                 </option>
               ))}
@@ -96,7 +106,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
           </div>
 
           {user ? (
-            <nav className="desktop-nav" style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
+            <nav className="desktop-nav" style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
               {navItems.map(item => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
@@ -107,19 +117,20 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.4rem',
-                      padding: '0.45rem 0.8rem',
+                      gap: '0.45rem',
+                      padding: '0.5rem 0.95rem',
                       borderRadius: 'var(--radius-full)',
-                      fontSize: '0.82rem',
-                      fontWeight: 600,
+                      fontSize: '0.84rem',
+                      fontWeight: 700,
                       color: isActive ? '#000' : 'var(--text-secondary)',
                       background: isActive ? 'var(--accent-primary)' : 'transparent',
-                      border: isActive ? 'none' : '1px solid transparent',
+                      border: isActive ? 'none' : '1.5px solid transparent',
                       cursor: 'pointer',
-                      transition: 'all 0.2s ease'
+                      transition: 'var(--transition-tactile)',
+                      boxShadow: isActive ? '0 4px 14px rgba(16, 185, 129, 0.35)' : 'none'
                     }}
                   >
-                    <Icon size={15} color={isActive ? '#000' : 'currentColor'} />
+                    <Icon size={16} color={isActive ? '#000' : 'currentColor'} />
                     {item.label}
                   </button>
                 );
@@ -128,24 +139,26 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                 onClick={logout}
                 title="Logout"
                 style={{
-                  background: 'none',
-                  border: 'none',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1.5px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-full)',
                   color: 'var(--text-muted)',
                   cursor: 'pointer',
-                  padding: '0.4rem',
+                  padding: '0.5rem 0.6rem',
                   display: 'flex',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  marginLeft: '0.2rem'
                 }}
               >
                 <LogOut size={16} />
               </button>
             </nav>
           ) : (
-            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-              <button className="btn-secondary" onClick={() => setActiveTab('login')} style={{ padding: '0.45rem 1rem', fontSize: '0.82rem' }}>
+            <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
+              <button className="btn-secondary" onClick={() => setActiveTab('login')} style={{ padding: '0.55rem 1.25rem', fontSize: '0.85rem' }}>
                 Sign In
               </button>
-              <button className="btn-primary" onClick={() => setActiveTab('signup')} style={{ padding: '0.45rem 1rem', fontSize: '0.82rem' }}>
+              <button className="btn-primary" onClick={() => setActiveTab('signup')} style={{ padding: '0.55rem 1.25rem', fontSize: '0.85rem' }}>
                 Get Started Free
               </button>
             </div>
@@ -164,7 +177,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                 display: 'none'
               }}
             >
-              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           )}
         </div>
@@ -174,8 +187,8 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       {user && mobileMenuOpen && (
         <div style={{
           padding: '1rem',
-          background: '#141414',
-          borderBottom: '1px solid var(--border-subtle)',
+          background: '#101014',
+          borderBottom: '1.5px solid var(--border-subtle)',
           display: 'flex',
           flexDirection: 'column',
           gap: '0.5rem'
@@ -190,11 +203,12 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.6rem',
-                  padding: '0.75rem 1rem',
-                  borderRadius: 'var(--radius-sm)',
-                  fontSize: '0.85rem',
+                  padding: '0.8rem 1rem',
+                  borderRadius: 'var(--radius-md)',
+                  fontSize: '0.88rem',
+                  fontWeight: 700,
                   color: activeTab === item.id ? 'var(--accent-primary)' : 'var(--text-primary)',
-                  background: activeTab === item.id ? 'rgba(16, 185, 129, 0.1)' : 'transparent',
+                  background: activeTab === item.id ? 'rgba(16, 185, 129, 0.12)' : 'transparent',
                   border: 'none',
                   width: '100%',
                   textAlign: 'left'
@@ -211,12 +225,13 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
               display: 'flex',
               alignItems: 'center',
               gap: '0.6rem',
-              padding: '0.75rem 1rem',
+              padding: '0.8rem 1rem',
               color: '#fca5a5',
-              background: 'rgba(239, 68, 68, 0.1)',
+              background: 'rgba(239, 68, 68, 0.15)',
               border: 'none',
-              borderRadius: 'var(--radius-sm)',
-              marginTop: '0.5rem'
+              borderRadius: 'var(--radius-md)',
+              marginTop: '0.5rem',
+              fontWeight: 700
             }}
           >
             <LogOut size={18} />
