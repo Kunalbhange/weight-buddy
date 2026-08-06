@@ -26,6 +26,32 @@ const NUTRITION_DATABASE = {
   coffee: { name: "Black Coffee / Espresso (1 cup)", calories: "5 kcal", protein: "0g", carbs: "0g", fat: "0g", tip: "Natural pre-workout and focus enhancer! Caffeine boosts metabolic rate and study alertness." }
 };
 
+export const queryAiNutrition = (foodQuery) => {
+  const q = foodQuery.toLowerCase().trim();
+  for (const key of Object.keys(NUTRITION_DATABASE)) {
+    if (q.includes(key)) {
+      const food = NUTRITION_DATABASE[key];
+      return {
+        name: food.name,
+        calories: parseInt(food.calories) || 250,
+        protein: parseInt(food.protein) || 12,
+        carbs: parseInt(food.carbs) || 30,
+        fat: parseInt(food.fat) || 8,
+        tip: food.tip
+      };
+    }
+  }
+  // Fallback estimation
+  return {
+    name: foodQuery.charAt(0).toUpperCase() + foodQuery.slice(1),
+    calories: 280,
+    protein: 14,
+    carbs: 35,
+    fat: 9,
+    tip: "Calculated based on standard student portion size. Pair with fresh water and green salad!"
+  };
+};
+
 export const processAiQuery = (query, context = {}) => {
   const rawQ = query.trim();
   const q = rawQ.toLowerCase();

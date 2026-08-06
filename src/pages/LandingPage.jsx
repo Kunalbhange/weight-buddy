@@ -46,7 +46,7 @@ export const LandingPage = ({ setActiveTab }) => {
           {/* HERO LEFT */}
           <div>
             <div className="badge badge-purple" style={{ marginBottom: '1.25rem' }}>
-              <Sparkles size={14} color="#a78bfa" /> Free Gen Z Student Fitness & Diet Platform
+              <Sparkles size={14} color="#a78bfa" /> Free Gen Z Student Fitness Platform
             </div>
 
             <h1 className="font-heading" style={{
@@ -76,7 +76,7 @@ export const LandingPage = ({ setActiveTab }) => {
             </p>
 
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
-              <button className="btn-primary" onClick={() => setActiveTab('signup')} style={{ padding: '0.95rem 2.4rem', fontSize: '1.02rem' }}>
+              <button className="btn-glass-primary" onClick={() => setActiveTab('signup')} style={{ padding: '0.95rem 2.4rem', fontSize: '1.02rem' }}>
                 Start Free Plan Now <ArrowRight size={18} />
               </button>
               <button className="btn-secondary" onClick={() => setActiveTab('login')} style={{ padding: '0.95rem 2rem', fontSize: '1.02rem' }}>
@@ -105,11 +105,11 @@ export const LandingPage = ({ setActiveTab }) => {
             </div>
           </div>
 
-          {/* HERO RIGHT: LIVE BMI CALCULATOR CARD */}
+          {/* HERO RIGHT: SMART LIVE BMI CALCULATOR CARD */}
           <div className="glass-card" style={{
             padding: '2.25rem',
-            background: '#12131a',
-            border: '1px solid var(--border-medium)',
+            background: 'rgba(18, 19, 28, 0.85)',
+            border: '1.5px solid rgba(139, 92, 246, 0.35)',
             borderRadius: 'var(--radius-lg)'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
@@ -119,7 +119,7 @@ export const LandingPage = ({ setActiveTab }) => {
                 </div>
                 <span>Live Interactive BMI Engine</span>
               </div>
-              <span className="badge badge-purple">Instant Calculation</span>
+              <span className="badge badge-purple">Real-Time</span>
             </div>
 
             {/* HEIGHT INPUT CONTROL */}
@@ -166,10 +166,10 @@ export const LandingPage = ({ setActiveTab }) => {
 
             {/* RESULT STAT CARD */}
             <div style={{
-              background: '#09090d',
+              background: 'rgba(8, 8, 12, 0.9)',
               borderRadius: 'var(--radius-md)',
               padding: '1.35rem',
-              border: '1px solid var(--border-medium)',
+              border: '1.5px solid var(--border-subtle)',
               display: 'flex',
               alignItems: 'center',
               justify: 'space-between'
@@ -259,12 +259,12 @@ export const LandingPage = ({ setActiveTab }) => {
         </div>
       </section>
 
-      {/* FINAL CTA BANNER */}
+      {/* FINAL GLASS CTA BANNER */}
       <section className="glass-card" style={{
         padding: '3.5rem 2.5rem',
         textAlign: 'center',
-        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(6, 182, 212, 0.15) 50%, rgba(18, 19, 26, 0.95) 100%)',
-        border: '1px solid rgba(139, 92, 246, 0.35)',
+        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.18) 0%, rgba(6, 182, 212, 0.18) 50%, rgba(18, 19, 28, 0.95) 100%)',
+        border: '1.5px solid rgba(139, 92, 246, 0.45)',
         borderRadius: 'var(--radius-lg)'
       }}>
         <h2 className="font-heading" style={{ fontSize: '2.4rem', fontWeight: 900, marginBottom: '0.6rem', color: '#ffffff' }}>
@@ -273,7 +273,7 @@ export const LandingPage = ({ setActiveTab }) => {
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: '620px', margin: '0 auto 2rem', lineHeight: '1.6' }}>
           Create your free account in under 60 seconds. No subscription traps, no external trackers.
         </p>
-        <button className="btn-primary" onClick={() => setActiveTab('signup')} style={{ padding: '1rem 2.6rem', fontSize: '1.05rem' }}>
+        <button className="btn-glass-primary" onClick={() => setActiveTab('signup')} style={{ padding: '1rem 2.6rem', fontSize: '1.05rem' }}>
           Get Started For Free <ArrowRight size={20} />
         </button>
       </section>
