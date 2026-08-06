@@ -437,7 +437,7 @@ export const DashboardPage = ({ setActiveTab }) => {
         isOpen={swapModalState.isOpen}
         onClose={() => setSwapModalState({ isOpen: false, dayName: '', mealType: '', currentMeal: null })}
         dayName={swapModalState.dayName}
-        mealType={swapModalType.mealType}
+        mealType={swapModalState.mealType}
         currentMeal={swapModalState.currentMeal}
         onSwapSuccess={fetchData}
       />
