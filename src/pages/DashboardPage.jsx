@@ -55,7 +55,6 @@ export const DashboardPage = ({ setActiveTab }) => {
   const todayName = new Date().toLocaleDateString('en-US', { weekday: 'long' });
   const todayPlan = mealPlan?.days?.find(d => d.day.toLowerCase() === todayName.toLowerCase()) || mealPlan?.days?.[0];
 
-  // 6 Clean Dashboard Slides (Automations Removed)
   const slides = [
     { id: 'meals', title: "Today's Meal Plan", icon: Utensils },
     { id: 'bmi', title: "BMI Snapshot", icon: Activity },
@@ -77,7 +76,7 @@ export const DashboardPage = ({ setActiveTab }) => {
         marginBottom: '2rem'
       }}>
         <div>
-          <h1 className="font-heading" style={{ fontSize: '2.1rem', fontWeight: 800 }}>
+          <h1 className="font-heading" style={{ fontSize: '2.1rem', fontWeight: 800, color: '#ffffff' }}>
             Hey, {user?.name || 'Student'}! 👋
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginTop: '0.2rem' }}>
@@ -95,7 +94,7 @@ export const DashboardPage = ({ setActiveTab }) => {
         </div>
       </div>
 
-      {/* SLIDE CARDS TAB NAVIGATOR */}
+      {/* HIGH CONTRAST SLIDE CARDS TAB NAVIGATOR */}
       <div style={{
         display: 'flex',
         gap: '0.5rem',
@@ -117,16 +116,17 @@ export const DashboardPage = ({ setActiveTab }) => {
                 padding: '0.6rem 1.2rem',
                 borderRadius: 'var(--radius-full)',
                 fontSize: '0.88rem',
-                fontWeight: 700,
-                color: isActive ? '#000' : 'var(--text-secondary)',
-                background: isActive ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.03)',
+                fontWeight: 800,
+                color: '#ffffff',
+                background: isActive ? '#059669' : 'rgba(255, 255, 255, 0.08)',
                 border: isActive ? 'none' : '1px solid var(--border-subtle)',
+                opacity: isActive ? 1 : 0.75,
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
                 transition: 'all 0.2s ease'
               }}
             >
-              <Icon size={16} color={isActive ? '#000' : 'currentColor'} />
+              <Icon size={16} color="#ffffff" />
               {slide.title}
             </button>
           );
@@ -136,7 +136,7 @@ export const DashboardPage = ({ setActiveTab }) => {
       {/* SLIDE DISPLAY CONTAINER */}
       <div className="glass-card" style={{
         padding: '2rem',
-        background: '#141414',
+        background: '#14161d',
         border: '1px solid var(--border-medium)',
         minHeight: '440px',
         position: 'relative'
@@ -148,11 +148,11 @@ export const DashboardPage = ({ setActiveTab }) => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <div>
                 <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>{todayName}'s Menu</span>
-                <h3 className="font-heading" style={{ fontSize: '1.4rem' }}>Today's Balanced Meal Plan</h3>
+                <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>Today's Balanced Meal Plan</h3>
               </div>
               <button 
                 onClick={() => setActiveTab('diet')}
-                style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', fontSize: '0.9rem', fontWeight: 700, cursor: 'pointer' }}
+                style={{ background: 'none', border: 'none', color: '#34d399', fontSize: '0.9rem', fontWeight: 700, cursor: 'pointer' }}
               >
                 View Full Week →
               </button>
@@ -172,7 +172,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                     return (
                       <div key={type} style={{
                         padding: '1.1rem',
-                        background: 'rgba(255, 255, 255, 0.03)',
+                        background: 'rgba(255, 255, 255, 0.04)',
                         borderRadius: 'var(--radius-sm)',
                         border: '1px solid var(--border-subtle)',
                         display: 'flex',
@@ -184,8 +184,8 @@ export const DashboardPage = ({ setActiveTab }) => {
                             <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>{type}</span>
                             {meal.isBudget && <span className="badge badge-amber" style={{ fontSize: '0.7rem' }}>Budget ({priceFormatted})</span>}
                           </div>
-                          <h4 style={{ fontSize: '0.98rem', fontWeight: 700, marginBottom: '0.4rem' }}>{meal.name}</h4>
-                          <div style={{ fontSize: '0.85rem', color: 'var(--accent-primary)', fontWeight: 600, marginBottom: '0.6rem' }}>
+                          <h4 style={{ fontSize: '0.98rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.4rem' }}>{meal.name}</h4>
+                          <div style={{ fontSize: '0.85rem', color: '#34d399', fontWeight: 700, marginBottom: '0.6rem' }}>
                             {meal.calories} kcal • {meal.protein}g protein
                           </div>
                         </div>
@@ -194,9 +194,10 @@ export const DashboardPage = ({ setActiveTab }) => {
                           onClick={() => setSwapModalState({ isOpen: true, dayName: todayPlan.day, mealType: type, currentMeal: meal })}
                           style={{
                             background: 'none',
-                            border: '1px solid var(--border-subtle)',
-                            color: 'var(--text-secondary)',
+                            border: '1px solid var(--border-medium)',
+                            color: '#ffffff',
                             fontSize: '0.78rem',
+                            fontWeight: 700,
                             padding: '0.4rem 0.65rem',
                             borderRadius: 'var(--radius-sm)',
                             cursor: 'pointer',
@@ -207,7 +208,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                             marginTop: '0.5rem'
                           }}
                         >
-                          <RefreshCw size={12} /> Swap
+                          <RefreshCw size={12} color="#ffffff" /> Swap
                         </button>
                       </div>
                     );
@@ -216,23 +217,24 @@ export const DashboardPage = ({ setActiveTab }) => {
 
                 <div style={{
                   padding: '1rem',
-                  background: 'rgba(16, 185, 129, 0.08)',
+                  background: 'rgba(16, 185, 129, 0.1)',
                   borderRadius: 'var(--radius-sm)',
-                  border: '1px solid rgba(16, 185, 129, 0.2)',
+                  border: '1px solid rgba(16, 185, 129, 0.3)',
                   display: 'flex',
                   justify: 'space-around',
                   flexWrap: 'wrap',
                   gap: '1rem',
                   fontSize: '0.9rem',
+                  color: '#ffffff',
                   textAlign: 'center'
                 }}>
-                  <div>Target Calories: <strong>{mealPlan.dailyCalorieTarget} kcal</strong></div>
-                  <div>Protein Target: <strong>{mealPlan.macroSplit.protein}g</strong></div>
-                  <div>Carbs Target: <strong>{mealPlan.macroSplit.carbs}g</strong></div>
-                  <div>Fat Target: <strong>{mealPlan.macroSplit.fat}g</strong></div>
+                  <div>Target Calories: <strong style={{ color: '#34d399' }}>{mealPlan.dailyCalorieTarget} kcal</strong></div>
+                  <div>Protein Target: <strong style={{ color: '#34d399' }}>{mealPlan.macroSplit.protein}g</strong></div>
+                  <div>Carbs Target: <strong style={{ color: '#34d399' }}>{mealPlan.macroSplit.carbs}g</strong></div>
+                  <div>Fat Target: <strong style={{ color: '#34d399' }}>{mealPlan.macroSplit.fat}g</strong></div>
                 </div>
               </div>
-            ) : <p>Loading meal plan...</p>}
+            ) : <p style={{ color: '#ffffff' }}>Loading meal plan...</p>}
           </div>
         )}
 
@@ -241,7 +243,7 @@ export const DashboardPage = ({ setActiveTab }) => {
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
               <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>Metrics Overview</span>
-              <h3 className="font-heading" style={{ fontSize: '1.4rem' }}>BMI & Body Composition Snapshot</h3>
+              <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>BMI & Body Composition Snapshot</h3>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
@@ -252,8 +254,8 @@ export const DashboardPage = ({ setActiveTab }) => {
                 border: '1px solid var(--border-subtle)',
                 textAlign: 'center'
               }}>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Current BMI Baseline</div>
-                <div className="font-heading" style={{ fontSize: '3.8rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Current BMI Baseline</div>
+                <div className="font-heading" style={{ fontSize: '3.8rem', fontWeight: 800, color: '#ffffff', margin: '0.2rem 0' }}>
                   {metrics?.bmi || '21.5'}
                 </div>
                 <div className="badge badge-emerald" style={{ fontSize: '0.85rem', padding: '0.4rem 1rem' }}>
@@ -265,17 +267,17 @@ export const DashboardPage = ({ setActiveTab }) => {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Latest Weight Entry</div>
-                  <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.04)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700 }}>Latest Weight Entry</div>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff' }}>
                     {metrics?.weightKg || onboarding?.weightKg || 68} kg / {metrics?.weightLbs || 150} lbs
                   </div>
                   <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Logged on {metrics?.date || 'Today'}</div>
                 </div>
 
-                <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Body Fat Estimate (Formula-based)</div>
-                  <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)' }}>{metrics?.bodyFatPct ? `${metrics.bodyFatPct}%` : '18.2%'}</div>
+                <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.04)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700 }}>Body Fat Estimate (Formula-based)</div>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff' }}>{metrics?.bodyFatPct ? `${metrics.bodyFatPct}%` : '18.2%'}</div>
                   <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Non-clinical math estimation</div>
                 </div>
               </div>
@@ -289,7 +291,7 @@ export const DashboardPage = ({ setActiveTab }) => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <div>
                 <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>Progress History</span>
-                <h3 className="font-heading" style={{ fontSize: '1.4rem' }}>Weight & BMI Trajectory</h3>
+                <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>Weight & BMI Trajectory</h3>
               </div>
               <button className="btn-secondary" onClick={() => setIsLogModalOpen(true)} style={{ padding: '0.4rem 0.9rem', fontSize: '0.85rem' }}>
                 <Scale size={14} /> Add Log Entry
@@ -305,7 +307,7 @@ export const DashboardPage = ({ setActiveTab }) => {
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
               <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>Macro Breakdown</span>
-              <h3 className="font-heading" style={{ fontSize: '1.4rem' }}>Nutrition & Energy Ratio Chart</h3>
+              <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>Nutrition & Energy Ratio Chart</h3>
             </div>
 
             <MacroChartView 
@@ -322,20 +324,20 @@ export const DashboardPage = ({ setActiveTab }) => {
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
               <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>Daily Guidance</span>
-              <h3 className="font-heading" style={{ fontSize: '1.4rem' }}>In-House AI Nutrition Tip</h3>
+              <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>In-House AI Nutrition Tip</h3>
             </div>
 
             <div style={{
               padding: '2rem',
-              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(20, 20, 20, 0.6) 100%)',
+              background: 'rgba(16, 185, 129, 0.1)',
               borderRadius: 'var(--radius-md)',
               border: '1px solid rgba(16, 185, 129, 0.3)'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--accent-primary)', marginBottom: '0.75rem' }}>
-                <Lightbulb size={24} />
-                <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>Smart Student Tip for Midterm Week</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#34d399', marginBottom: '0.75rem' }}>
+                <Lightbulb size={24} color="#34d399" />
+                <span style={{ fontWeight: 800, fontSize: '1.1rem' }}>Smart Student Tip for Midterm Week</span>
               </div>
-              <p style={{ fontSize: '1rem', color: 'var(--text-primary)', lineHeight: '1.6', marginBottom: '1.5rem' }}>
+              <p style={{ fontSize: '1rem', color: '#ffffff', lineHeight: '1.6', marginBottom: '1.5rem' }}>
                 "When studying late, pair fast carbs (apples or toast) with healthy fats or protein (peanut butter, eggs, Greek yogurt). This keeps your blood sugar steady so you don't crash halfway through your assignments!"
               </p>
 
@@ -351,7 +353,7 @@ export const DashboardPage = ({ setActiveTab }) => {
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
               <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>Student Fitness Motivation</span>
-              <h3 className="font-heading" style={{ fontSize: '1.4rem' }}>Gym & Athletics Motivation Wall</h3>
+              <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>Gym & Athletics Motivation Wall</h3>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
@@ -362,7 +364,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                   style={{ width: '100%', height: '240px', objectFit: 'cover' }} 
                 />
                 <div style={{ padding: '1rem', textAlign: 'center' }}>
-                  <h4 style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--text-primary)' }}>DISCIPLINE OVER EXCUSES</h4>
+                  <h4 style={{ fontWeight: 800, fontSize: '1.1rem', color: '#ffffff' }}>DISCIPLINE OVER EXCUSES</h4>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Consistency in the dorm, consistency in the gym.</p>
                 </div>
               </div>
@@ -374,7 +376,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                   style={{ width: '100%', height: '240px', objectFit: 'cover' }} 
                 />
                 <div style={{ padding: '1rem', textAlign: 'center' }}>
-                  <h4 style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--accent-primary)' }}>FUEL YOUR AMBITION</h4>
+                  <h4 style={{ fontWeight: 800, fontSize: '1.1rem', color: '#34d399' }}>FUEL YOUR AMBITION</h4>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Proper student nutrition fuels academic & physical gains.</p>
                 </div>
               </div>
@@ -393,9 +395,9 @@ export const DashboardPage = ({ setActiveTab }) => {
         }}>
           <button 
             onClick={() => setActiveSlide((activeSlide - 1 + slides.length) % slides.length)}
-            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem', fontSize: '0.88rem' }}
+            style={{ background: 'none', border: 'none', color: '#ffffff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem', fontSize: '0.88rem', fontWeight: 700 }}
           >
-            <ChevronLeft size={18} /> Previous Slide
+            <ChevronLeft size={18} color="#ffffff" /> Previous Slide
           </button>
 
           <div style={{ display: 'flex', gap: '0.4rem' }}>
@@ -407,7 +409,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                   width: activeSlide === idx ? '20px' : '8px',
                   height: '8px',
                   borderRadius: '4px',
-                  background: activeSlide === idx ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.2)',
+                  background: activeSlide === idx ? '#059669' : 'rgba(255, 255, 255, 0.2)',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease'
                 }} 
@@ -417,9 +419,9 @@ export const DashboardPage = ({ setActiveTab }) => {
 
           <button 
             onClick={() => setActiveSlide((activeSlide + 1) % slides.length)}
-            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem', fontSize: '0.88rem' }}
+            style={{ background: 'none', border: 'none', color: '#ffffff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem', fontSize: '0.88rem', fontWeight: 700 }}
           >
-            Next Slide <ChevronRight size={18} />
+            Next Slide <ChevronRight size={18} color="#ffffff" />
           </button>
         </div>
       </div>
@@ -435,7 +437,7 @@ export const DashboardPage = ({ setActiveTab }) => {
         isOpen={swapModalState.isOpen}
         onClose={() => setSwapModalState({ isOpen: false, dayName: '', mealType: '', currentMeal: null })}
         dayName={swapModalState.dayName}
-        mealType={swapModalState.mealType}
+        mealType={swapModalType.mealType}
         currentMeal={swapModalState.currentMeal}
         onSwapSuccess={fetchData}
       />

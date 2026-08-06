@@ -21,7 +21,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      background: 'rgba(12, 13, 16, 0.92)',
+      background: 'rgba(12, 13, 16, 0.95)',
       backdropFilter: 'blur(16px)',
       borderBottom: '1px solid var(--border-subtle)'
     }}>
@@ -42,20 +42,20 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
             width: '36px',
             height: '36px',
             borderRadius: '8px',
-            background: '#10b981',
+            background: '#059669',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontWeight: 800,
-            color: '#06261c',
+            color: '#ffffff',
             fontSize: '1.25rem',
             fontFamily: 'var(--font-heading)'
           }}>
             W
           </div>
           <div>
-            <div className="font-heading" style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-              Weight<span style={{ color: 'var(--accent-emerald-light)' }}>Buddy</span>
+            <div className="font-heading" style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
+              Weight<span style={{ color: '#34d399' }}>Buddy</span>
             </div>
             <span style={{
               display: 'block',
@@ -77,21 +77,21 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
             display: 'flex',
             alignItems: 'center',
             gap: '0.4rem',
-            background: 'rgba(255,255,255,0.06)',
+            background: 'rgba(255,255,255,0.08)',
             padding: '0.4rem 0.8rem',
             borderRadius: 'var(--radius-sm)',
             border: '1px solid var(--border-medium)'
           }}>
-            <Globe size={15} color="var(--accent-emerald-light)" />
+            <Globe size={15} color="#34d399" />
             <select
               value={currency}
               onChange={(e) => changeCurrency(e.target.value)}
               style={{
                 background: 'none',
                 border: 'none',
-                color: 'var(--text-primary)',
+                color: '#ffffff',
                 fontSize: '0.82rem',
-                fontWeight: 600,
+                fontWeight: 700,
                 cursor: 'pointer',
                 outline: 'none'
               }}
@@ -120,15 +120,16 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                       padding: '0.5rem 0.9rem',
                       borderRadius: 'var(--radius-sm)',
                       fontSize: '0.88rem',
-                      fontWeight: 600,
-                      color: isActive ? '#06261c' : 'var(--text-secondary)',
-                      background: isActive ? '#10b981' : 'transparent',
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      background: isActive ? '#059669' : 'transparent',
                       border: isActive ? 'none' : '1px solid transparent',
+                      opacity: isActive ? 1 : 0.75,
                       cursor: 'pointer',
                       transition: 'var(--transition-normal)'
                     }}
                   >
-                    <Icon size={16} color={isActive ? '#06261c' : 'currentColor'} />
+                    <Icon size={16} color="#ffffff" />
                     {item.label}
                   </button>
                 );
@@ -137,10 +138,10 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                 onClick={logout}
                 title="Logout"
                 style={{
-                  background: 'rgba(255,255,255,0.06)',
+                  background: 'rgba(255,255,255,0.08)',
                   border: '1px solid var(--border-medium)',
                   borderRadius: 'var(--radius-sm)',
-                  color: 'var(--text-muted)',
+                  color: '#ffffff',
                   cursor: 'pointer',
                   padding: '0.5rem 0.65rem',
                   display: 'flex',
@@ -148,7 +149,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                   marginLeft: '0.2rem'
                 }}
               >
-                <LogOut size={16} />
+                <LogOut size={16} color="#ffffff" />
               </button>
             </nav>
           ) : (
@@ -170,12 +171,12 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
               style={{
                 background: 'none',
                 border: 'none',
-                color: 'var(--text-primary)',
+                color: '#ffffff',
                 cursor: 'pointer',
                 display: 'none'
               }}
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? <X size={24} color="#ffffff" /> : <Menu size={24} color="#ffffff" />}
             </button>
           )}
         </div>
@@ -204,15 +205,15 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                   padding: '0.8rem 1rem',
                   borderRadius: 'var(--radius-sm)',
                   fontSize: '0.9rem',
-                  fontWeight: 600,
-                  color: activeTab === item.id ? '#34d399' : 'var(--text-primary)',
-                  background: activeTab === item.id ? 'rgba(16, 185, 129, 0.15)' : 'transparent',
+                  fontWeight: 700,
+                  color: '#ffffff',
+                  background: activeTab === item.id ? '#059669' : 'transparent',
                   border: 'none',
                   width: '100%',
                   textAlign: 'left'
                 }}
               >
-                <Icon size={18} />
+                <Icon size={18} color="#ffffff" />
                 {item.label}
               </button>
             );
@@ -224,15 +225,15 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
               alignItems: 'center',
               gap: '0.65rem',
               padding: '0.8rem 1rem',
-              color: '#fca5a5',
-              background: 'rgba(239, 68, 68, 0.15)',
+              color: '#ffffff',
+              background: 'rgba(239, 68, 68, 0.25)',
               border: 'none',
               borderRadius: 'var(--radius-sm)',
               marginTop: '0.5rem',
-              fontWeight: 600
+              fontWeight: 700
             }}
           >
-            <LogOut size={18} />
+            <LogOut size={18} color="#ffffff" />
             Logout
           </button>
         </div>
