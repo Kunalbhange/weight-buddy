@@ -1,41 +1,35 @@
-/* Smart Gen Z Glassmorphic Aesthetic Design System for WeightBuddy */
+/* Classic Black & White + Retro Vintage Design System for WeightBuddy */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap');
 
 :root {
-  --bg-main: #08080c;
-  --bg-surface: #101118;
-  --bg-card: rgba(19, 20, 30, 0.82);
-  --bg-card-hover: rgba(27, 29, 44, 0.92);
-  --bg-elevated: #212334;
+  --bg-main: #050507;
+  --bg-surface: #0e0e12;
+  --bg-card: #14141a;
+  --bg-card-hover: #1c1c24;
+  --bg-elevated: #242430;
   
-  --border-subtle: rgba(255, 255, 255, 0.12);
-  --border-medium: rgba(255, 255, 255, 0.25);
-  --border-glow: rgba(139, 92, 246, 0.45);
+  --border-subtle: rgba(255, 255, 255, 0.14);
+  --border-medium: rgba(255, 255, 255, 0.28);
   
   --text-primary: #ffffff; /* High contrast crisp readable white */
   --text-secondary: #e2e8f0; /* Crisp light gray */
   --text-muted: #94a3b8;
   
-  /* Gen Z Neon Violet, Cyan & Rose Palette */
-  --accent-violet: #8b5cf6;
-  --accent-violet-light: #a78bfa;
-  --accent-cyan: #06b6d4;
-  --accent-cyan-light: #22d3ee;
-  --accent-rose: #f43f5e;
+  /* Retro Accent Touches */
+  --accent-retro-gold: #d97706;
+  --accent-retro-cream: #fef3c7;
+  --accent-retro-bronze: #b45309;
   
   --font-heading: 'Plus Jakarta Sans', sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
   --radius-full: 9999px;
   
-  --shadow-card: 0 16px 40px -10px rgba(0, 0, 0, 0.9), 0 0 1px 1px rgba(255, 255, 255, 0.1);
-  --shadow-violet-glow: 0 0 30px rgba(139, 92, 246, 0.35);
-  --shadow-cyan-glow: 0 0 30px rgba(6, 182, 212, 0.35);
-  
-  --transition-normal: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-card: 0 14px 35px -10px rgba(0, 0, 0, 0.95), 0 0 1px 1px rgba(255, 255, 255, 0.12);
+  --transition-normal: all 0.22s ease;
 }
 
 * {
@@ -56,9 +50,8 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.15), transparent 45%),
-    radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.12), transparent 45%),
-    radial-gradient(circle at 50% 85%, rgba(244, 63, 94, 0.1), transparent 40%);
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05), transparent 50%),
+    radial-gradient(circle at 10% 90%, rgba(217, 119, 6, 0.08), transparent 40%);
   background-attachment: fixed;
 }
 
@@ -85,39 +78,32 @@ h1, h2, h3, h4, .font-heading {
   background: #3b3f58;
 }
 
-/* Glassmorphic Cards */
+/* Black & White Retro Cards */
 .glass-card {
   background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border: 1.5px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
   transition: var(--transition-normal);
-  position: relative;
-  overflow: hidden;
 }
 
 .glass-card-interactive:hover {
   background: var(--bg-card-hover);
-  border-color: rgba(139, 92, 246, 0.45);
-  transform: translateY(-4px) scale(1.005);
-  box-shadow: var(--shadow-card), var(--shadow-violet-glow);
+  border-color: var(--border-medium);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 45px -10px rgba(0,0,0,0.95), 0 0 1px 1px rgba(255,255,255,0.25);
 }
 
-/* SMART GEN Z GLASSMORTIC BUTTONS */
+/* Black & White Glass Buttons */
 .btn-glass-primary {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.35) 0%, rgba(99, 102, 241, 0.35) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  color: #ffffff !important;
+  background: #ffffff;
+  color: #050507 !important;
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 0.94rem;
   padding: 0.8rem 1.8rem;
-  border-radius: var(--radius-md);
-  border: 1.5px solid rgba(167, 139, 250, 0.5);
-  border-top: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-sm);
+  border: 1.5px solid #ffffff;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -125,28 +111,25 @@ h1, h2, h3, h4, .font-heading {
   gap: 0.55rem;
   transition: var(--transition-normal);
   text-decoration: none;
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25);
 }
 
 .btn-glass-primary:hover {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.55) 0%, rgba(99, 102, 241, 0.55) 100%);
-  border-color: rgba(167, 139, 250, 0.8);
+  background: #e2e8f0;
+  border-color: #e2e8f0;
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(139, 92, 246, 0.55);
+  box-shadow: 0 10px 28px rgba(255, 255, 255, 0.4);
 }
 
 .btn-glass-cyan {
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.3) 0%, rgba(59, 130, 246, 0.3) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.12);
   color: #ffffff !important;
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 0.94rem;
   padding: 0.8rem 1.8rem;
-  border-radius: var(--radius-md);
-  border: 1.5px solid rgba(34, 211, 238, 0.5);
-  border-top: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-medium);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -154,23 +137,22 @@ h1, h2, h3, h4, .font-heading {
   gap: 0.55rem;
   transition: var(--transition-normal);
   text-decoration: none;
-  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.35);
 }
 
 .btn-glass-cyan:hover {
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.5) 0%, rgba(59, 130, 246, 0.5) 100%);
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(6, 182, 212, 0.55);
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-  color: #ffffff !important;
+  background: #ffffff;
+  color: #050507 !important;
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 0.94rem;
   padding: 0.8rem 1.7rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   border: none;
   cursor: pointer;
   display: inline-flex;
@@ -179,24 +161,23 @@ h1, h2, h3, h4, .font-heading {
   gap: 0.55rem;
   transition: var(--transition-normal);
   text-decoration: none;
-  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25);
 }
 
 .btn-primary:hover {
+  background: #e2e8f0;
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(139, 92, 246, 0.65);
-  color: #ffffff !important;
+  color: #050507 !important;
 }
 
 .btn-secondary {
   background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
   color: #ffffff !important;
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 0.94rem;
   padding: 0.8rem 1.7rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   border: 1.5px solid var(--border-medium);
   cursor: pointer;
   display: inline-flex;
@@ -216,11 +197,10 @@ h1, h2, h3, h4, .font-heading {
 
 .btn-danger {
   background: rgba(239, 68, 68, 0.2);
-  backdrop-filter: blur(12px);
   color: #ffffff !important;
   border: 1.5px solid rgba(239, 68, 68, 0.4);
   padding: 0.75rem 1.4rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-weight: 700;
   font-size: 0.88rem;
@@ -232,15 +212,14 @@ h1, h2, h3, h4, .font-heading {
   color: #ffffff !important;
 }
 
-/* Glass Unit Toggle Pills */
+/* Black & White Unit Toggle Pills */
 .unit-toggle-group {
   display: inline-flex;
-  background: rgba(13, 14, 20, 0.9);
-  backdrop-filter: blur(12px);
+  background: #09090d;
   border: 1.5px solid var(--border-medium);
-  border-radius: var(--radius-full);
-  padding: 4px;
-  gap: 4px;
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 3px;
 }
 
 .unit-toggle-btn {
@@ -249,19 +228,19 @@ h1, h2, h3, h4, .font-heading {
   color: #94a3b8;
   font-size: 0.82rem;
   font-weight: 800;
-  padding: 0.4rem 0.95rem;
-  border-radius: var(--radius-full);
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
   cursor: pointer;
   transition: var(--transition-normal);
 }
 
 .unit-toggle-btn.active {
-  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-  color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.45);
+  background: #ffffff;
+  color: #050507 !important;
+  font-weight: 900;
 }
 
-/* Glass Badges */
+/* Black & White Badges with Retro Gold Accents */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -270,32 +249,32 @@ h1, h2, h3, h4, .font-heading {
   border-radius: var(--radius-full);
   font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.03em;
-  backdrop-filter: blur(12px);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .badge-purple {
-  background: rgba(139, 92, 246, 0.22);
-  color: #a78bfa;
-  border: 1.5px solid rgba(139, 92, 246, 0.45);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
 }
 
 .badge-cyan {
-  background: rgba(6, 182, 212, 0.22);
-  color: #22d3ee;
-  border: 1.5px solid rgba(6, 182, 212, 0.45);
+  background: rgba(217, 119, 6, 0.18);
+  color: #fbbf24;
+  border: 1.5px solid rgba(217, 119, 6, 0.45);
 }
 
 .badge-emerald {
-  background: rgba(139, 92, 246, 0.22);
-  color: #c4b5fd;
-  border: 1.5px solid rgba(139, 92, 246, 0.45);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
 }
 
 .badge-amber {
-  background: rgba(6, 182, 212, 0.22);
-  color: #22d3ee;
-  border: 1.5px solid rgba(6, 182, 212, 0.45);
+  background: rgba(217, 119, 6, 0.18);
+  color: #fbbf24;
+  border: 1.5px solid rgba(217, 119, 6, 0.45);
 }
 
 .badge-zinc {
@@ -319,11 +298,10 @@ h1, h2, h3, h4, .font-heading {
 }
 
 .form-input, .form-select, .form-textarea {
-  background: rgba(13, 14, 20, 0.9);
-  backdrop-filter: blur(12px);
+  background: #09090d;
   border: 1.5px solid var(--border-medium);
   color: #ffffff !important;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   padding: 0.8rem 1.1rem;
   font-size: 0.95rem;
   font-family: inherit;
@@ -333,8 +311,8 @@ h1, h2, h3, h4, .font-heading {
 
 .form-input:focus, .form-select:focus, .form-textarea:focus {
   outline: none;
-  border-color: #8b5cf6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
 }
 
 /* Range Input */
