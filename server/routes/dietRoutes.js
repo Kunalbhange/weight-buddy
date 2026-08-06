@@ -1,21 +1,36 @@
 import express from 'express';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { db } from '../database.js';
 import { requireAuth } from '../middleware/auth.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const mealsData = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '..', 'data', 'studentMeals.json'), 'utf-8')
-);
-
 const router = express.Router();
 
-// Calculate TDEE using Mifflin-St Jeor Formula
-const calculateTdee = (age, sex, heightCm, weightKg, activityLevel, goal) => {
+// Helper to filter meals based on user dietary preference (Veg / Non-Veg / Vegan)
+const filterMealsByDiet = (meals, userDiet = []) => {
+  if (!userDiet || userDiet.length === 0) return meals;
+
+  const isVegan = userDiet.includes('vegan');
+  const isVeg = userDiet.includes('vegetarian') || userDiet.includes('veg');
+  const isNonVeg = userDiet.includes('non-veg') || userDiet.includes('non_veg') || userDiet.includes('nonvegetarian');
+
+  return meals.filter(m => {
+    if (isVegan) {
+      return m.dietaryCategory === 'vegan' || m.dietaryTags?.includes('vegan');
+    }
+    if (isVeg && !isNonVeg) {
+      return m.dietaryCategory === 'vegetarian' || m.dietaryCategory === 'vegan' || m.dietaryTags?.includes('vegetarian') || m.dietaryTags?.includes('vegan');
+    }
+    if (isNonVeg) {
+      // Non-veg users eat everything (non-veg, veg, vegan)
+      return true;
+    }
+    return true;
+  });
+};
+
+// Mifflin-St Jeor Formula implementation for TDEE & Target Calorie calculation
+const calculateTargets = (onboarding) => {
+  const { weightKg = 70, heightCm = 175, age = 22, sex = 'male', activityLevel = 'moderate', goal = 'maintain' } = onboarding || {};
+
   let bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age);
   if (sex === 'male') {
     bmr += 5;
@@ -27,202 +42,139 @@ const calculateTdee = (age, sex, heightCm, weightKg, activityLevel, goal) => {
     sedentary: 1.2,
     light: 1.375,
     moderate: 1.55,
-    active: 1.725,
-    very_active: 1.9,
+    active: 1.725
   };
 
   const mult = activityMultipliers[activityLevel] || 1.375;
-  const maintenance = Math.round(bmr * mult);
+  const tdee = Math.round(bmr * mult);
 
-  let targetCalories = maintenance;
-  if (goal === 'lose') {
-    targetCalories = Math.round(maintenance * 0.80); // 20% deficit
-  } else if (goal === 'gain_weight' || goal === 'gain_muscle') {
-    targetCalories = Math.round(maintenance * 1.15); // 15% surplus
-  }
+  let targetCalories = tdee;
+  if (goal === 'lose') targetCalories -= 400; // ~20% deficit
+  if (goal === 'gain_weight' || goal === 'gain_muscle') targetCalories += 350; // Surplus
 
-  // Ensure reasonable minimums
-  if (targetCalories < 1200) targetCalories = 1200;
+  targetCalories = Math.max(1400, Math.min(3500, targetCalories));
 
-  // Macro split calculation (Protein: 25-30%, Carbs: 45-50%, Fat: 25%)
-  let proteinGrams = Math.round((targetCalories * 0.25) / 4);
-  if (goal === 'gain_muscle') {
-    proteinGrams = Math.round((targetCalories * 0.30) / 4);
-  }
+  // Macro splits
+  const proteinGrams = Math.round((targetCalories * 0.25) / 4);
+  const carbsGrams = Math.round((targetCalories * 0.50) / 4);
   const fatGrams = Math.round((targetCalories * 0.25) / 9);
-  const carbGrams = Math.round((targetCalories - (proteinGrams * 4) - (fatGrams * 9)) / 4);
 
   return {
-    maintenance,
+    tdee,
     targetCalories,
-    macroSplit: {
-      protein: proteinGrams,
-      carbs: carbGrams,
-      fat: fatGrams
-    }
+    macroSplit: { protein: proteinGrams, carbs: carbsGrams, fat: fatGrams }
   };
 };
 
-// Generate Rule-Based Weekly Plan
-const generateWeeklyPlan = (onboarding) => {
-  const { age, sex, heightCm, weightKg, activityLevel, scheduleDensity, dietaryRestrictions, goal } = onboarding;
-  const { targetCalories, macroSplit } = calculateTdee(age, sex, heightCm, weightKg, activityLevel, goal);
+// Generate full 7-day meal plan
+const generateWeeklyPlan = (onboarding, allMeals) => {
+  const { targetCalories, macroSplit } = calculateTargets(onboarding);
+  const filteredMeals = filterMealsByDiet(allMeals, onboarding?.dietaryRestrictions || []);
 
-  const restrictions = Array.isArray(dietaryRestrictions) ? dietaryRestrictions.map(r => r.toLowerCase()) : [];
-
-  // Filter valid meals based on dietary restrictions
-  const filterMeal = (meal) => {
-    if (restrictions.includes('none') || restrictions.length === 0) return true;
-    
-    // If user is vegetarian/vegan, exclude non-veg
-    if (restrictions.includes('vegetarian') && !meal.dietaryTags.includes('vegetarian') && !meal.dietaryTags.includes('vegan')) {
-      return false;
-    }
-    if (restrictions.includes('vegan') && !meal.dietaryTags.includes('vegan')) {
-      return false;
-    }
-    if (restrictions.includes('halal') && !meal.dietaryTags.includes('halal')) {
-      return false;
-    }
-    if (restrictions.includes('kosher') && !meal.dietaryTags.includes('kosher')) {
-      return false;
-    }
-    return true;
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const getMealsForType = (type) => {
+    const pool = filteredMeals.filter(m => m.type === type);
+    return pool.length > 0 ? pool : allMeals.filter(m => m.type === type);
   };
 
-  const validMeals = mealsData.filter(filterMeal);
+  const bPool = getMealsForType('breakfast');
+  const lPool = getMealsForType('lunch');
+  const dPool = getMealsForType('dinner');
+  const sPool = getMealsForType('snack');
 
-  // Separate by type
-  const breakfasts = validMeals.filter(m => m.type === 'breakfast');
-  const lunches = validMeals.filter(m => m.type === 'lunch');
-  const dinners = validMeals.filter(m => m.type === 'dinner');
-  const snacks = validMeals.filter(m => m.type === 'snack');
+  const weeklyDays = days.map((day, idx) => {
+    const b = bPool[idx % bPool.length];
+    const l = lPool[idx % lPool.length];
+    const d = dPool[idx % dPool.length];
+    const s = sPool[idx % sPool.length];
 
-  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  const days = daysOfWeek.map((dayName, idx) => {
-    // Pick meal variants based on index
-    const breakfast = breakfasts[idx % breakfasts.length] || mealsData[0];
-    const lunch = lunches[idx % lunches.length] || mealsData[4];
-    const dinner = dinners[idx % dinners.length] || mealsData[8];
-    const snack = snacks[idx % snacks.length] || mealsData[12];
-
-    const dayTotalCalories = breakfast.calories + lunch.calories + dinner.calories + snack.calories;
-    const dayTotalProtein = breakfast.protein + lunch.protein + dinner.protein + snack.protein;
-    const dayTotalCarbs = breakfast.carbs + lunch.carbs + dinner.carbs + snack.carbs;
-    const dayTotalFat = breakfast.fat + lunch.fat + dinner.fat + snack.fat;
+    const dayCalories = b.calories + l.calories + d.calories + s.calories;
+    const dayProtein = b.protein + l.protein + d.protein + s.protein;
+    const dayCarbs = b.carbs + l.carbs + d.carbs + s.carbs;
+    const dayFat = b.fat + l.fat + d.fat + s.fat;
 
     return {
-      day: dayName,
-      meals: {
-        breakfast,
-        lunch,
-        dinner,
-        snack
-      },
-      totals: {
-        calories: dayTotalCalories,
-        protein: dayTotalProtein,
-        carbs: dayTotalCarbs,
-        fat: dayTotalFat
-      }
+      day,
+      meals: { breakfast: b, lunch: l, dinner: d, snack: s },
+      totals: { calories: dayCalories, protein: dayProtein, carbs: dayCarbs, fat: dayFat }
     };
   });
 
   return {
-    generatedAt: new Date().toISOString(),
     dailyCalorieTarget: targetCalories,
     macroSplit,
-    scheduleDensity,
-    goal,
-    days
+    days: weeklyDays,
+    generatedAt: new Date().toISOString()
   };
 };
 
-// 1. Get current plan or auto-generate if missing
+// 1. Get Current Meal Plan
 router.get('/plan', requireAuth, (req, res) => {
   let plan = db.getMealPlan(req.user.id);
   const onboarding = db.getOnboarding(req.user.id);
-
-  if (!onboarding) {
-    return res.status(400).json({ error: 'Please complete onboarding questionnaire first.' });
-  }
+  const allMeals = db.getMeals();
 
   if (!plan) {
-    plan = generateWeeklyPlan(onboarding);
+    plan = generateWeeklyPlan(onboarding, allMeals);
     db.saveMealPlan(req.user.id, plan);
   }
 
-  return res.json({ plan });
+  return res.json({ plan, onboarding });
 });
 
-// 2. Force regenerate meal plan
+// 2. Force Regenerate Full Week
 router.post('/generate', requireAuth, (req, res) => {
   const onboarding = db.getOnboarding(req.user.id);
-  if (!onboarding) {
-    return res.status(400).json({ error: 'Please complete onboarding questionnaire first.' });
-  }
+  const allMeals = db.getMeals();
 
-  const plan = generateWeeklyPlan(onboarding);
+  const plan = generateWeeklyPlan(onboarding, allMeals);
   db.saveMealPlan(req.user.id, plan);
 
-  return res.json({ message: 'Fresh meal plan generated!', plan });
+  return res.json({ message: 'New diet plan generated!', plan });
 });
 
-// 3. Swap individual meal
+// 3. Swap a Single Meal
 router.post('/swap-meal', requireAuth, (req, res) => {
-  const { dayName, mealType } = req.body; // e.g. dayName: 'Monday', mealType: 'lunch'
-
-  if (!dayName || !mealType) {
-    return res.status(400).json({ error: 'dayName and mealType are required.' });
+  const { dayName, mealType, newMealId } = req.body;
+  if (!dayName || !mealType || !newMealId) {
+    return res.status(400).json({ error: 'dayName, mealType, and newMealId are required.' });
   }
 
   const plan = db.getMealPlan(req.user.id);
-  if (!plan) return res.status(400).json({ error: 'No active meal plan found.' });
+  if (!plan) return res.status(404).json({ error: 'Meal plan not found. Generate a plan first.' });
 
-  const onboarding = db.getOnboarding(req.user.id);
-  const restrictions = onboarding && Array.isArray(onboarding.dietaryRestrictions) 
-    ? onboarding.dietaryRestrictions.map(r => r.toLowerCase()) 
-    : [];
+  const allMeals = db.getMeals();
+  const replacement = allMeals.find(m => m.id === newMealId);
+  if (!replacement) return res.status(404).json({ error: 'Target replacement meal not found.' });
 
-  // Filter candidate replacement meals
-  const candidates = mealsData.filter(m => {
-    if (m.type !== mealType) return false;
-    if (restrictions.includes('vegetarian') && !m.dietaryTags.includes('vegetarian') && !m.dietaryTags.includes('vegan')) return false;
-    if (restrictions.includes('vegan') && !m.dietaryTags.includes('vegan')) return false;
-    return true;
-  });
+  const dayObj = plan.days.find(d => d.day.toLowerCase() === dayName.toLowerCase());
+  if (!dayObj) return res.status(400).json({ error: 'Invalid day specified.' });
 
-  if (candidates.length === 0) {
-    return res.status(400).json({ error: 'No alternative meal available matching dietary restrictions.' });
-  }
-
-  const targetDay = plan.days.find(d => d.day.toLowerCase() === dayName.toLowerCase());
-  if (!targetDay) return res.status(400).json({ error: 'Day not found in meal plan.' });
-
-  const currentMealId = targetDay.meals[mealType]?.id;
-  const alternateMeals = candidates.filter(m => m.id !== currentMealId);
-  const newMeal = alternateMeals.length > 0 
-    ? alternateMeals[Math.floor(Math.random() * alternateMeals.length)] 
-    : candidates[0];
-
-  targetDay.meals[mealType] = newMeal;
+  dayObj.meals[mealType] = replacement;
 
   // Recalculate day totals
-  targetDay.totals = {
-    calories: targetDay.meals.breakfast.calories + targetDay.meals.lunch.calories + targetDay.meals.dinner.calories + targetDay.meals.snack.calories,
-    protein: targetDay.meals.breakfast.protein + targetDay.meals.lunch.protein + targetDay.meals.dinner.protein + targetDay.meals.snack.protein,
-    carbs: targetDay.meals.breakfast.carbs + targetDay.meals.lunch.carbs + targetDay.meals.dinner.carbs + targetDay.meals.snack.carbs,
-    fat: targetDay.meals.breakfast.fat + targetDay.meals.lunch.fat + targetDay.meals.dinner.fat + targetDay.meals.snack.fat,
+  const { breakfast, lunch, dinner, snack } = dayObj.meals;
+  dayObj.totals = {
+    calories: breakfast.calories + lunch.calories + dinner.calories + snack.calories,
+    protein: breakfast.protein + lunch.protein + dinner.protein + snack.protein,
+    carbs: breakfast.carbs + lunch.carbs + dinner.carbs + snack.carbs,
+    fat: breakfast.fat + lunch.fat + dinner.fat + snack.fat
   };
 
   db.saveMealPlan(req.user.id, plan);
+  return res.json({ message: 'Meal swapped successfully!', plan });
+});
 
-  return res.json({
-    message: `Swapped ${mealType} for ${dayName} with ${newMeal.name}!`,
-    newMeal,
-    updatedDay: targetDay,
-    plan
-  });
+// 4. Get Available Alternative Swaps for a meal type
+router.get('/swaps', requireAuth, (req, res) => {
+  const { type } = req.query;
+  const onboarding = db.getOnboarding(req.user.id);
+  const allMeals = db.getMeals();
+
+  let matches = allMeals.filter(m => m.type === type);
+  matches = filterMealsByDiet(matches, onboarding?.dietaryRestrictions || []);
+
+  return res.json({ meals: matches });
 });
 
 export default router;

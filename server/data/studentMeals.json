@@ -11,9 +11,10 @@
     "isBudget": true,
     "priceInr": 45,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "vegan", "halal", "kosher"],
-    "ingredients": ["Rolled oats (1 cup)", "Peanut butter (2 tbsp)", "1 ripe banana", "Milk or water"],
-    "instructions": "Microwave oats with milk/water for 90 sec. Stir in peanut butter and slice banana on top."
+    "dietaryCategory": "vegan",
+    "dietaryTags": ["vegetarian", "vegan"],
+    "ingredients": ["Rolled oats (1 cup)", "Peanut butter (2 tbsp)", "1 ripe banana", "Almond milk or water"],
+    "instructions": "Microwave oats with almond milk/water for 90 sec. Stir in peanut butter and slice banana on top."
   },
   {
     "id": "m2",
@@ -27,7 +28,8 @@
     "isBudget": true,
     "priceInr": 40,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "vegan", "halal", "kosher"],
+    "dietaryCategory": "vegan",
+    "dietaryTags": ["vegetarian", "vegan"],
     "ingredients": ["Besan/Oats flour (1 cup)", "Chopped onions & tomatoes", "Green chili & coriander", "1 tsp oil"],
     "instructions": "Whisk flour with water, veggies, and spices into a smooth batter. Cook on non-stick tawa for 3 mins each side."
   },
@@ -43,7 +45,8 @@
     "isBudget": true,
     "priceInr": 50,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "halal", "kosher"],
+    "dietaryCategory": "non-veg",
+    "dietaryTags": ["non-veg"],
     "ingredients": ["3 large eggs", "2 slices whole wheat bread", "1 tsp butter", "Salt & black pepper"],
     "instructions": "Whisk eggs with salt and pepper. Soft scramble in a pan for 3 mins. Serve over toasted whole wheat bread."
   },
@@ -59,7 +62,8 @@
     "isBudget": true,
     "priceInr": 65,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "halal", "kosher"],
+    "dietaryCategory": "vegetarian",
+    "dietaryTags": ["vegetarian"],
     "ingredients": ["Plain Greek Yogurt (1 cup)", "Mixed berries (1/2 cup)", "Honey (1 tbsp)", "Chia seeds"],
     "instructions": "Spoon Greek yogurt into a bowl, top with berries, drizzle honey, and sprinkle chia seeds."
   },
@@ -75,8 +79,9 @@
     "isBudget": true,
     "priceInr": 60,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "vegan", "halal", "kosher"],
-    "ingredients": ["Boiled chickpeas (1 cup)", "Avocado / hung curd", "Whole wheat roti", "Lemon & spices"],
+    "dietaryCategory": "vegan",
+    "dietaryTags": ["vegetarian", "vegan"],
+    "ingredients": ["Boiled chickpeas (1 cup)", "Avocado", "Whole wheat roti", "Lemon & spices"],
     "instructions": "Mash chickpeas with lemon juice, cumin, and salt. Wrap inside warm roti and serve."
   },
   {
@@ -91,7 +96,8 @@
     "isBudget": true,
     "priceInr": 55,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "vegan", "halal", "kosher"],
+    "dietaryCategory": "vegan",
+    "dietaryTags": ["vegetarian", "vegan"],
     "ingredients": ["Cooked kidney beans / Rajma (1 cup)", "Steamed basmati rice", "Tomato onion gravy", "Cumin & garamasala"],
     "instructions": "Simmer cooked rajma in tomato-onion gravy for 5 mins. Serve hot over steamed rice."
   },
@@ -107,7 +113,8 @@
     "isBudget": true,
     "priceInr": 85,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "halal", "kosher"],
+    "dietaryCategory": "vegetarian",
+    "dietaryTags": ["vegetarian"],
     "ingredients": ["Paneer cubes (120g)", "Bell peppers & onions", "Cooked quinoa/rice", "Tikka spices & curd"],
     "instructions": "Marinate paneer and bell peppers in spiced curd. Pan grill for 6 mins and serve over warm quinoa."
   },
@@ -123,7 +130,8 @@
     "isBudget": true,
     "priceInr": 70,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["halal", "kosher"],
+    "dietaryCategory": "non-veg",
+    "dietaryTags": ["non-veg"],
     "ingredients": ["1 can chunk light tuna", "Steamed brown rice", "Cucumber slices", "Soy sauce"],
     "instructions": "Drain tuna and place over hot rice alongside sliced cucumber. Drizzle soy sauce."
   },
@@ -139,7 +147,8 @@
     "isBudget": true,
     "priceInr": 45,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "vegan", "halal", "kosher"],
+    "dietaryCategory": "vegan",
+    "dietaryTags": ["vegetarian", "vegan"],
     "ingredients": ["Soya chunks (50g dry)", "Basmati rice (1 cup)", "Mixed veggies", "Whole biryani spices"],
     "instructions": "Boil soya chunks. Sauté veggies and soya with spices, stir in rice, and pressure cook for 1 whistle."
   },
@@ -155,7 +164,8 @@
     "isBudget": true,
     "priceInr": 55,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "halal", "kosher"],
+    "dietaryCategory": "vegetarian",
+    "dietaryTags": ["vegetarian"],
     "ingredients": ["2 whole wheat tortillas", "Boiled black beans", "Shredded cheese", "Salsa & peppers"],
     "instructions": "Layer beans, bell pepper, and cheese between tortillas. Toast in a pan until crisp."
   },
@@ -171,7 +181,8 @@
     "isBudget": true,
     "priceInr": 40,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "halal", "kosher"],
+    "dietaryCategory": "non-veg",
+    "dietaryTags": ["non-veg"],
     "ingredients": ["3 eggs", "Diced onion & tomato", "Green chili & turmeric", "2 whole wheat roti"],
     "instructions": "Sauté diced onion and tomato with green chili and turmeric. Whisk in eggs until cooked. Serve with roti."
   },
@@ -187,7 +198,8 @@
     "isBudget": false,
     "priceInr": 120,
     "scheduleDensity": ["moderate", "light"],
-    "dietaryTags": ["halal"],
+    "dietaryCategory": "non-veg",
+    "dietaryTags": ["non-veg"],
     "ingredients": ["Grilled chicken breast (150g)", "Cooked quinoa/rice", "Steamed veggies", "Herbs & garlic"],
     "instructions": "Pan sear chicken breast. Serve over quinoa alongside steamed vegetables."
   },
@@ -203,7 +215,8 @@
     "isBudget": true,
     "priceInr": 25,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "vegan", "halal", "kosher"],
+    "dietaryCategory": "vegan",
+    "dietaryTags": ["vegetarian", "vegan"],
     "ingredients": ["Sprouted green moong (1 cup)", "Diced cucumber & tomato", "Chaat masala & lemon juice"],
     "instructions": "Toss sprouted moong with diced cucumber, tomatoes, chaat masala, and fresh lemon juice."
   },
@@ -219,7 +232,8 @@
     "isBudget": true,
     "priceInr": 30,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "vegan", "halal", "kosher"],
+    "dietaryCategory": "vegan",
+    "dietaryTags": ["vegetarian", "vegan"],
     "ingredients": ["1 crisp apple", "Peanut butter (1.5 tbsp)"],
     "instructions": "Slice apple into wedges and dip into creamy peanut butter."
   },
@@ -235,7 +249,8 @@
     "isBudget": true,
     "priceInr": 25,
     "scheduleDensity": ["heavy", "moderate", "light"],
-    "dietaryTags": ["vegetarian", "vegan", "halal", "kosher"],
+    "dietaryCategory": "vegan",
+    "dietaryTags": ["vegetarian", "vegan"],
     "ingredients": ["Roasted chana (1 cup)", "Sea salt & black pepper"],
     "instructions": "Enjoy crunchy roasted chana with sea salt and black pepper."
   }
