@@ -14,7 +14,7 @@ export const LoginPage = ({ setActiveTab }) => {
     setLoading(true);
     setError(null);
     try {
-      await login(email, password);
+      await login(email.trim(), password);
       setActiveTab('dashboard');
     } catch (err) {
       setError(err.message);
@@ -40,23 +40,23 @@ export const LoginPage = ({ setActiveTab }) => {
         <div className="glass-card" style={{
           padding: '2.25rem 2rem',
           background: '#141414',
-          border: '1px solid var(--border-medium)'
+          border: '1.5px solid var(--border-medium)'
         }}>
           <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
             <div style={{
               width: '44px',
               height: '44px',
               borderRadius: '12px',
-              background: 'rgba(16, 185, 129, 0.15)',
-              color: 'var(--accent-primary)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              color: '#ffffff',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 0.75rem'
             }}>
-              <LogIn size={22} />
+              <LogIn size={22} color="#ffffff" />
             </div>
-            <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800 }}>Student Account Sign In</h2>
+            <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff' }}>Student Account Sign In</h2>
             <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
               Enter your registered student email and password.
             </p>
@@ -65,28 +65,28 @@ export const LoginPage = ({ setActiveTab }) => {
           {error && (
             <div style={{
               padding: '0.75rem 1rem',
-              background: 'rgba(239, 68, 68, 0.1)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
+              background: 'rgba(239, 68, 68, 0.15)',
+              border: '1.5px solid rgba(239, 68, 68, 0.35)',
               borderRadius: 'var(--radius-sm)',
-              color: '#fca5a5',
+              color: '#ffffff',
               fontSize: '0.82rem',
               marginBottom: '1.25rem',
               display: 'flex',
               alignItems: 'flex-start',
               gap: '0.5rem'
             }}>
-              <AlertCircle size={16} style={{ flexShrink: 0, marginTop: '2px' }} />
+              <AlertCircle size={16} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>{error}</div>
             </div>
           )}
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <div className="form-group">
-              <label className="form-label">Email Address</label>
+              <label className="form-label">Email Address / Username</label>
               <div style={{ position: 'relative' }}>
                 <Mail size={16} color="var(--text-muted)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
                 <input 
-                  type="email" 
+                  type="text" 
                   placeholder="student@university.edu"
                   className="form-input"
                   style={{ paddingLeft: '2.4rem', width: '100%' }}
@@ -103,7 +103,7 @@ export const LoginPage = ({ setActiveTab }) => {
                 <button 
                   type="button" 
                   onClick={() => setActiveTab('forgot-password')}
-                  style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', fontSize: '0.75rem', cursor: 'pointer' }}
+                  style={{ background: 'none', border: 'none', color: '#d97706', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer' }}
                 >
                   Forgot Password?
                 </button>
@@ -131,7 +131,7 @@ export const LoginPage = ({ setActiveTab }) => {
             Don't have an account yet?{' '}
             <button 
               onClick={() => setActiveTab('signup')}
-              style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', fontWeight: 700, cursor: 'pointer' }}
+              style={{ background: 'none', border: 'none', color: '#d97706', fontWeight: 800, cursor: 'pointer' }}
             >
               Create Free Account
             </button>
@@ -149,17 +149,17 @@ export const LoginPage = ({ setActiveTab }) => {
             justifyContent: 'center',
             gap: '0.4rem'
           }}>
-            <ShieldCheck size={14} color="var(--accent-primary)" /> Protected by bcrypt password hashing & rate-limiting.
+            <ShieldCheck size={14} color="#d97706" /> Protected by bcrypt password hashing & rate-limiting.
           </div>
         </div>
 
         {/* RIGHT COLUMN: AI NUTRITION & FITNESS POSTERS GALLERY */}
         <div>
           <div style={{ marginBottom: '1rem' }}>
-            <div className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>
-              <Utensils size={12} /> Student AI Nutrition Posters
+            <div className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>
+              <Utensils size={12} color="#d97706" /> Student AI Nutrition Posters
             </div>
-            <h3 className="font-heading" style={{ fontSize: '1.35rem', fontWeight: 800 }}>
+            <h3 className="font-heading" style={{ fontSize: '1.35rem', fontWeight: 800, color: '#ffffff' }}>
               Campus Nutrition & Fitness Showcase
             </h3>
             <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
@@ -169,21 +169,21 @@ export const LoginPage = ({ setActiveTab }) => {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             {/* AI Nutrition Poster */}
-            <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-medium)' }}>
+            <div className="glass-card" style={{ overflow: 'hidden', border: '1.5px solid var(--border-medium)' }}>
               <img 
                 src="/images/nutrition_poster.jpg" 
                 alt="Smart Student Nutrition Infographic" 
                 style={{ width: '100%', height: '260px', objectFit: 'cover' }} 
               />
               <div style={{ padding: '0.85rem 1rem', background: 'rgba(0,0,0,0.6)' }}>
-                <div style={{ fontWeight: 800, fontSize: '0.9rem', color: 'var(--accent-primary)' }}>SMART STUDENT NUTRITION</div>
+                <div style={{ fontWeight: 800, fontSize: '0.9rem', color: '#d97706' }}>SMART STUDENT NUTRITION</div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Avocados, oats, berries & eggs for sustained brain fuel and energy.</div>
               </div>
             </div>
 
             {/* AI Gym Motivation Posters Grid */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-medium)' }}>
+              <div className="glass-card" style={{ overflow: 'hidden', border: '1.5px solid var(--border-medium)' }}>
                 <img 
                   src="/images/poster1.jpg" 
                   alt="Discipline Over Excuses" 
@@ -194,14 +194,14 @@ export const LoginPage = ({ setActiveTab }) => {
                 </div>
               </div>
 
-              <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-medium)' }}>
+              <div className="glass-card" style={{ overflow: 'hidden', border: '1.5px solid var(--border-medium)' }}>
                 <img 
                   src="/images/poster2.jpg" 
                   alt="Fuel Your Ambition" 
                   style={{ width: '100%', height: '140px', objectFit: 'cover' }} 
                 />
                 <div style={{ padding: '0.6rem', textAlign: 'center', background: 'rgba(0,0,0,0.6)' }}>
-                  <div style={{ fontWeight: 800, fontSize: '0.78rem', color: 'var(--accent-primary)' }}>FUEL YOUR AMBITION</div>
+                  <div style={{ fontWeight: 800, fontSize: '0.78rem', color: '#d97706' }}>FUEL YOUR AMBITION</div>
                 </div>
               </div>
             </div>

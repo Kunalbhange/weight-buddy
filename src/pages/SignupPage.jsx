@@ -16,7 +16,7 @@ export const SignupPage = ({ setActiveTab }) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await signup(name, email, password);
+      const result = await signup(name.trim(), email.trim(), password);
       setVerificationNotice(result.verificationToken);
       // Redirect to onboarding questionnaire
       setTimeout(() => {
@@ -38,23 +38,23 @@ export const SignupPage = ({ setActiveTab }) => {
       <div className="glass-card" style={{
         padding: '2.5rem 2rem',
         background: '#141414',
-        border: '1px solid var(--border-medium)'
+        border: '1.5px solid var(--border-medium)'
       }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <div style={{
             width: '48px',
             height: '48px',
             borderRadius: '14px',
-            background: 'rgba(16, 185, 129, 0.15)',
-            color: 'var(--accent-primary)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            color: '#ffffff',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justify: 'center',
             margin: '0 auto 1rem'
           }}>
-            <UserPlus size={24} />
+            <UserPlus size={24} color="#ffffff" />
           </div>
-          <h2 className="font-heading" style={{ fontSize: '1.75rem', fontWeight: 800 }}>Create Account</h2>
+          <h2 className="font-heading" style={{ fontSize: '1.75rem', fontWeight: 800, color: '#ffffff' }}>Create Account</h2>
           <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
             Join WeightBuddy for free. No credit card required.
           </p>
@@ -63,10 +63,10 @@ export const SignupPage = ({ setActiveTab }) => {
         {error && (
           <div style={{
             padding: '0.75rem 1rem',
-            background: 'rgba(239, 68, 68, 0.1)',
-            border: '1px solid rgba(239, 68, 68, 0.3)',
+            background: 'rgba(239, 68, 68, 0.15)',
+            border: '1.5px solid rgba(239, 68, 68, 0.35)',
             borderRadius: 'var(--radius-sm)',
-            color: '#fca5a5',
+            color: '#ffffff',
             fontSize: '0.85rem',
             marginBottom: '1.25rem'
           }}>
@@ -77,24 +77,24 @@ export const SignupPage = ({ setActiveTab }) => {
         {verificationNotice && (
           <div style={{
             padding: '1rem',
-            background: 'rgba(16, 185, 129, 0.15)',
-            border: '1px solid rgba(16, 185, 129, 0.3)',
+            background: 'rgba(217, 119, 6, 0.15)',
+            border: '1.5px solid rgba(217, 119, 6, 0.35)',
             borderRadius: 'var(--radius-sm)',
-            color: '#34d399',
+            color: '#fbbf24',
             fontSize: '0.85rem',
             marginBottom: '1.25rem',
             display: 'flex',
             alignItems: 'center',
             gap: '0.6rem'
           }}>
-            <CheckCircle2 size={20} />
+            <CheckCircle2 size={20} color="#fbbf24" />
             <div>
               <strong>Account Created!</strong> Self-hosted email verification token generated. Redirecting to onboarding questionnaire...
             </div>
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="form-group">
             <label className="form-label">Full Name</label>
             <div style={{ position: 'relative' }}>
@@ -112,11 +112,11 @@ export const SignupPage = ({ setActiveTab }) => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Student Email</label>
+            <label className="form-label">Student Email / Username</label>
             <div style={{ position: 'relative' }}>
               <Mail size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
               <input 
-                type="email" 
+                type="text" 
                 placeholder="student@university.edu"
                 className="form-input"
                 style={{ paddingLeft: '2.5rem', width: '100%' }}
@@ -154,7 +154,7 @@ export const SignupPage = ({ setActiveTab }) => {
           Already registered?{' '}
           <button 
             onClick={() => setActiveTab('login')}
-            style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', fontWeight: 700, cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', color: '#d97706', fontWeight: 800, cursor: 'pointer' }}
           >
             Sign In
           </button>
