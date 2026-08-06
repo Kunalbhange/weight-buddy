@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
 import { calculateBmiFlexible, kgToLbs, lbsToKg } from '../utils/bmiCalculator';
-import { ArrowRight, ShieldCheck, Clock, DollarSign, Bot, Activity, Check, Play, X, Sparkles } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Clock, DollarSign, Bot, Activity, Check, Play, X } from 'lucide-react';
 
 export const LandingPage = ({ setActiveTab }) => {
-  const { demoLogin } = useAuth();
   const [showDemoModal, setShowDemoModal] = useState(false);
-  const [demoLoading, setDemoLoading] = useState(false);
 
   // Independent demo unit selections
   const [weightUnit, setWeightUnit] = useState('kg');
@@ -28,24 +25,12 @@ export const LandingPage = ({ setActiveTab }) => {
     sex: 'other'
   });
 
-  const handleBypassDemo = async () => {
-    setDemoLoading(true);
-    try {
-      await demoLogin();
-      setActiveTab('dashboard');
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setDemoLoading(false);
-    }
-  };
-
   return (
     <div className="animate-fade-in" style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem' }}>
       {/* HERO SECTION */}
       <section style={{
         textAlign: 'center',
-        padding: '4rem 1rem 3rem',
+        padding: '4.5rem 1rem 3.5rem',
         position: 'relative'
       }}>
         <div className="badge badge-emerald" style={{ marginBottom: '1.25rem' }}>
@@ -74,21 +59,17 @@ export const LandingPage = ({ setActiveTab }) => {
           fontSize: '1.05rem',
           color: 'var(--text-secondary)',
           maxWidth: '680px',
-          margin: '0 auto 2rem',
+          margin: '0 auto 2.25rem',
           lineHeight: 1.6
         }}>
           Built for busy college students juggling classes, exams, and late nights. Get personalized dorm-friendly diet plans (priced in ₹ INR), track your body metrics, and get instant AI guidance.
         </p>
 
-        <div style={{ display: 'flex', gap: '0.85rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button className="btn-primary" onClick={() => setActiveTab('signup')} style={{ padding: '0.85rem 2rem', fontSize: '0.98rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button className="btn-primary" onClick={() => setActiveTab('signup')} style={{ padding: '0.9rem 2.2rem', fontSize: '1rem' }}>
             Start Free Plan Now <ArrowRight size={18} />
           </button>
-          <button className="btn-demo" onClick={handleBypassDemo} disabled={demoLoading} style={{ padding: '0.85rem 1.8rem', fontSize: '0.98rem' }}>
-            <Sparkles size={16} />
-            {demoLoading ? 'Launching Session...' : 'Instant Demo Login (Skip Sign In)'}
-          </button>
-          <button className="btn-secondary" onClick={() => setShowDemoModal(true)} style={{ padding: '0.85rem 1.6rem', fontSize: '0.98rem' }}>
+          <button className="btn-secondary" onClick={() => setShowDemoModal(true)} style={{ padding: '0.9rem 2rem', fontSize: '1rem' }}>
             <Play size={16} color="var(--accent-primary)" /> Try Unit Calculator
           </button>
         </div>
@@ -98,7 +79,7 @@ export const LandingPage = ({ setActiveTab }) => {
           display: 'flex',
           justify: 'center',
           gap: '2rem',
-          marginTop: '3rem',
+          marginTop: '3.5rem',
           flexWrap: 'wrap',
           color: 'var(--text-muted)',
           fontSize: '0.88rem'

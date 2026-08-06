@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { LogIn, Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, Play, Sparkles, Utensils, Dumbbell } from 'lucide-react';
+import { LogIn, Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, Utensils, Dumbbell, Sparkles } from 'lucide-react';
 
 export const LoginPage = ({ setActiveTab }) => {
-  const { login, demoLogin } = useAuth();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [demoLoading, setDemoLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -24,81 +23,42 @@ export const LoginPage = ({ setActiveTab }) => {
     }
   };
 
-  const handleDemoBypass = async () => {
-    setDemoLoading(true);
-    setError(null);
-    try {
-      await demoLogin();
-      setActiveTab('dashboard');
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setDemoLoading(false);
-    }
-  };
-
   return (
     <div className="animate-fade-in" style={{
       maxWidth: '1100px',
       margin: '2.5rem auto',
       padding: '0 1.5rem'
     }}>
-      {/* SPLIT LAYOUT: LOGIN FORM ON LEFT + NUTRITION POSTERS GALLERY ON RIGHT */}
+      {/* SPLIT LAYOUT: LOGIN FORM ON LEFT + AI NUTRITION & FITNESS POSTERS GALLERY ON RIGHT */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
         gap: '2.5rem',
         alignItems: 'start'
       }}>
-        {/* LEFT COLUMN: LOGIN & INSTANT DEMO BYPASS */}
+        {/* LEFT COLUMN: STANDARD AUTH LOGIN FORM */}
         <div className="glass-card" style={{
           padding: '2.25rem 2rem',
           background: '#141414',
           border: '1px solid var(--border-medium)'
         }}>
-          {/* INSTANT DEMO BYPASS BANNER */}
-          <div style={{
-            padding: '1rem',
-            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(10, 10, 10, 0.9) 100%)',
-            border: '1px solid rgba(16, 185, 129, 0.4)',
-            borderRadius: 'var(--radius-sm)',
-            marginBottom: '1.75rem',
-            textAlign: 'center'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', color: 'var(--accent-primary)', fontSize: '0.82rem', fontWeight: 700, marginBottom: '0.3rem' }}>
-              <Sparkles size={16} /> TEMPORARY DEMO ACCESS
-            </div>
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.75rem', lineHeight: '1.4' }}>
-              Want to skip signing in? Test all features instantly with one click.
-            </p>
-            <button 
-              className="btn-demo" 
-              onClick={handleDemoBypass}
-              disabled={demoLoading}
-              style={{ width: '100%', padding: '0.65rem', fontSize: '0.85rem' }}
-            >
-              <Play size={16} />
-              {demoLoading ? 'Launching Demo Session...' : 'Instant Demo Login (Skip Sign In)'}
-            </button>
-          </div>
-
           <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
             <div style={{
-              width: '42px',
-              height: '42px',
+              width: '44px',
+              height: '44px',
               borderRadius: '12px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              color: 'var(--text-primary)',
+              background: 'rgba(16, 185, 129, 0.15)',
+              color: 'var(--accent-primary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 0.75rem'
             }}>
-              <LogIn size={20} />
+              <LogIn size={22} />
             </div>
-            <h2 className="font-heading" style={{ fontSize: '1.5rem', fontWeight: 800 }}>Student Account Sign In</h2>
+            <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800 }}>Student Account Sign In</h2>
             <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
-              Enter your registered student email and password below.
+              Enter your registered student email and password.
             </p>
           </div>
 
@@ -193,22 +153,22 @@ export const LoginPage = ({ setActiveTab }) => {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: FRONT PAGE NUTRITION & FITNESS POSTERS SHOWCASE */}
+        {/* RIGHT COLUMN: AI NUTRITION & FITNESS POSTERS GALLERY */}
         <div>
           <div style={{ marginBottom: '1rem' }}>
             <div className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>
-              <Utensils size={12} /> Student Health Gallery
+              <Utensils size={12} /> Student AI Nutrition Posters
             </div>
             <h3 className="font-heading" style={{ fontSize: '1.35rem', fontWeight: 800 }}>
-              Smart Student Nutrition Posters
+              Campus Nutrition & Fitness Showcase
             </h3>
             <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-              Built for campus life: dorm nutrition guides & high-energy fitness motivation.
+              Self-contained AI posters for hostel meal fuel & athletic motivation.
             </p>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            {/* Poster 1: Nutrition Infographic Poster */}
+            {/* AI Nutrition Poster */}
             <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-medium)' }}>
               <img 
                 src="/images/nutrition_poster.jpg" 
@@ -221,16 +181,28 @@ export const LoginPage = ({ setActiveTab }) => {
               </div>
             </div>
 
-            {/* Poster 2: Gym & Athletics Poster */}
-            <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-medium)' }}>
-              <img 
-                src="/images/poster1.jpg" 
-                alt="Discipline Over Excuses" 
-                style={{ width: '100%', height: '180px', objectFit: 'cover' }} 
-              />
-              <div style={{ padding: '0.85rem 1rem', background: 'rgba(0,0,0,0.6)' }}>
-                <div style={{ fontWeight: 800, fontSize: '0.9rem', color: '#fff' }}>DISCIPLINE OVER EXCUSES</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>High-protein dorm meals fuel your physical & academic gains.</div>
+            {/* AI Gym Motivation Posters Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-medium)' }}>
+                <img 
+                  src="/images/poster1.jpg" 
+                  alt="Discipline Over Excuses" 
+                  style={{ width: '100%', height: '140px', objectFit: 'cover' }} 
+                />
+                <div style={{ padding: '0.6rem', textAlign: 'center', background: 'rgba(0,0,0,0.6)' }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.78rem', color: '#fff' }}>DISCIPLINE OVER EXCUSES</div>
+                </div>
+              </div>
+
+              <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-medium)' }}>
+                <img 
+                  src="/images/poster2.jpg" 
+                  alt="Fuel Your Ambition" 
+                  style={{ width: '100%', height: '140px', objectFit: 'cover' }} 
+                />
+                <div style={{ padding: '0.6rem', textAlign: 'center', background: 'rgba(0,0,0,0.6)' }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.78rem', color: 'var(--accent-primary)' }}>FUEL YOUR AMBITION</div>
+                </div>
               </div>
             </div>
           </div>
