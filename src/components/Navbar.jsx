@@ -33,7 +33,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
         alignItems: 'center',
         justify: 'space-between'
       }}>
-        {/* Classic Clean Brand Logo */}
+        {/* Classy Gold & Platinum Brand Logo */}
         <div 
           onClick={() => setActiveTab(user ? 'dashboard' : 'landing')} 
           style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
@@ -42,7 +42,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
             width: '36px',
             height: '36px',
             borderRadius: '8px',
-            background: '#059669',
+            background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -55,7 +55,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
           </div>
           <div>
             <div className="font-heading" style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
-              Weight<span style={{ color: '#34d399' }}>Buddy</span>
+              Weight<span style={{ color: '#fbbf24' }}>Buddy</span>
             </div>
             <span style={{
               display: 'block',
@@ -82,7 +82,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
             borderRadius: 'var(--radius-sm)',
             border: '1px solid var(--border-medium)'
           }}>
-            <Globe size={15} color="#34d399" />
+            <Globe size={15} color="#fbbf24" />
             <select
               value={currency}
               onChange={(e) => changeCurrency(e.target.value)}
@@ -122,7 +122,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                       fontSize: '0.88rem',
                       fontWeight: 700,
                       color: '#ffffff',
-                      background: isActive ? '#059669' : 'transparent',
+                      background: isActive ? '#d97706' : 'transparent',
                       border: isActive ? 'none' : '1px solid transparent',
                       opacity: isActive ? 1 : 0.75,
                       cursor: 'pointer',
@@ -207,7 +207,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                   fontSize: '0.9rem',
                   fontWeight: 700,
                   color: '#ffffff',
-                  background: activeTab === item.id ? '#059669' : 'transparent',
+                  background: activeTab === item.id ? '#d97706' : 'transparent',
                   border: 'none',
                   width: '100%',
                   textAlign: 'left'
