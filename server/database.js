@@ -102,7 +102,7 @@ class JSONDatabase {
     this.data.weightLogs = this.data.weightLogs.filter(w => w.userId !== userId);
     delete this.data.mealPlans[userId];
     this.data.verificationTokens = this.data.verificationTokens.filter(t => t.userId !== userId);
-    delete this.data.resetTokens = this.data.resetTokens.filter(t => t.userId !== userId);
+    this.data.resetTokens = this.data.resetTokens.filter(t => t.userId !== userId);
     delete this.data.chatHistory[userId];
     delete this.data.reminders[userId];
     this.saveData();
