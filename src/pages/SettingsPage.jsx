@@ -1,40 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Settings, User, Bell, Download, Trash2, ShieldCheck, CheckCircle2, AlertTriangle, Calendar } from 'lucide-react';
+import { CURRENCY_MAP } from '../utils/currency';
+import { Settings, User, Globe, Download, Trash2, ShieldCheck, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 export const SettingsPage = ({ setActiveTab }) => {
-  const { user, fetchMe, logout } = useAuth();
+  const { user, fetchMe, logout, currency, changeCurrency } = useAuth();
   const [name, setName] = useState(user?.name || '');
-  const [weightLogReminder, setWeightLogReminder] = useState(true);
-  const [mealPrepAlerts, setMealPrepAlerts] = useState(true);
-  const [examDate, setExamDate] = useState('');
-  const [examDates, setExamDates] = useState([]);
   
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const fetchReminders = async () => {
-    try {
-      const token = localStorage.getItem('wb_token');
-      const res = await fetch('/api/automations/reminders', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await res.json();
-      if (res.ok && data.reminders) {
-        setWeightLogReminder(data.reminders.weightLogReminder);
-        setMealPrepAlerts(data.reminders.mealPrepAlerts);
-        setExamDates(data.reminders.examDates || []);
-      }
-    } catch (err) {
-      console.error('Failed to fetch reminders:', err);
-    }
-  };
-
-  useEffect(() => {
-    fetchReminders();
-  }, []);
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -57,36 +33,6 @@ export const SettingsPage = ({ setActiveTab }) => {
       fetchMe();
     } catch (err) {
       setError(err.message);
-    }
-  };
-
-  const handleSaveReminders = async () => {
-    setMessage(null);
-    setError(null);
-    try {
-      const token = localStorage.getItem('wb_token');
-      const res = await fetch('/api/automations/reminders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ weightLogReminder, examDates, mealPrepAlerts })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-
-      setMessage('Reminder preferences saved!');
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleAddExamDate = () => {
-    if (examDate && !examDates.includes(examDate)) {
-      const updated = [...examDates, examDate];
-      setExamDates(updated);
-      setExamDate('');
     }
   };
 
@@ -117,9 +63,9 @@ export const SettingsPage = ({ setActiveTab }) => {
   return (
     <div className="animate-fade-in" style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem 1.5rem' }}>
       <div style={{ marginBottom: '2rem' }}>
-        <h1 className="font-heading" style={{ fontSize: '2rem', fontWeight: 800 }}>Account & Privacy Settings</h1>
+        <h1 className="font-heading" style={{ fontSize: '2rem', fontWeight: 800 }}>Account & Settings</h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-          Manage your student profile, exam prep automations, and data export.
+          Manage your student profile, default currency formatting, and data export.
         </p>
       </div>
 
@@ -158,49 +104,31 @@ export const SettingsPage = ({ setActiveTab }) => {
         </form>
       </div>
 
-      {/* SECTION 2: AUTOMATIONS & EXAM PREP REMINDERS */}
+      {/* SECTION 2: CURRENCY FORMATTING */}
       <div className="glass-card" style={{ padding: '2rem', background: '#141414', marginBottom: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-          <Bell size={20} color="var(--accent-primary)" />
-          <h2 className="font-heading" style={{ fontSize: '1.3rem' }}>Automations & Exam Schedule</h2>
+          <Globe size={20} color="var(--accent-primary)" />
+          <h2 className="font-heading" style={{ fontSize: '1.3rem' }}>Preferred Currency</h2>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginBottom: '1.5rem' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', fontSize: '0.9rem' }}>
-            <input type="checkbox" checked={weightLogReminder} onChange={(e) => setWeightLogReminder(e.target.checked)} style={{ accentColor: 'var(--accent-primary)', width: '18px', height: '18px' }} />
-            <span>Enable Weekly Weight-Logging Nudges</span>
-          </label>
+        <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
+          Default currency is set to <strong>INR (₹)</strong> for Indian students. Select a different currency to automatically convert meal prices across all plans.
+        </p>
 
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', fontSize: '0.9rem' }}>
-            <input type="checkbox" checked={mealPrepAlerts} onChange={(e) => setMealPrepAlerts(e.target.checked)} style={{ accentColor: 'var(--accent-primary)', width: '18px', height: '18px' }} />
-            <span>Enable Exam Week Meal-Prep Alerts</span>
-          </label>
+        <div className="form-group" style={{ maxWidth: '320px' }}>
+          <label className="form-label">Select Active Currency</label>
+          <select 
+            value={currency} 
+            onChange={(e) => changeCurrency(e.target.value)}
+            className="form-select"
+          >
+            {Object.keys(CURRENCY_MAP).map(code => (
+              <option key={code} value={code}>
+                {CURRENCY_MAP[code].label}
+              </option>
+            ))}
+          </select>
         </div>
-
-        {/* Exam Dates Scheduler */}
-        <div style={{ paddingTop: '1rem', borderTop: '1px solid var(--border-subtle)' }}>
-          <label className="form-label" style={{ marginBottom: '0.5rem', display: 'block' }}>Upcoming Midterm / Final Exam Dates</label>
-          <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem' }}>
-            <input type="date" className="form-input" value={examDate} onChange={(e) => setExamDate(e.target.value)} />
-            <button type="button" className="btn-secondary" onClick={handleAddExamDate} style={{ padding: '0.6rem 1rem' }}>
-              Add Date
-            </button>
-          </div>
-
-          {examDates.length > 0 && (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-              {examDates.map((d, i) => (
-                <span key={i} className="badge badge-amber" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}>
-                  <Calendar size={12} /> {d}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <button className="btn-primary" onClick={handleSaveReminders} style={{ marginTop: '1.5rem', padding: '0.65rem 1.25rem', fontSize: '0.85rem' }}>
-          Save Automation Settings
-        </button>
       </div>
 
       {/* SECTION 3: PRIVACY, DATA EXPORT & DELETION */}
@@ -242,7 +170,7 @@ export const SettingsPage = ({ setActiveTab }) => {
               <h3 className="font-heading" style={{ fontSize: '1.3rem' }}>Confirm Permanent Deletion</h3>
             </div>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5', marginBottom: '1.5rem' }}>
-              Are you sure you want to delete your WeightBuddy account? This will permanently purge all your weight logs, custom meal plans, and chat history. This action cannot be undone.
+              Are you sure you want to delete your WeightBuddy account? This will permanently purge all your weight logs, custom meal plans, and chat history.
             </p>
             <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
               <button className="btn-secondary" onClick={() => setShowDeleteModal(false)} disabled={loading}>

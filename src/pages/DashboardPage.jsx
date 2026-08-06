@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { formatCurrency } from '../utils/currency';
 import { ChartView } from '../components/ChartView';
 import { MacroChartView } from '../components/MacroChartView';
 import { WeightLogModal } from '../components/WeightLogModal';
 import { MealSwapperModal } from '../components/MealSwapperModal';
 import { 
   Utensils, Activity, Bot, Sparkles, Scale, RefreshCw, ChevronLeft, ChevronRight, 
-  DollarSign, Clock, AlertTriangle, Lightbulb, Bell, Zap, Flame, Dumbbell, Trophy 
+  DollarSign, Clock, AlertTriangle, Lightbulb, Flame, Dumbbell 
 } from 'lucide-react';
 
 export const DashboardPage = ({ setActiveTab }) => {
-  const { user, onboarding } = useAuth();
+  const { user, onboarding, currency } = useAuth();
   const [activeSlide, setActiveSlide] = useState(0);
   const [mealPlan, setMealPlan] = useState(null);
   const [metrics, setMetrics] = useState(null);
@@ -54,12 +55,12 @@ export const DashboardPage = ({ setActiveTab }) => {
   const todayName = new Date().toLocaleDateString('en-US', { weekday: 'long' });
   const todayPlan = mealPlan?.days?.find(d => d.day.toLowerCase() === todayName.toLowerCase()) || mealPlan?.days?.[0];
 
+  // 6 Clean Dashboard Slides (Automations Removed)
   const slides = [
     { id: 'meals', title: "Today's Meal Plan", icon: Utensils },
     { id: 'bmi', title: "BMI Snapshot", icon: Activity },
     { id: 'trend', title: "Weight Trend Chart", icon: Scale },
     { id: 'macros', title: "Nutrition & Macro Distribution", icon: Flame },
-    { id: 'automations', title: "Student Automations", icon: Bell },
     { id: 'aiTip', title: "AI Tip of the Day", icon: Bot },
     { id: 'gymPosters', title: "Gym & Fitness Motivation", icon: Dumbbell }
   ];
@@ -94,7 +95,7 @@ export const DashboardPage = ({ setActiveTab }) => {
         </div>
       </div>
 
-      {/* SWIPEABLE / SLIDE CARDS TAB NAVIGATOR */}
+      {/* SLIDE CARDS TAB NAVIGATOR */}
       <div style={{
         display: 'flex',
         gap: '0.5rem',
@@ -167,6 +168,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                 }}>
                   {['breakfast', 'lunch', 'dinner', 'snack'].map((type) => {
                     const meal = todayPlan.meals[type];
+                    const priceFormatted = formatCurrency(meal.priceInr || 45, currency);
                     return (
                       <div key={type} style={{
                         padding: '1.1rem',
@@ -180,7 +182,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                         <div>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                             <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>{type}</span>
-                            {meal.isBudget && <span className="badge badge-amber" style={{ fontSize: '0.7rem' }}>Budget ({meal.costEst})</span>}
+                            {meal.isBudget && <span className="badge badge-amber" style={{ fontSize: '0.7rem' }}>Budget ({priceFormatted})</span>}
                           </div>
                           <h4 style={{ fontSize: '0.98rem', fontWeight: 700, marginBottom: '0.4rem' }}>{meal.name}</h4>
                           <div style={{ fontSize: '0.85rem', color: 'var(--accent-primary)', fontWeight: 600, marginBottom: '0.6rem' }}>
@@ -315,47 +317,8 @@ export const DashboardPage = ({ setActiveTab }) => {
           </div>
         )}
 
-        {/* SLIDE 5: UNIQUE STUDENT AUTOMATIONS SLIDE */}
+        {/* SLIDE 5: AI NUTRITION TIP OF THE DAY */}
         {activeSlide === 4 && (
-          <div className="animate-fade-in">
-            <div style={{ marginBottom: '1.5rem' }}>
-              <span className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>Smart Automations</span>
-              <h3 className="font-heading" style={{ fontSize: '1.4rem' }}>Campus Life Automated Reminders</h3>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem' }}>
-              <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#fbbf24', fontWeight: 700, marginBottom: '0.4rem' }}>
-                  <Bell size={18} /> Exam Week Prep Nudges
-                </div>
-                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                  Automatically shifts meal suggestions to 5-minute quick oats & protein shakes during your scheduled midterm & final dates.
-                </p>
-              </div>
-
-              <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-primary)', fontWeight: 700, marginBottom: '0.4rem' }}>
-                  <Zap size={18} /> Weekly Auto Summary Report
-                </div>
-                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                  Generates an in-house Sunday digest: <em>"3 logs recorded, BMI trend flat, 85% of budget meals followed."</em>
-                </p>
-              </div>
-
-              <div style={{ padding: '1.25rem', background: 'rgba(255, 255, 255, 0.03)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#34d399', fontWeight: 700, marginBottom: '0.4rem' }}>
-                  <Clock size={18} /> Late Night Study Hydration Alert
-                </div>
-                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                  Prevents late-night craving sugar crashes during late assignments with high-protein water & tea nudges.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* SLIDE 6: AI NUTRITION TIP OF THE DAY */}
-        {activeSlide === 5 && (
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
               <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>Daily Guidance</span>
@@ -383,8 +346,8 @@ export const DashboardPage = ({ setActiveTab }) => {
           </div>
         )}
 
-        {/* SLIDE 7: MOTIVATIONAL GYM POSTERS GALLERY */}
-        {activeSlide === 6 && (
+        {/* SLIDE 6: MOTIVATIONAL GYM POSTERS GALLERY */}
+        {activeSlide === 5 && (
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
               <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>Student Fitness Motivation</span>

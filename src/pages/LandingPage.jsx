@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { calculateBmiFlexible, kgToLbs, lbsToKg } from '../utils/bmiCalculator';
+import { formatCurrency } from '../utils/currency';
 import { ArrowRight, ShieldCheck, Clock, DollarSign, Bot, Activity, Check, Play, X } from 'lucide-react';
 
 export const LandingPage = ({ setActiveTab }) => {
+  const { currency } = useAuth();
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   // Independent demo unit selections
@@ -24,6 +27,9 @@ export const LandingPage = ({ setActiveTab }) => {
     heightInchesVal: heightInches,
     sex: 'other'
   });
+
+  const minPrice = formatCurrency(40, currency);
+  const maxPrice = formatCurrency(120, currency);
 
   return (
     <div className="animate-fade-in" style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem' }}>
@@ -62,7 +68,7 @@ export const LandingPage = ({ setActiveTab }) => {
           margin: '0 auto 2.25rem',
           lineHeight: 1.6
         }}>
-          Built for busy college students juggling classes, exams, and late nights. Get personalized dorm-friendly diet plans (priced in ₹ INR), track your body metrics, and get instant AI guidance.
+          Built for busy college students juggling classes, exams, and late nights. Get personalized dorm-friendly diet plans (priced from {minPrice} to {maxPrice}), track your body metrics, and get instant AI guidance.
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -88,7 +94,7 @@ export const LandingPage = ({ setActiveTab }) => {
             <Check size={16} color="var(--accent-primary)" /> Quick 5-10 Min Grab & Go Meals
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <Check size={16} color="var(--accent-primary)" /> Under ₹40 – ₹120 / Meal Budget Tags
+            <Check size={16} color="var(--accent-primary)" /> Under {minPrice} – {maxPrice} / Meal Budget Tags
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <Check size={16} color="var(--accent-primary)" /> In-House Local AI Companion
@@ -124,9 +130,9 @@ export const LandingPage = ({ setActiveTab }) => {
             <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(245, 158, 11, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fbbf24', marginBottom: '1.25rem' }}>
               <DollarSign size={24} />
             </div>
-            <h3 className="font-heading" style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Student INR Budget Friendly</h3>
+            <h3 className="font-heading" style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Student Budget Friendly</h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: '1.6' }}>
-              No expensive organic meal subscriptions. Every recipe uses accessible, cheap ingredients tagged with cost estimates from ₹40 to ₹120.
+              No expensive organic meal subscriptions. Every recipe uses accessible, cheap ingredients tagged with cost estimates from {minPrice} to {maxPrice}.
             </p>
           </div>
 
