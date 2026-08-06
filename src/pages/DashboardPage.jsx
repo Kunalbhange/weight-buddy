@@ -8,7 +8,7 @@ import { MealSwapperModal } from '../components/MealSwapperModal';
 import { queryAiNutrition } from '../utils/aiEngine';
 import { 
   Utensils, Activity, Bot, Sparkles, Scale, RefreshCw, ChevronLeft, ChevronRight, 
-  DollarSign, Clock, AlertTriangle, Lightbulb, Flame, Dumbbell, Droplets, Plus, Search, Trophy, CheckCircle 
+  DollarSign, Clock, AlertTriangle, Lightbulb, Flame, Dumbbell, Droplets, Plus, Search, Trophy, CheckCircle, Zap, Quote 
 } from 'lucide-react';
 
 export const DashboardPage = ({ setActiveTab }) => {
@@ -19,11 +19,11 @@ export const DashboardPage = ({ setActiveTab }) => {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // New Feature: Water Intake State
+  // Water Intake State
   const [waterMl, setWaterMl] = useState(1250);
   const waterTarget = 2500;
 
-  // New Feature: Quick AI Food Macro Scanner State
+  // Quick AI Food Macro Scanner State
   const [scannerQuery, setScannerQuery] = useState('');
   const [scannerResult, setScannerResult] = useState(null);
   const [scannerLoading, setScannerLoading] = useState(false);
@@ -81,14 +81,41 @@ export const DashboardPage = ({ setActiveTab }) => {
   const todayPlan = mealPlan?.days?.find(d => d.day.toLowerCase() === todayName.toLowerCase()) || mealPlan?.days?.[0];
 
   const slides = [
-    { id: 'meals', title: "Today's Meal Plan", icon: Utensils, activeColor: '#8b5cf6' },
-    { id: 'scanner', title: "Quick AI Food Scanner", icon: Search, activeColor: '#06b6d4' },
-    { id: 'water', title: "Daily Hydration Tracker", icon: Droplets, activeColor: '#38bdf8' },
-    { id: 'bmi', title: "BMI Snapshot", icon: Activity, activeColor: '#06b6d4' },
-    { id: 'trend', title: "Weight Trend Chart", icon: Scale, activeColor: '#6366f1' },
-    { id: 'macros', title: "Macro Distribution", icon: Flame, activeColor: '#a78bfa' },
-    { id: 'aiTip', title: "AI Tip of the Day", icon: Bot, activeColor: '#38bdf8' },
-    { id: 'gymPosters', title: "Gym Motivation Wall", icon: Dumbbell, activeColor: '#64748b' }
+    { id: 'meals', title: "Today's Meal Plan", icon: Utensils, activeColor: '#ffffff' },
+    { id: 'scanner', title: "Quick AI Food Scanner", icon: Search, activeColor: '#ffffff' },
+    { id: 'water', title: "Daily Hydration Tracker", icon: Droplets, activeColor: '#ffffff' },
+    { id: 'bmi', title: "BMI Snapshot", icon: Activity, activeColor: '#ffffff' },
+    { id: 'trend', title: "Weight Trend Chart", icon: Scale, activeColor: '#ffffff' },
+    { id: 'macros', title: "Macro Distribution", icon: Flame, activeColor: '#ffffff' },
+    { id: 'aiTip', title: "AI Tip of the Day", icon: Bot, activeColor: '#ffffff' },
+    { id: 'gymPosters', title: "Gym Motivation Wall", icon: Dumbbell, activeColor: '#d97706' }
+  ];
+
+  const motivationQuotes = [
+    {
+      title: "EXAMS ARE TEMPORARY, GAINS ARE FOREVER",
+      quote: "Don't let midterm stress ruin your nutrition. A 20-minute workout resets your brain for 2 extra hours of focused studying.",
+      tag: "🎓 Campus Life",
+      color: "#ffffff"
+    },
+    {
+      title: "NO DORM KITCHEN? NO PROBLEM!",
+      quote: "You don't need a 5-star kitchen to build a 5-star body. Peanut butter, eggs, oats, and soya chunks get the job done for cheap.",
+      tag: "🔥 Hostel Hacks",
+      color: "#d97706"
+    },
+    {
+      title: "CONSISTENCY BEATS INTENSITY",
+      quote: "Showing up for a 15-minute dorm push-up routine beats waiting for the 'perfect 2-hour gym session' that never happens.",
+      tag: "⚡ Habit Building",
+      color: "#ffffff"
+    },
+    {
+      title: "SMALL STEPS, BIG GAINS",
+      quote: "Taking the stairs instead of the hostel elevator adds 1,500 extra steps daily. Effortless fat loss happens in daily choices.",
+      tag: "💡 Student Routine",
+      color: "#d97706"
+    }
   ];
 
   return (
@@ -104,11 +131,11 @@ export const DashboardPage = ({ setActiveTab }) => {
       }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.3rem' }}>
-            <span className="badge badge-purple">
-              <Trophy size={14} color="#a78bfa" /> 🔥 5-Day Workout Streak Active
+            <span className="badge badge-amber">
+              <Trophy size={14} color="#d97706" /> 🔥 5-Day Workout Streak Active
             </span>
-            <span className="badge badge-cyan">
-              <CheckCircle size={14} color="#22d3ee" /> 100% Student Verified
+            <span className="badge badge-zinc">
+              <CheckCircle size={14} color="#ffffff" /> 100% Student Verified
             </span>
           </div>
           <h1 className="font-heading" style={{ fontSize: '2.1rem', fontWeight: 900, color: '#ffffff' }}>
@@ -149,17 +176,16 @@ export const DashboardPage = ({ setActiveTab }) => {
                 borderRadius: 'var(--radius-full)',
                 fontSize: '0.88rem',
                 fontWeight: 800,
-                color: '#ffffff',
-                background: isActive ? slide.activeColor : 'rgba(255, 255, 255, 0.08)',
+                color: isActive ? '#050507' : '#ffffff',
+                background: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.08)',
                 border: isActive ? 'none' : '1px solid var(--border-subtle)',
-                opacity: isActive ? 1 : 0.75,
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
                 transition: 'all 0.2s ease',
-                boxShadow: isActive ? `0 4px 16px ${slide.activeColor}60` : 'none'
+                boxShadow: isActive ? `0 4px 16px rgba(255,255,255,0.3)` : 'none'
               }}
             >
-              <Icon size={16} color="#ffffff" />
+              <Icon size={16} color={isActive ? '#050507' : '#ffffff'} />
               {slide.title}
             </button>
           );
@@ -169,7 +195,7 @@ export const DashboardPage = ({ setActiveTab }) => {
       {/* SLIDE DISPLAY CONTAINER */}
       <div className="glass-card" style={{
         padding: '2rem',
-        background: '#12131a',
+        background: '#14141a',
         border: '1.5px solid var(--border-medium)',
         minHeight: '440px',
         position: 'relative'
@@ -180,12 +206,12 @@ export const DashboardPage = ({ setActiveTab }) => {
           <div className="animate-fade-in">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <div>
-                <span className="badge badge-purple" style={{ marginBottom: '0.3rem' }}>{todayName}'s Menu</span>
+                <span className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>{todayName}'s Menu</span>
                 <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>Today's Balanced Meal Plan</h3>
               </div>
               <button 
                 onClick={() => setActiveTab('diet')}
-                style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '0.9rem', fontWeight: 800, cursor: 'pointer' }}
+                style={{ background: 'none', border: 'none', color: '#d97706', fontSize: '0.9rem', fontWeight: 800, cursor: 'pointer' }}
               >
                 View Full Week →
               </button>
@@ -215,10 +241,10 @@ export const DashboardPage = ({ setActiveTab }) => {
                         <div>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
                             <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>{type}</span>
-                            {meal.isBudget && <span className="badge badge-purple" style={{ fontSize: '0.7rem' }}>Budget ({priceFormatted})</span>}
+                            {meal.isBudget && <span className="badge badge-amber" style={{ fontSize: '0.7rem' }}>Budget ({priceFormatted})</span>}
                           </div>
                           <h4 style={{ fontSize: '0.98rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.4rem' }}>{meal.name}</h4>
-                          <div style={{ fontSize: '0.85rem', color: '#a78bfa', fontWeight: 800, marginBottom: '0.6rem' }}>
+                          <div style={{ fontSize: '0.85rem', color: '#d97706', fontWeight: 800, marginBottom: '0.6rem' }}>
                             {meal.calories} kcal • {meal.protein}g protein
                           </div>
                         </div>
@@ -250,9 +276,9 @@ export const DashboardPage = ({ setActiveTab }) => {
 
                 <div style={{
                   padding: '1rem',
-                  background: 'rgba(139, 92, 246, 0.12)',
+                  background: 'rgba(255, 255, 255, 0.06)',
                   borderRadius: 'var(--radius-sm)',
-                  border: '1px solid rgba(139, 92, 246, 0.35)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
                   display: 'flex',
                   justify: 'space-around',
                   flexWrap: 'wrap',
@@ -261,21 +287,21 @@ export const DashboardPage = ({ setActiveTab }) => {
                   color: '#ffffff',
                   textAlign: 'center'
                 }}>
-                  <div>Target Calories: <strong style={{ color: '#a78bfa' }}>{mealPlan.dailyCalorieTarget} kcal</strong></div>
-                  <div>Protein Target: <strong style={{ color: '#a78bfa' }}>{mealPlan.macroSplit.protein}g</strong></div>
-                  <div>Carbs Target: <strong style={{ color: '#a78bfa' }}>{mealPlan.macroSplit.carbs}g</strong></div>
-                  <div>Fat Target: <strong style={{ color: '#a78bfa' }}>{mealPlan.macroSplit.fat}g</strong></div>
+                  <div>Target Calories: <strong style={{ color: '#d97706' }}>{mealPlan.dailyCalorieTarget} kcal</strong></div>
+                  <div>Protein Target: <strong style={{ color: '#d97706' }}>{mealPlan.macroSplit.protein}g</strong></div>
+                  <div>Carbs Target: <strong style={{ color: '#d97706' }}>{mealPlan.macroSplit.carbs}g</strong></div>
+                  <div>Fat Target: <strong style={{ color: '#d97706' }}>{mealPlan.macroSplit.fat}g</strong></div>
                 </div>
               </div>
             ) : <p style={{ color: '#ffffff' }}>Loading meal plan...</p>}
           </div>
         )}
 
-        {/* NEW SLIDE 2: INSTANT AI FOOD MACRO SCANNER */}
+        {/* SLIDE 2: INSTANT AI FOOD MACRO SCANNER */}
         {activeSlide === 1 && (
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
-              <span className="badge badge-cyan" style={{ marginBottom: '0.3rem' }}>
+              <span className="badge badge-zinc" style={{ marginBottom: '0.3rem' }}>
                 <Search size={12} /> Instant Macro Lookup
               </span>
               <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>Quick AI Food & Dish Scanner</h3>
@@ -299,25 +325,25 @@ export const DashboardPage = ({ setActiveTab }) => {
             </form>
 
             {scannerResult && (
-              <div className="glass-card animate-fade-in" style={{ padding: '1.5rem', background: 'rgba(6, 182, 212, 0.1)', border: '1px solid rgba(6, 182, 212, 0.35)' }}>
+              <div className="glass-card animate-fade-in" style={{ padding: '1.5rem', background: '#050507', border: '1px solid var(--border-medium)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem' }}>
                   <h4 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#ffffff' }}>{scannerResult.name}</h4>
-                  <span className="badge badge-cyan">Estimated Nutrition</span>
+                  <span className="badge badge-amber">Estimated Nutrition</span>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.75rem', marginBottom: '1rem' }}>
-                  <div style={{ padding: '0.75rem', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-sm)', textCenter: 'center' }}>
+                  <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-sm)', textCenter: 'center' }}>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Calories</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#22d3ee' }}>{scannerResult.calories} kcal</div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff' }}>{scannerResult.calories} kcal</div>
                   </div>
-                  <div style={{ padding: '0.75rem', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-sm)', textCenter: 'center' }}>
+                  <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-sm)', textCenter: 'center' }}>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Protein</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#a78bfa' }}>{scannerResult.protein}g</div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#d97706' }}>{scannerResult.protein}g</div>
                   </div>
-                  <div style={{ padding: '0.75rem', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-sm)', textCenter: 'center' }}>
+                  <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-sm)', textCenter: 'center' }}>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Carbs</div>
                     <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff' }}>{scannerResult.carbs}g</div>
                   </div>
-                  <div style={{ padding: '0.75rem', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-sm)', textCenter: 'center' }}>
+                  <div style={{ padding: '0.75rem', background: 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-sm)', textCenter: 'center' }}>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Fats</div>
                     <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#94a3b8' }}>{scannerResult.fat}g</div>
                   </div>
@@ -330,11 +356,11 @@ export const DashboardPage = ({ setActiveTab }) => {
           </div>
         )}
 
-        {/* NEW SLIDE 3: DAILY HYDRATION TRACKER */}
+        {/* SLIDE 3: DAILY HYDRATION TRACKER */}
         {activeSlide === 2 && (
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
-              <span className="badge badge-cyan" style={{ marginBottom: '0.3rem' }}>
+              <span className="badge badge-zinc" style={{ marginBottom: '0.3rem' }}>
                 <Droplets size={12} /> Campus Hydration Tracker
               </span>
               <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>Daily Water Intake Meter</h3>
@@ -342,9 +368,9 @@ export const DashboardPage = ({ setActiveTab }) => {
 
             <div style={{
               padding: '2rem',
-              background: 'rgba(56, 189, 248, 0.1)',
+              background: '#050507',
               borderRadius: 'var(--radius-md)',
-              border: '1px solid rgba(56, 189, 248, 0.3)',
+              border: '1.5px solid var(--border-medium)',
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
               gap: '1.5rem',
@@ -352,8 +378,8 @@ export const DashboardPage = ({ setActiveTab }) => {
             }}>
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>LOGGED HYDRATION TODAY</div>
-                <div className="font-heading" style={{ fontSize: '3.6rem', fontWeight: 900, color: '#38bdf8', margin: '0.2rem 0' }}>
-                  {waterMl} <span style={{ fontSize: '1.5rem', color: '#ffffff' }}>ml</span>
+                <div className="font-heading" style={{ fontSize: '3.6rem', fontWeight: 900, color: '#ffffff', margin: '0.2rem 0' }}>
+                  {waterMl} <span style={{ fontSize: '1.5rem', color: '#d97706' }}>ml</span>
                 </div>
                 <div style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>Target: {waterTarget} ml daily</div>
               </div>
@@ -364,8 +390,8 @@ export const DashboardPage = ({ setActiveTab }) => {
                     <span>Progress Goal ({Math.round((waterMl / waterTarget) * 100)}%)</span>
                     <span>{waterMl} / {waterTarget} ml</span>
                   </div>
-                  <div style={{ height: '12px', borderRadius: '6px', background: '#0d0e14', overflow: 'hidden' }}>
-                    <div style={{ width: `${Math.min(100, Math.round((waterMl / waterTarget) * 100))}%`, height: '100%', background: '#38bdf8', transition: 'width 0.3s ease' }} />
+                  <div style={{ height: '12px', borderRadius: '6px', background: '#1c1c24', overflow: 'hidden' }}>
+                    <div style={{ width: `${Math.min(100, Math.round((waterMl / waterTarget) * 100))}%`, height: '100%', background: '#ffffff', transition: 'width 0.3s ease' }} />
                   </div>
                 </div>
 
@@ -386,7 +412,7 @@ export const DashboardPage = ({ setActiveTab }) => {
         {activeSlide === 3 && (
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
-              <span className="badge badge-cyan" style={{ marginBottom: '0.3rem' }}>Metrics Overview</span>
+              <span className="badge badge-zinc" style={{ marginBottom: '0.3rem' }}>Metrics Overview</span>
               <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>BMI & Body Composition Snapshot</h3>
             </div>
 
@@ -402,7 +428,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                 <div className="font-heading" style={{ fontSize: '3.8rem', fontWeight: 900, color: '#ffffff', margin: '0.2rem 0' }}>
                   {metrics?.bmi || '21.5'}
                 </div>
-                <div className="badge badge-cyan" style={{ fontSize: '0.85rem', padding: '0.4rem 1rem' }}>
+                <div className="badge badge-amber" style={{ fontSize: '0.85rem', padding: '0.4rem 1rem' }}>
                   {metrics?.category || 'Normal Weight'}
                 </div>
                 <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginTop: '1rem', lineHeight: '1.5' }}>
@@ -434,7 +460,7 @@ export const DashboardPage = ({ setActiveTab }) => {
           <div className="animate-fade-in">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <div>
-                <span className="badge badge-purple" style={{ marginBottom: '0.3rem' }}>Progress History</span>
+                <span className="badge badge-zinc" style={{ marginBottom: '0.3rem' }}>Progress History</span>
                 <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>Weight & BMI Trajectory</h3>
               </div>
               <button className="btn-secondary" onClick={() => setIsLogModalOpen(true)} style={{ padding: '0.4rem 0.9rem', fontSize: '0.85rem' }}>
@@ -450,7 +476,7 @@ export const DashboardPage = ({ setActiveTab }) => {
         {activeSlide === 5 && (
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
-              <span className="badge badge-purple" style={{ marginBottom: '0.3rem' }}>Macro Breakdown</span>
+              <span className="badge badge-zinc" style={{ marginBottom: '0.3rem' }}>Macro Breakdown</span>
               <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>Nutrition & Energy Ratio Chart</h3>
             </div>
 
@@ -467,19 +493,19 @@ export const DashboardPage = ({ setActiveTab }) => {
         {activeSlide === 6 && (
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
-              <span className="badge badge-cyan" style={{ marginBottom: '0.3rem' }}>Daily Guidance</span>
+              <span className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>Daily Guidance</span>
               <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>In-House AI Nutrition Tip</h3>
             </div>
 
             <div style={{
               padding: '2rem',
-              background: 'rgba(6, 182, 212, 0.12)',
+              background: '#050507',
               borderRadius: 'var(--radius-md)',
-              border: '1px solid rgba(6, 182, 212, 0.35)'
+              border: '1.5px solid var(--border-medium)'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#22d3ee', marginBottom: '0.75rem' }}>
-                <Lightbulb size={24} color="#22d3ee" />
-                <span style={{ fontWeight: 800, fontSize: '1.1rem' }}>Smart Student Tip for Midterm Week</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#d97706', marginBottom: '0.75rem' }}>
+                <Lightbulb size={24} color="#d97706" />
+                <span style={{ fontWeight: 800, fontSize: '1.1rem', color: '#ffffff' }}>Smart Student Tip for Midterm Week</span>
               </div>
               <p style={{ fontSize: '1rem', color: '#ffffff', lineHeight: '1.6', marginBottom: '1.5rem' }}>
                 "When studying late, pair fast carbs (apples or toast) with healthy fats or protein (peanut butter, eggs, Greek yogurt). This keeps your blood sugar steady so you don't crash halfway through your assignments!"
@@ -492,20 +518,21 @@ export const DashboardPage = ({ setActiveTab }) => {
           </div>
         )}
 
-        {/* SLIDE 8: MOTIVATIONAL GYM POSTERS GALLERY */}
+        {/* SLIDE 8: EXPANDED MOTIVATIONAL GYM & ATHLETICS WALL */}
         {activeSlide === 7 && (
           <div className="animate-fade-in">
             <div style={{ marginBottom: '1.5rem' }}>
-              <span className="badge badge-zinc" style={{ marginBottom: '0.3rem' }}>Student Fitness Motivation</span>
-              <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>Gym & Athletics Motivation Wall</h3>
+              <span className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>Student Fitness Motivation</span>
+              <h3 className="font-heading" style={{ fontSize: '1.4rem', color: '#ffffff' }}>Campus Athletics & Fitness Motivation Wall</h3>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
-              <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-medium)' }}>
+            {/* Poster Gallery */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '1.75rem' }}>
+              <div className="glass-card" style={{ overflow: 'hidden', border: '1.5px solid var(--border-medium)' }}>
                 <img 
                   src="/images/poster1.jpg" 
                   alt="Discipline Over Excuses" 
-                  style={{ width: '100%', height: '240px', objectFit: 'cover' }} 
+                  style={{ width: '100%', height: '220px', objectFit: 'cover' }} 
                 />
                 <div style={{ padding: '1rem', textAlign: 'center' }}>
                   <h4 style={{ fontWeight: 800, fontSize: '1.1rem', color: '#ffffff' }}>DISCIPLINE OVER EXCUSES</h4>
@@ -513,17 +540,31 @@ export const DashboardPage = ({ setActiveTab }) => {
                 </div>
               </div>
 
-              <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-medium)' }}>
+              <div className="glass-card" style={{ overflow: 'hidden', border: '1.5px solid var(--border-medium)' }}>
                 <img 
                   src="/images/poster2.jpg" 
                   alt="Fuel Your Ambition" 
-                  style={{ width: '100%', height: '240px', objectFit: 'cover' }} 
+                  style={{ width: '100%', height: '220px', objectFit: 'cover' }} 
                 />
                 <div style={{ padding: '1rem', textAlign: 'center' }}>
-                  <h4 style={{ fontWeight: 800, fontSize: '1.1rem', color: '#a78bfa' }}>FUEL YOUR AMBITION</h4>
+                  <h4 style={{ fontWeight: 800, fontSize: '1.1rem', color: '#d97706' }}>FUEL YOUR AMBITION</h4>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Proper student nutrition fuels academic & physical gains.</p>
                 </div>
               </div>
+            </div>
+
+            {/* NEW: Expanded Retro Motivational Quote Cards Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
+              {motivationQuotes.map((mq, idx) => (
+                <div key={idx} className="glass-card glass-card-interactive" style={{ padding: '1.25rem', background: '#050507', border: '1.5px solid var(--border-subtle)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                    <span className="badge badge-zinc" style={{ fontSize: '0.68rem' }}>{mq.tag}</span>
+                    <Quote size={14} color="#d97706" />
+                  </div>
+                  <h4 style={{ fontSize: '0.98rem', fontWeight: 800, color: mq.color, marginBottom: '0.4rem' }}>{mq.title}</h4>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>"{mq.quote}"</p>
+                </div>
+              ))}
             </div>
           </div>
         )}
@@ -553,7 +594,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                   width: activeSlide === idx ? '20px' : '8px',
                   height: '8px',
                   borderRadius: '4px',
-                  background: activeSlide === idx ? s.activeColor : 'rgba(255, 255, 255, 0.2)',
+                  background: activeSlide === idx ? '#ffffff' : 'rgba(255, 255, 255, 0.2)',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease'
                 }} 
