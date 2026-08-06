@@ -28,21 +28,15 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       <div style={{
         maxWidth: '1280px',
         margin: '0 auto',
-        padding: '0.85rem 1.75rem',
+        padding: '0.75rem 1.75rem',
         display: 'flex',
         alignItems: 'center',
         justify: 'space-between'
       }}>
-        {/* Adjusted Logo Positioned Slightly Lower (Niche) for Perfect Vertical Symmetry */}
+        {/* Restored Exact Previous Brand Logo */}
         <div 
           onClick={() => setActiveTab(user ? 'dashboard' : 'landing')} 
-          style={{ 
-            cursor: 'pointer', 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '0.65rem',
-            marginTop: '3px' /* Shifted down slightly */
-          }}
+          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.65rem' }}
         >
           <div style={{
             width: '32px',
@@ -74,7 +68,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
               letterSpacing: '0.05em',
               fontWeight: 700,
               textTransform: 'uppercase',
-              marginTop: '0.15rem'
+              marginTop: '0.1rem'
             }}>
               <Sparkles size={9} color="#d97706" /> Student Fitness Engine
             </span>
