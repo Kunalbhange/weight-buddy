@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { CURRENCY_MAP } from '../utils/currency';
-import { LayoutDashboard, Utensils, Activity, Bot, Settings, LogOut, Menu, X, Globe, Dumbbell } from 'lucide-react';
+import { LayoutDashboard, Utensils, Activity, Bot, Settings, LogOut, Menu, X, Globe, Dumbbell, Sparkles } from 'lucide-react';
 
 export const Navbar = ({ activeTab, setActiveTab }) => {
   const { user, logout, currency, changeCurrency } = useAuth();
@@ -21,7 +21,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      background: 'rgba(12, 13, 16, 0.95)',
+      background: 'rgba(9, 9, 13, 0.92)',
       backdropFilter: 'blur(16px)',
       borderBottom: '1px solid var(--border-subtle)'
     }}>
@@ -31,41 +31,44 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
         padding: '0.85rem 1.75rem',
         display: 'flex',
         alignItems: 'center',
-        justify: 'space-between'
+        justifyContent: 'space-between'
       }}>
-        {/* Classy Gold & Platinum Brand Logo */}
+        {/* Cool Gen Z Electric Violet & Cyan Brand Logo */}
         <div 
           onClick={() => setActiveTab(user ? 'dashboard' : 'landing')} 
           style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
         >
           <div style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '8px',
-            background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+            width: '38px',
+            height: '38px',
+            borderRadius: '12px',
+            background: 'linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontWeight: 800,
+            fontWeight: 900,
             color: '#ffffff',
-            fontSize: '1.25rem',
-            fontFamily: 'var(--font-heading)'
+            fontSize: '1.3rem',
+            fontFamily: 'var(--font-heading)',
+            boxShadow: '0 4px 18px rgba(139, 92, 246, 0.4)'
           }}>
             W
           </div>
           <div>
-            <div className="font-heading" style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
-              Weight<span style={{ color: '#fbbf24' }}>Buddy</span>
+            <div className="font-heading" style={{ fontSize: '1.35rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.02em' }}>
+              Weight<span style={{ background: 'linear-gradient(135deg, #a78bfa, #22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Buddy</span>
             </div>
             <span style={{
-              display: 'block',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.25rem',
               fontSize: '0.65rem',
-              color: 'var(--text-muted)',
+              color: '#a78bfa',
               letterSpacing: '0.04em',
-              fontWeight: 600,
+              fontWeight: 700,
               textTransform: 'uppercase'
             }}>
-              Student Nutrition Platform
+              <Sparkles size={10} color="#a78bfa" /> Student Fitness Engine
             </span>
           </div>
         </div>
@@ -79,10 +82,10 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
             gap: '0.4rem',
             background: 'rgba(255,255,255,0.08)',
             padding: '0.4rem 0.8rem',
-            borderRadius: 'var(--radius-sm)',
+            borderRadius: 'var(--radius-full)',
             border: '1px solid var(--border-medium)'
           }}>
-            <Globe size={15} color="#fbbf24" />
+            <Globe size={15} color="#a78bfa" />
             <select
               value={currency}
               onChange={(e) => changeCurrency(e.target.value)}
@@ -97,7 +100,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
               }}
             >
               {Object.keys(CURRENCY_MAP).map(code => (
-                <option key={code} value={code} style={{ background: '#14161d', color: '#fff' }}>
+                <option key={code} value={code} style={{ background: '#12131a', color: '#fff' }}>
                   {CURRENCY_MAP[code].label}
                 </option>
               ))}
@@ -117,16 +120,17 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.45rem',
-                      padding: '0.5rem 0.9rem',
-                      borderRadius: 'var(--radius-sm)',
+                      padding: '0.5rem 0.95rem',
+                      borderRadius: 'var(--radius-full)',
                       fontSize: '0.88rem',
-                      fontWeight: 700,
+                      fontWeight: 800,
                       color: '#ffffff',
-                      background: isActive ? '#d97706' : 'transparent',
+                      background: isActive ? 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)' : 'transparent',
                       border: isActive ? 'none' : '1px solid transparent',
                       opacity: isActive ? 1 : 0.75,
                       cursor: 'pointer',
-                      transition: 'var(--transition-normal)'
+                      transition: 'var(--transition-normal)',
+                      boxShadow: isActive ? '0 4px 15px rgba(139, 92, 246, 0.45)' : 'none'
                     }}
                   >
                     <Icon size={16} color="#ffffff" />
@@ -140,7 +144,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                 style={{
                   background: 'rgba(255,255,255,0.08)',
                   border: '1px solid var(--border-medium)',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 'var(--radius-full)',
                   color: '#ffffff',
                   cursor: 'pointer',
                   padding: '0.5rem 0.65rem',
@@ -186,7 +190,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       {user && mobileMenuOpen && (
         <div style={{
           padding: '1rem',
-          background: '#14161d',
+          background: '#12131a',
           borderBottom: '1px solid var(--border-subtle)',
           display: 'flex',
           flexDirection: 'column',
@@ -203,11 +207,11 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
                   alignItems: 'center',
                   gap: '0.65rem',
                   padding: '0.8rem 1rem',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 'var(--radius-md)',
                   fontSize: '0.9rem',
-                  fontWeight: 700,
+                  fontWeight: 800,
                   color: '#ffffff',
-                  background: activeTab === item.id ? '#d97706' : 'transparent',
+                  background: activeTab === item.id ? '#8b5cf6' : 'transparent',
                   border: 'none',
                   width: '100%',
                   textAlign: 'left'
@@ -228,9 +232,9 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
               color: '#ffffff',
               background: 'rgba(239, 68, 68, 0.25)',
               border: 'none',
-              borderRadius: 'var(--radius-sm)',
+              borderRadius: 'var(--radius-md)',
               marginTop: '0.5rem',
-              fontWeight: 700
+              fontWeight: 800
             }}
           >
             <LogOut size={18} color="#ffffff" />
