@@ -5,7 +5,11 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DB_FILE = path.join(__dirname, 'data', 'weightbuddy_db.json');
+// Fallback to /tmp on Vercel Serverless environment
+const DB_FILE = process.env.VERCEL 
+  ? path.join('/tmp', 'weightbuddy_db.json')
+  : path.join(__dirname, 'data', 'weightbuddy_db.json');
+
 const MEALS_FILE = path.join(__dirname, 'data', 'studentMeals.json');
 
 // Default Database Structure
@@ -98,7 +102,7 @@ class JSONDatabase {
     this.data.weightLogs = this.data.weightLogs.filter(w => w.userId !== userId);
     delete this.data.mealPlans[userId];
     this.data.verificationTokens = this.data.verificationTokens.filter(t => t.userId !== userId);
-    this.data.resetTokens = this.data.resetTokens.filter(t => t.userId !== userId);
+    delete this.data.resetTokens = this.data.resetTokens.filter(t => t.userId !== userId);
     delete this.data.chatHistory[userId];
     delete this.data.reminders[userId];
     this.saveData();
