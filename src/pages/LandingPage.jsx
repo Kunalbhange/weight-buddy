@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
+import { calculateBmiDetails, kgToLbs, lbsToKg, cmToInches, inchesToCm } from '../utils/bmiCalculator';
 import { ArrowRight, ShieldCheck, Zap, DollarSign, Clock, Bot, Activity, Check } from 'lucide-react';
 
 export const LandingPage = ({ setActiveTab }) => {
-  // Interactive mini BMI preview tool for landing page visitors
-  const [calcHeight, setCalcHeight] = useState(175);
-  const [calcWeight, setCalcWeight] = useState(70);
+  // Unit System State: 'metric' | 'imperial'
+  const [unitSystem, setUnitSystem] = useState('metric');
+  
+  // Interactive mini BMI preview state
+  const [heightCm, setHeightCm] = useState(175);
+  const [weightKg, setWeightKg] = useState(70);
 
-  const heightM = calcHeight / 100;
-  const bmi = parseFloat((calcWeight / (heightM * heightM)).toFixed(1));
-  let category = 'Normal Weight';
-  let categoryBadgeClass = 'badge-emerald';
+  // Imperial slider display values
+  const heightInches = cmToInches(heightCm);
+  const weightLbs = kgToLbs(weightKg);
 
-  if (bmi < 18.5) { category = 'Underweight'; categoryBadgeClass = 'badge-amber'; }
-  else if (bmi >= 25 && bmi < 30) { category = 'Overweight'; categoryBadgeClass = 'badge-amber'; }
-  else if (bmi >= 30) { category = 'Obese'; categoryBadgeClass = 'badge-zinc'; }
+  const metrics = calculateBmiDetails(
+    unitSystem === 'metric' ? weightKg : weightLbs,
+    unitSystem === 'metric' ? heightCm : heightInches,
+    unitSystem,
+    'other'
+  );
 
   return (
     <div className="animate-fade-in" style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem' }}>
@@ -46,7 +52,7 @@ export const LandingPage = ({ setActiveTab }) => {
         </h1>
 
         <p style={{
-          fontSize: '1.15rem',
+          fontSize: '1.1rem',
           color: 'var(--text-secondary)',
           maxWidth: '680px',
           margin: '0 auto 2rem',
@@ -72,7 +78,7 @@ export const LandingPage = ({ setActiveTab }) => {
           marginTop: '3rem',
           flexWrap: 'wrap',
           color: 'var(--text-muted)',
-          fontSize: '0.85rem'
+          fontSize: '0.9rem'
         }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <Check size={16} color="var(--accent-primary)" /> Quick 5-10 Min Grab & Go Meals
@@ -86,20 +92,39 @@ export const LandingPage = ({ setActiveTab }) => {
         </div>
       </section>
 
-      {/* INTERACTIVE BMI PREVIEW WIDGET */}
+      {/* INTERACTIVE BMI PREVIEW WIDGET WITH DUAL UNITS */}
       <section style={{ marginTop: '2rem', marginBottom: '5rem' }}>
         <div className="glass-card" style={{
-          maxWidth: '800px',
+          maxWidth: '840px',
           margin: '0 auto',
           padding: '2.5rem',
           background: 'linear-gradient(180deg, rgba(24, 24, 27, 0.8) 0%, rgba(10, 10, 10, 0.95) 100%)',
           border: '1px solid var(--border-medium)',
           boxShadow: 'var(--shadow-card)'
         }}>
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <div className="badge badge-zinc" style={{ marginBottom: '0.5rem' }}>Interactive Demo</div>
-            <h2 className="font-heading" style={{ fontSize: '1.8rem', fontWeight: 700 }}>Try The Instant BMI Calculator</h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>See how WeightBuddy instantly calculates your standard body mass index baseline.</p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
+            <div>
+              <div className="badge badge-zinc" style={{ marginBottom: '0.4rem' }}>Interactive Demo</div>
+              <h2 className="font-heading" style={{ fontSize: '1.8rem', fontWeight: 700 }}>Instant BMI Calculator</h2>
+            </div>
+
+            {/* Unit Toggle Pill */}
+            <div className="unit-toggle-group">
+              <button
+                type="button"
+                className={`unit-toggle-btn ${unitSystem === 'metric' ? 'active' : ''}`}
+                onClick={() => setUnitSystem('metric')}
+              >
+                Metric (kg / cm)
+              </button>
+              <button
+                type="button"
+                className={`unit-toggle-btn ${unitSystem === 'imperial' ? 'active' : ''}`}
+                onClick={() => setUnitSystem('imperial')}
+              >
+                Imperial (lbs / inches)
+              </button>
+            </div>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', alignItems: 'center' }}>
@@ -107,14 +132,16 @@ export const LandingPage = ({ setActiveTab }) => {
               <div className="form-group">
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
                   <label className="form-label">Height</label>
-                  <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{calcHeight} cm</span>
+                  <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>
+                    {unitSystem === 'metric' ? `${heightCm} cm` : `${heightInches} inches (${Math.floor(heightInches/12)}'${Math.round(heightInches%12)}")`}
+                  </span>
                 </div>
                 <input 
                   type="range" 
                   min="130" 
                   max="220" 
-                  value={calcHeight} 
-                  onChange={(e) => setCalcHeight(Number(e.target.value))}
+                  value={heightCm} 
+                  onChange={(e) => setHeightCm(Number(e.target.value))}
                   style={{ width: '100%', accentColor: 'var(--accent-primary)', cursor: 'pointer' }}
                 />
               </div>
@@ -122,14 +149,16 @@ export const LandingPage = ({ setActiveTab }) => {
               <div className="form-group" style={{ marginTop: '1.5rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
                   <label className="form-label">Weight</label>
-                  <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{calcWeight} kg</span>
+                  <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>
+                    {unitSystem === 'metric' ? `${weightKg} kg` : `${weightLbs} lbs`}
+                  </span>
                 </div>
                 <input 
                   type="range" 
                   min="40" 
                   max="160" 
-                  value={calcWeight} 
-                  onChange={(e) => setCalcWeight(Number(e.target.value))}
+                  value={weightKg} 
+                  onChange={(e) => setWeightKg(Number(e.target.value))}
                   style={{ width: '100%', accentColor: 'var(--accent-primary)', cursor: 'pointer' }}
                 />
               </div>
@@ -144,12 +173,18 @@ export const LandingPage = ({ setActiveTab }) => {
             }}>
               <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Calculated BMI</div>
               <div className="font-heading" style={{ fontSize: '3.5rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
-                {bmi}
+                {metrics.bmi}
               </div>
-              <div className={`badge ${categoryBadgeClass}`} style={{ fontSize: '0.85rem', padding: '0.4rem 1rem' }}>
-                {category}
+              <div className={`badge ${metrics.badgeClass}`} style={{ fontSize: '0.85rem', padding: '0.4rem 1rem' }}>
+                {metrics.category}
               </div>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '1rem', lineHeight: '1.4' }}>
+
+              {/* Both Units Display */}
+              <div style={{ marginTop: '1rem', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+                <span>Equivalent: <strong>{metrics.weightKg} kg</strong> / <strong>{metrics.weightLbs} lbs</strong></span>
+              </div>
+
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.75rem', lineHeight: '1.4' }}>
                 *Note: BMI is a standard baseline guide, not clinical medical advice.
               </p>
             </div>
@@ -207,7 +242,7 @@ export const LandingPage = ({ setActiveTab }) => {
             </div>
             <h3 className="font-heading" style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Milestone & Trend Tracking</h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
-              Log weight on your own cadence. View smooth SVG trendlines, waist-to-height ratios, and clear milestone markers celebrating your progress.
+              Log weight in kg or lbs. View smooth SVG trendlines, waist-to-height ratios, and clear milestone markers celebrating your progress.
             </p>
           </div>
         </div>

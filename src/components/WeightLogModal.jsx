@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { X, Scale, CheckCircle } from 'lucide-react';
 
 export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
-  const [weightKg, setWeightKg] = useState('');
-  const [waistCm, setWaistCm] = useState('');
+  const [unitSystem, setUnitSystem] = useState('metric'); // 'metric' (kg/cm) | 'imperial' (lbs/inches)
+  const [weightVal, setWeightVal] = useState('');
+  const [waistVal, setWaistVal] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -22,7 +23,7 @@ export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ weightKg, waistCm, date })
+        body: JSON.stringify({ weightVal, waistVal, unitSystem, date })
       });
       const data = await res.json();
 
@@ -30,8 +31,8 @@ export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
 
       onLogSuccess(data);
       onClose();
-      setWeightKg('');
-      setWaistCm('');
+      setWeightVal('');
+      setWaistVal('');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -55,7 +56,7 @@ export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
       padding: '1rem'
     }}>
       <div className="glass-card animate-fade-in" style={{
-        maxWidth: '440px',
+        maxWidth: '460px',
         width: '100%',
         padding: '1.75rem',
         background: '#141414',
@@ -74,12 +75,33 @@ export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
           <X size={20} />
         </button>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-          <Scale size={22} color="var(--accent-primary)" />
-          <h3 className="font-heading" style={{ fontSize: '1.3rem' }}>Log Weight Entry</h3>
+        <div style={{ display: 'flex', alignItems: 'center', justify: 'space-between', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Scale size={22} color="var(--accent-primary)" />
+            <h3 className="font-heading" style={{ fontSize: '1.3rem' }}>Log Weight Entry</h3>
+          </div>
+
+          {/* Unit Toggle Pill */}
+          <div className="unit-toggle-group">
+            <button
+              type="button"
+              className={`unit-toggle-btn ${unitSystem === 'metric' ? 'active' : ''}`}
+              onClick={() => setUnitSystem('metric')}
+            >
+              Metric (kg/cm)
+            </button>
+            <button
+              type="button"
+              className={`unit-toggle-btn ${unitSystem === 'imperial' ? 'active' : ''}`}
+              onClick={() => setUnitSystem('imperial')}
+            >
+              Imperial (lbs/in)
+            </button>
+          </div>
         </div>
-        <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
-          Track your weight and waist measurements over time. BMI will be computed automatically.
+
+        <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
+          Track your weight in {unitSystem === 'metric' ? 'Kilograms (kg)' : 'Pounds (lbs)'}. BMI is computed automatically.
         </p>
 
         {error && (
@@ -90,29 +112,33 @@ export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Weight (kg) *</label>
+            <label className="form-label">
+              Weight ({unitSystem === 'metric' ? 'kg' : 'lbs'}) *
+            </label>
             <input 
               type="number" 
               step="0.1" 
-              placeholder="e.g. 68.5"
+              placeholder={unitSystem === 'metric' ? 'e.g. 68.5' : 'e.g. 151.0'}
               className="form-input"
-              value={weightKg}
-              onChange={(e) => setWeightKg(e.target.value)}
+              value={weightVal}
+              onChange={(e) => setWeightVal(e.target.value)}
               required
             />
           </div>
 
           <div className="form-group">
-            <label className="form-label">Waist Measurement (cm) [Optional]</label>
+            <label className="form-label">
+              Waist Measurement ({unitSystem === 'metric' ? 'cm' : 'inches'}) [Optional]
+            </label>
             <input 
               type="number" 
-              step="0.5" 
-              placeholder="e.g. 78"
+              step="0.1" 
+              placeholder={unitSystem === 'metric' ? 'e.g. 78' : 'e.g. 30.7'}
               className="form-input"
-              value={waistCm}
-              onChange={(e) => setWaistCm(e.target.value)}
+              value={waistVal}
+              onChange={(e) => setWaistVal(e.target.value)}
             />
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Used for simple body fat estimation.</span>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Used for simple body fat estimation.</span>
           </div>
 
           <div className="form-group">

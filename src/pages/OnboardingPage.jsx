@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { calculateBmiDetails, lbsToKg, inchesToCm } from '../utils/bmiCalculator';
 import { Sparkles, ArrowRight, ArrowLeft, Check, Calendar, Activity, Utensils, Target } from 'lucide-react';
 
 export const OnboardingPage = ({ setActiveTab }) => {
@@ -8,11 +9,17 @@ export const OnboardingPage = ({ setActiveTab }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Onboarding Form State
+  // Unit System
+  const [unitSystem, setUnitSystem] = useState('metric'); // 'metric' | 'imperial'
+
+  // Form State
   const [age, setAge] = useState(20);
   const [sex, setSex] = useState('female');
-  const [heightCm, setHeightCm] = useState(168);
-  const [weightKg, setWeightKg] = useState(64);
+  
+  // Height & Weight input fields
+  const [heightVal, setHeightVal] = useState(168); // cm or inches
+  const [weightVal, setWeightVal] = useState(64); // kg or lbs
+
   const [activityLevel, setActivityLevel] = useState('light');
   const [scheduleDensity, setScheduleDensity] = useState('heavy');
   const [dietaryRestrictions, setDietaryRestrictions] = useState(['none']);
@@ -38,11 +45,21 @@ export const OnboardingPage = ({ setActiveTab }) => {
     setError(null);
     try {
       const token = localStorage.getItem('wb_token');
+
+      // Standardize to metric for database backend
+      let heightCm = Number(heightVal);
+      let weightKg = Number(weightVal);
+
+      if (unitSystem === 'imperial') {
+        heightCm = inchesToCm(heightVal);
+        weightKg = lbsToKg(weightVal);
+      }
+
       const payload = {
         age: Number(age),
         sex,
-        heightCm: Number(heightCm),
-        weightKg: Number(weightKg),
+        heightCm: Math.round(heightCm),
+        weightKg: parseFloat(weightKg.toFixed(1)),
         activityLevel,
         scheduleDensity,
         dietaryRestrictions,
@@ -79,15 +96,15 @@ export const OnboardingPage = ({ setActiveTab }) => {
 
   return (
     <div className="animate-fade-in" style={{
-      maxWidth: '620px',
+      maxWidth: '640px',
       margin: '3rem auto',
       padding: '0 1.5rem'
     }}>
       {/* Progress Bar */}
       <div style={{ marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
           <span>STEP {step} OF 4</span>
-          <span>{step === 1 ? 'Body Metrics' : step === 2 ? 'Schedule & Activity' : step === 3 ? 'Diet & Budget' : 'Target Goal'}</span>
+          <span>{step === 1 ? 'Body Metrics & Units' : step === 2 ? 'Schedule & Activity' : step === 3 ? 'Diet & Preferences' : 'Target Goal'}</span>
         </div>
         <div style={{ height: '4px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '2px', overflow: 'hidden' }}>
           <div style={{ width: `${(step / 4) * 100}%`, height: '100%', background: 'var(--accent-primary)', transition: 'width 0.3s ease' }} />
@@ -101,15 +118,48 @@ export const OnboardingPage = ({ setActiveTab }) => {
           </div>
         )}
 
-        {/* STEP 1: BASICS */}
+        {/* STEP 1: BASICS & UNIT SYSTEM */}
         {step === 1 && (
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-              <Sparkles size={20} color="var(--accent-primary)" />
-              <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800 }}>Basic Metrics</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Sparkles size={20} color="var(--accent-primary)" />
+                <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800 }}>Basic Metrics</h2>
+              </div>
+
+              {/* Unit Toggle Pill */}
+              <div className="unit-toggle-group">
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${unitSystem === 'metric' ? 'active' : ''}`}
+                  onClick={() => {
+                    if (unitSystem === 'imperial') {
+                      setHeightVal(168);
+                      setWeightVal(64);
+                    }
+                    setUnitSystem('metric');
+                  }}
+                >
+                  Metric (kg/cm)
+                </button>
+                <button
+                  type="button"
+                  className={`unit-toggle-btn ${unitSystem === 'imperial' ? 'active' : ''}`}
+                  onClick={() => {
+                    if (unitSystem === 'metric') {
+                      setHeightVal(66); // ~66 inches
+                      setWeightVal(141); // ~141 lbs
+                    }
+                    setUnitSystem('imperial');
+                  }}
+                >
+                  Imperial (lbs/in)
+                </button>
+              </div>
             </div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.75rem' }}>
-              We use these numbers to compute your Mifflin-St Jeor daily energy expenditure and initial BMI baseline.
+
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.75rem' }}>
+              Enter your current height and weight in {unitSystem === 'metric' ? 'Metric (cm, kg)' : 'Imperial (inches, lbs)'}.
             </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
@@ -128,13 +178,29 @@ export const OnboardingPage = ({ setActiveTab }) => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Height (cm)</label>
-                <input type="number" min="100" max="230" value={heightCm} onChange={(e) => setHeightCm(e.target.value)} className="form-input" />
+                <label className="form-label">
+                  Height ({unitSystem === 'metric' ? 'cm' : 'inches'})
+                </label>
+                <input 
+                  type="number" 
+                  step="0.5" 
+                  value={heightVal} 
+                  onChange={(e) => setHeightVal(e.target.value)} 
+                  className="form-input" 
+                />
               </div>
 
               <div className="form-group">
-                <label className="form-label">Current Weight (kg)</label>
-                <input type="number" step="0.5" min="30" max="250" value={weightKg} onChange={(e) => setWeightKg(e.target.value)} className="form-input" />
+                <label className="form-label">
+                  Current Weight ({unitSystem === 'metric' ? 'kg' : 'lbs'})
+                </label>
+                <input 
+                  type="number" 
+                  step="0.5" 
+                  value={weightVal} 
+                  onChange={(e) => setWeightVal(e.target.value)} 
+                  className="form-input" 
+                />
               </div>
             </div>
           </div>
@@ -147,7 +213,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
               <Calendar size={20} color="var(--accent-primary)" />
               <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800 }}>Schedule & Activity</h2>
             </div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.75rem' }}>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.75rem' }}>
               College schedules vary drastically! Help us tailor recipes to your actual available time.
             </p>
 
@@ -177,7 +243,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
                     <div style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: '0.25rem', color: scheduleDensity === opt.id ? 'var(--accent-primary)' : '#fff' }}>
                       {opt.label}
                     </div>
-                    <div style={{ fontSize: '0.75rem', lineHeight: '1.3' }}>{opt.desc}</div>
+                    <div style={{ fontSize: '0.78rem', lineHeight: '1.3' }}>{opt.desc}</div>
                   </button>
                 ))}
               </div>
@@ -202,7 +268,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
               <Utensils size={20} color="var(--accent-primary)" />
               <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800 }}>Dietary Preferences</h2>
             </div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.75rem' }}>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.75rem' }}>
               Select any dietary guidelines or restrictions you follow.
             </p>
 
@@ -249,7 +315,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
               <Target size={20} color="var(--accent-primary)" />
               <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800 }}>Your Core Goal</h2>
             </div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.75rem' }}>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.75rem' }}>
               What is your primary focus for this semester?
             </p>
 
@@ -277,7 +343,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   <div style={{ fontWeight: 700, fontSize: '0.95rem', color: goal === item.id ? 'var(--accent-primary)' : '#fff', marginBottom: '0.2rem' }}>
                     {item.label}
                   </div>
-                  <div style={{ fontSize: '0.8rem' }}>{item.desc}</div>
+                  <div style={{ fontSize: '0.82rem' }}>{item.desc}</div>
                 </button>
               ))}
             </div>
