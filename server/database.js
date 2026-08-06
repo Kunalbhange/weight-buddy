@@ -6,6 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DB_FILE = path.join(__dirname, 'data', 'weightbuddy_db.json');
+const MEALS_FILE = path.join(__dirname, 'data', 'studentMeals.json');
 
 // Default Database Structure
 const initialData = {
@@ -51,6 +52,19 @@ class JSONDatabase {
     } catch (err) {
       console.error('Failed to persist database to file:', err);
     }
+  }
+
+  // Get All Student Meals
+  getMeals() {
+    try {
+      if (fs.existsSync(MEALS_FILE)) {
+        const raw = fs.readFileSync(MEALS_FILE, 'utf-8');
+        return JSON.parse(raw);
+      }
+    } catch (err) {
+      console.error('Failed to read studentMeals.json:', err);
+    }
+    return [];
   }
 
   // User queries
