@@ -12,6 +12,7 @@ import { OnboardingPage } from './pages/OnboardingPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { DietPlanPage } from './pages/DietPlanPage';
 import { BmiMetricsPage } from './pages/BmiMetricsPage';
+import { PhysiquePage } from './pages/PhysiquePage';
 import { AiChatPage } from './pages/AiChatPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { PrivacyPage } from './pages/PrivacyPage';
@@ -41,24 +42,24 @@ const AppContent = () => {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
-        background: '#0a0a0a',
+        background: '#08080a',
         color: 'var(--text-primary)'
       }}>
         <div style={{
-          width: '40px',
-          height: '40px',
-          borderRadius: '12px',
+          width: '36px',
+          height: '36px',
+          borderRadius: '10px',
           background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           fontWeight: 800,
-          fontSize: '1.4rem',
+          fontSize: '1.3rem',
           marginBottom: '1rem'
         }}>
           W
         </div>
-        <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Loading WeightBuddy Session...</div>
+        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Loading WeightBuddy Session...</div>
       </div>
     );
   }
@@ -81,6 +82,8 @@ const AppContent = () => {
         return <DietPlanPage />;
       case 'bmi':
         return <BmiMetricsPage />;
+      case 'physique':
+        return <PhysiquePage />;
       case 'ai':
         return <AiChatPage />;
       case 'settings':

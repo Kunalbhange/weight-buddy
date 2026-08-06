@@ -6,6 +6,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [onboarding, setOnboarding] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('wb_token') || null);
+  const [currency, setCurrency] = useState(localStorage.getItem('wb_currency') || 'INR');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -44,6 +45,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     fetchMe();
   }, [token]);
+
+  const changeCurrency = (code) => {
+    setCurrency(code);
+    localStorage.setItem('wb_currency', code);
+  };
 
   const login = async (email, password) => {
     setError(null);
@@ -115,6 +121,8 @@ export const AuthProvider = ({ children }) => {
       user,
       onboarding,
       token,
+      currency,
+      changeCurrency,
       loading,
       error,
       login,

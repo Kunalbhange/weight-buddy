@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { formatCurrency } from '../utils/currency';
 import { MealSwapperModal } from '../components/MealSwapperModal';
 import { Utensils, RefreshCw, DollarSign, Clock, Flame, Sparkles, AlertCircle } from 'lucide-react';
 
 export const DietPlanPage = () => {
-  const { onboarding } = useAuth();
+  const { onboarding, currency } = useAuth();
   const [plan, setPlan] = useState(null);
   const [activeDayIdx, setActiveDayIdx] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -50,7 +51,7 @@ export const DietPlanPage = () => {
             <Sparkles size={14} /> Rule-Based Student Diet Engine
           </div>
           <h1 className="font-heading" style={{ fontSize: '2rem', fontWeight: 800 }}>Weekly Diet Plan</h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>
             Customized for your {onboarding?.goal || 'maintain'} goal • Daily Calorie Target: <strong>{plan?.dailyCalorieTarget || 2100} kcal</strong>
           </p>
         </div>
@@ -88,7 +89,7 @@ export const DietPlanPage = () => {
                 background: isActive ? 'var(--accent-primary)' : 'rgba(24, 24, 27, 0.7)',
                 color: isActive ? '#000' : 'var(--text-primary)',
                 fontWeight: 700,
-                fontSize: '0.9rem',
+                fontSize: '0.88rem',
                 border: isActive ? 'none' : '1px solid var(--border-subtle)',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
@@ -139,16 +140,17 @@ export const DietPlanPage = () => {
             {['breakfast', 'lunch', 'dinner', 'snack'].map((type) => {
               const meal = currentDay.meals[type];
               if (!meal) return null;
+              const formattedPrice = formatCurrency(meal.priceInr || 50, currency);
               return (
                 <div key={type} className="glass-card" style={{ padding: '1.5rem', background: '#141414', border: '1px solid var(--border-medium)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                    <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', fontWeight: 800, color: 'var(--text-muted)', letterSpacing: '0.05em' }}>
+                    <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', fontWeight: 800, color: 'var(--text-muted)', letterSpacing: '0.05em' }}>
                       {type}
                     </span>
                     <div style={{ display: 'flex', gap: '0.4rem' }}>
                       {meal.isBudget && (
                         <span className="badge badge-amber" style={{ fontSize: '0.7rem' }}>
-                          <DollarSign size={12} /> Student Budget ({meal.costEst})
+                          Budget ({formattedPrice})
                         </span>
                       )}
                       <span className="badge badge-zinc" style={{ fontSize: '0.7rem' }}>
@@ -157,7 +159,7 @@ export const DietPlanPage = () => {
                     </div>
                   </div>
 
-                  <h3 className="font-heading" style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem' }}>{meal.name}</h3>
+                  <h3 className="font-heading" style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.5rem' }}>{meal.name}</h3>
 
                   <div style={{ fontSize: '0.85rem', color: 'var(--accent-primary)', fontWeight: 700, marginBottom: '1rem' }}>
                     {meal.calories} kcal • P: {meal.protein}g • C: {meal.carbs}g • F: {meal.fat}g
