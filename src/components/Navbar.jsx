@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { CURRENCY_MAP } from '../utils/currency';
-import { LayoutDashboard, Utensils, Activity, Bot, Settings, LogOut, Menu, X, Globe, Dumbbell, Sparkles } from 'lucide-react';
+import { LayoutDashboard, Utensils, Activity, Bot, Settings, LogOut, Menu, X, Globe, Dumbbell, Sparkles, Flame, Zap } from 'lucide-react';
 
 export const Navbar = ({ activeTab, setActiveTab }) => {
   const { user, logout, currency, changeCurrency } = useAuth();
@@ -33,42 +33,88 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
         alignItems: 'center',
         justify: 'space-between'
       }}>
-        {/* Black & White Retro Logo */}
+        {/* Unique, Ultra-Attractive Brand Logo */}
         <div 
           onClick={() => setActiveTab(user ? 'dashboard' : 'landing')} 
-          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
+          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.85rem' }}
         >
+          {/* Unique Emblem Container with Flame & Dumbbell Overlay */}
           <div style={{
-            width: '38px',
-            height: '38px',
-            borderRadius: '8px',
-            background: '#ffffff',
+            position: 'relative',
+            width: '44px',
+            height: '44px',
+            borderRadius: '12px',
+            background: 'linear-gradient(135deg, #ffffff 0%, #1a1a24 100%)',
+            padding: '2px',
+            boxShadow: '0 6px 20px rgba(255, 255, 255, 0.25)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 900,
-            color: '#050507',
-            fontSize: '1.3rem',
-            fontFamily: 'var(--font-heading)',
-            boxShadow: '0 4px 18px rgba(255, 255, 255, 0.3)'
+            justifyContent: 'center'
           }}>
-            W
+            <div style={{
+              width: '100%',
+              height: '100%',
+              background: '#050507',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              {/* Distinctive W Lettermark with Flame Badge */}
+              <span className="font-heading" style={{
+                fontSize: '1.4rem',
+                fontWeight: 900,
+                color: '#ffffff',
+                lineHeight: 1,
+                letterSpacing: '-0.05em'
+              }}>
+                W
+              </span>
+              <div style={{
+                position: 'absolute',
+                bottom: '2px',
+                right: '2px',
+                width: '14px',
+                height: '14px',
+                borderRadius: '50%',
+                background: '#d97706',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 0 8px rgba(217, 119, 6, 0.8)'
+              }}>
+                <Flame size={9} color="#ffffff" />
+              </div>
+            </div>
           </div>
+
           <div>
-            <div className="font-heading" style={{ fontSize: '1.35rem', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.02em' }}>
-              Weight<span style={{ color: '#d97706' }}>Buddy</span>
+            <div className="font-heading" style={{
+              fontSize: '1.4rem',
+              fontWeight: 900,
+              color: '#ffffff',
+              letterSpacing: '-0.03em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.2rem'
+            }}>
+              Weight<span style={{ color: '#fbbf24' }}>Buddy</span>
+              <Sparkles size={14} color="#fbbf24" style={{ marginLeft: '0.1rem' }} />
             </div>
             <span style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.25rem',
-              fontSize: '0.65rem',
+              gap: '0.35rem',
+              fontSize: '0.66rem',
               color: 'var(--text-muted)',
-              letterSpacing: '0.06em',
-              fontWeight: 700,
+              letterSpacing: '0.08em',
+              fontWeight: 800,
               textTransform: 'uppercase'
             }}>
-              <Sparkles size={10} color="#d97706" /> Student Fitness Platform
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#d97706', display: 'inline-block' }} />
+              AI Student Fitness Engine
             </span>
           </div>
         </div>
@@ -85,7 +131,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
             borderRadius: 'var(--radius-sm)',
             border: '1.5px solid var(--border-medium)'
           }}>
-            <Globe size={15} color="#d97706" />
+            <Globe size={15} color="#fbbf24" />
             <select
               value={currency}
               onChange={(e) => changeCurrency(e.target.value)}
