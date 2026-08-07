@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { calculateBmiFlexible, kgToLbs, lbsToKg } from '../utils/bmiCalculator';
 import { formatCurrency } from '../utils/currency';
 import { ArrowRight, Scale, Zap, Star, HelpCircle, ChevronDown, ShieldCheck } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const LandingPage = ({ setActiveTab }) => {
   const { currency } = useAuth();
@@ -61,7 +62,12 @@ export const LandingPage = ({ setActiveTab }) => {
 
       <div style={{ maxWidth: '1140px', margin: '0 auto', padding: '4rem 1.5rem 5rem' }}>
         {/* ═══ HERO ═══ */}
-      <section style={{ paddingBottom: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+      <motion.section 
+        initial={{ opacity: 0, y: 40 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        style={{ paddingBottom: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
+      >
         
         <span className="badge badge-zinc" style={{ marginBottom: '2rem', padding: '0.4rem 1rem', border: '1px solid rgba(255,255,255,0.1)' }}>
           <ShieldCheck size={14} style={{ color: 'var(--accent-gold)' }} /> Free Student Platform
@@ -77,12 +83,12 @@ export const LandingPage = ({ setActiveTab }) => {
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '4rem' }}>
-          <button className="btn-primary" onClick={() => setActiveTab('dashboard')} style={{ padding: '0.9rem 2.2rem', fontSize: '0.95rem' }}>
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="btn-primary" onClick={() => setActiveTab('dashboard')} style={{ padding: '0.9rem 2.2rem', fontSize: '0.95rem' }}>
             Open Student Portal <ArrowRight size={16} />
-          </button>
-          <button className="btn-secondary" onClick={() => setActiveTab('onboarding')} style={{ padding: '0.9rem 2.2rem', fontSize: '0.95rem' }}>
+          </motion.button>
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="btn-secondary" onClick={() => setActiveTab('onboarding')} style={{ padding: '0.9rem 2.2rem', fontSize: '0.95rem' }}>
             Set Up Profile
-          </button>
+          </motion.button>
         </div>
 
         <div style={{ display: 'flex', gap: '3rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '2rem', marginBottom: '5rem', justifyContent: 'center', width: '100%', maxWidth: '600px' }}>
@@ -174,10 +180,16 @@ export const LandingPage = ({ setActiveTab }) => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* ═══ HOW IT WORKS ═══ */}
-      <section style={{ margin: '3rem 0 4rem' }}>
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        style={{ margin: '3rem 0 4rem' }}
+      >
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <span className="badge badge-amber" style={{ marginBottom: '0.5rem' }}><Zap size={11} /> How It Works</span>
           <h2 className="font-heading" style={{ fontSize: '2rem' }}>Three simple steps</h2>
@@ -188,48 +200,86 @@ export const LandingPage = ({ setActiveTab }) => {
             { step: '1', title: 'Set your baseline', desc: 'Enter height, weight, dietary preference, and class schedule.' },
             { step: '2', title: 'Get meal plans', desc: '5–10 minute hostel recipes with calories, protein, and cost estimates.' },
             { step: '3', title: 'Track & improve', desc: 'Log weight over time, view trends, and ask the AI coach questions.' }
-          ].map(item => (
-            <div key={item.step} className="glass-card glass-card-interactive" style={{ padding: '1.75rem' }}>
+          ].map((item, idx) => (
+            <motion.div 
+              key={item.step} 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.15 }}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className="glass-card" 
+              style={{ padding: '1.75rem', cursor: 'pointer' }}
+            >
               <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'var(--accent-gold)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '1.1rem', marginBottom: '1rem' }}>
                 {item.step}
               </div>
               <h3 className="font-heading" style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>{item.title}</h3>
               <p style={{ fontSize: '0.88rem', lineHeight: 1.6, fontWeight: 450 }}>{item.desc}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      {/* ═══ TESTIMONIALS ═══ */}
-      <section style={{ margin: '3rem 0 4rem' }}>
+      {/* ═══ TESTIMONIALS SLIDER ═══ */}
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        style={{ margin: '3rem 0 4rem', overflow: 'hidden' }}
+      >
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <span className="badge badge-amber" style={{ marginBottom: '0.5rem' }}><Star size={11} /> Student Reviews</span>
           <h2 className="font-heading" style={{ fontSize: '2rem' }}>What students say</h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
-          {[
-            { quote: "Saved me ₹3,000/month on food while gaining 4kg of lean muscle. The meal plans are genuinely useful.", name: "Rohan S.", role: "Engineering, 3rd Year" },
-            { quote: "The grab-and-go suggestions during midterms were a lifesaver. Finally eating properly between exams.", name: "Ananya M.", role: "Medical, 2nd Year" }
-          ].map((review, i) => (
-            <div key={i} className="glass-card" style={{ padding: '1.75rem' }}>
-              <div style={{ display: 'flex', gap: '0.2rem', marginBottom: '1rem' }}>
-                {[...Array(5)].map((_, j) => <Star key={j} size={15} fill="var(--accent-gold-light)" color="var(--accent-gold-light)" />)}
-              </div>
-              <p style={{ fontSize: '0.92rem', lineHeight: 1.65, fontStyle: 'italic', marginBottom: '1.25rem', fontWeight: 450 }}>
-                "{review.quote}"
-              </p>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>{review.name}</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{review.role}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+        {/* Draggable Carousel */}
+        <motion.div 
+          style={{ cursor: 'grab', display: 'flex' }}
+          whileTap={{ cursor: "grabbing" }}
+        >
+          <motion.div 
+            drag="x" 
+            dragConstraints={{ right: 0, left: -400 }} 
+            style={{ display: 'flex', gap: '1.5rem', padding: '0 1.5rem' }}
+          >
+            {[
+              { quote: "Saved me ₹3,000/month on food while gaining 4kg of lean muscle. The meal plans are genuinely useful.", name: "Rohan S.", role: "Engineering, 3rd Year" },
+              { quote: "The grab-and-go suggestions during midterms were a lifesaver. Finally eating properly between exams.", name: "Ananya M.", role: "Medical, 2nd Year" },
+              { quote: "I thought healthy dorm food was impossible until I found the 5-minute microwave recipes here. Amazing UI.", name: "Sarah K.", role: "Design, 1st Year" }
+            ].map((review, i) => (
+              <motion.div 
+                key={i} 
+                whileHover={{ scale: 1.02 }}
+                className="glass-card" 
+                style={{ padding: '1.75rem', minWidth: '320px', maxWidth: '380px' }}
+              >
+                <div style={{ display: 'flex', gap: '0.2rem', marginBottom: '1rem' }}>
+                  {[...Array(5)].map((_, j) => <Star key={j} size={15} fill="var(--accent-gold-light)" color="var(--accent-gold-light)" />)}
+                </div>
+                <p style={{ fontSize: '0.92rem', lineHeight: 1.65, fontStyle: 'italic', marginBottom: '1.25rem', fontWeight: 450 }}>
+                  "{review.quote}"
+                </p>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>{review.name}</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{review.role}</div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+        <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '1rem' }}>← Swipe to explore →</p>
+      </motion.section>
 
       {/* ═══ FAQ ═══ */}
-      <section style={{ margin: '3rem 0 4rem' }}>
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        style={{ margin: '3rem 0 4rem' }}
+      >
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <span className="badge badge-amber" style={{ marginBottom: '0.5rem' }}><HelpCircle size={11} /> FAQ</span>
           <h2 className="font-heading" style={{ fontSize: '2rem' }}>Common questions</h2>
@@ -249,18 +299,25 @@ export const LandingPage = ({ setActiveTab }) => {
             </div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* ═══ CTA ═══ */}
-      <section className="glass-card" style={{ padding: '3rem 2rem', textAlign: 'center', boxShadow: 'var(--shadow-float)' }}>
+      <motion.section 
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, type: 'spring' }}
+        className="glass-card" 
+        style={{ padding: '3rem 2rem', textAlign: 'center', boxShadow: 'var(--shadow-float)' }}
+      >
         <h2 className="font-heading" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Start your free nutrition plan</h2>
         <p style={{ maxWidth: '480px', margin: '0 auto 1.75rem', fontSize: '0.95rem', lineHeight: 1.6 }}>
           No signup required. No credit card. Just better nutrition.
         </p>
-        <button className="btn-primary" onClick={() => setActiveTab('dashboard')} style={{ padding: '0.85rem 2.2rem' }}>
+        <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="btn-primary" onClick={() => setActiveTab('dashboard')} style={{ padding: '0.85rem 2.2rem' }}>
           Open Portal <ArrowRight size={16} />
-        </button>
-      </section>
+        </motion.button>
+      </motion.section>
       </div>
     </div>
   );
