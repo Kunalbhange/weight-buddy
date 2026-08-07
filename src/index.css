@@ -331,3 +331,42 @@ input[type="range"] {
 .animate-fade-in {
   animation: fadeIn 0.35s ease forwards;
 }
+
+/* MOBILE RESPONSIVENESS OVERRIDES */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+
+  body {
+    font-size: 0.88rem;
+  }
+
+  .glass-card {
+    padding: 1.1rem !important;
+    border-radius: 12px !important;
+  }
+
+  .form-input, .form-select, .form-textarea {
+    padding: 0.65rem 0.85rem !important;
+    font-size: 0.88rem !important;
+  }
+
+  .badge {
+    padding: 0.35rem 0.75rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  /* Horizontal Scrollable Slide Controls */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
