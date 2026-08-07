@@ -470,6 +470,7 @@ body {
 .mobile-hamburger-btn { display: none !important; }
 
 @media (max-width: 768px) {
+  .floating-3d-food-canvas { display: none !important; }
   .desktop-nav-group { display: none !important; }
   .mobile-hamburger-btn { display: flex !important; }
   body { font-size: 0.9rem; }

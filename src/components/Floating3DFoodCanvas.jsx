@@ -49,17 +49,20 @@ export const Floating3DFoodCanvas = ({ activeTab }) => {
   // We keep zIndex 0 so it stays behind the main content which has zIndex 2
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100vw',
-      height: '100vh',
-      pointerEvents: 'none',
-      zIndex: baseZIndex,
-      overflow: 'hidden',
-      transition: 'opacity 0.5s ease'
-    }}>
+    <div 
+      className="floating-3d-food-canvas"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        pointerEvents: 'none',
+        zIndex: baseZIndex,
+        overflow: 'hidden',
+        transition: 'opacity 0.5s ease'
+      }}
+    >
       <style>
         {`
           @keyframes realisticFloat {
