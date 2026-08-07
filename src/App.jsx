@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { Floating3DFoodCanvas } from './components/Floating3DFoodCanvas';
 
-// Pages
+// Dedicated Standalone Frontend View Components
 import { LandingPage } from './pages/LandingPage';
 import { OnboardingPage } from './pages/OnboardingPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -16,7 +16,8 @@ import { SettingsPage } from './pages/SettingsPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 
 const AppContent = () => {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  // Always default to 'landing' so site link opens directly on the Front Page
+  const [activeTab, setActiveTab] = useState('landing');
 
   const renderCurrentPage = () => {
     switch (activeTab) {
@@ -39,7 +40,7 @@ const AppContent = () => {
       case 'privacy':
         return <PrivacyPage />;
       default:
-        return <DashboardPage setActiveTab={setActiveTab} />;
+        return <LandingPage setActiveTab={setActiveTab} />;
     }
   };
 
