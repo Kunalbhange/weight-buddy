@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { Floating3DFoodCanvas } from './components/Floating3DFoodCanvas';
 
 // Pages
 import { LandingPage } from './pages/LandingPage';
@@ -40,26 +41,28 @@ const AppContent = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justify: 'center',
         minHeight: '100vh',
-        background: '#08080a',
-        color: 'var(--text-primary)'
+        background: '#f8fafc',
+        color: '#0f172a'
       }}>
         <div style={{
           width: '36px',
           height: '36px',
           borderRadius: '10px',
-          background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+          background: '#0f172a',
+          color: '#ffffff',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          fontWeight: 800,
+          justify: 'center',
+          fontWeight: 900,
           fontSize: '1.3rem',
-          marginBottom: '1rem'
+          marginBottom: '1rem',
+          boxShadow: '0 6px 18px rgba(15, 23, 42, 0.25)'
         }}>
           W
         </div>
-        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Loading WeightBuddy Session...</div>
+        <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>Loading WeightBuddy Session...</div>
       </div>
     );
   }
@@ -96,9 +99,10 @@ const AppContent = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', position: 'relative' }}>
+      <Floating3DFoodCanvas />
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <main style={{ flex: 1 }}>
+      <main style={{ flex: 1, zIndex: 2, position: 'relative' }}>
         {renderCurrentPage()}
       </main>
       <Footer setActiveTab={setActiveTab} />
