@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { CURRENCY_MAP } from '../utils/currency';
 import { AutomationHubWidget } from '../components/AutomationHubWidget';
-import { Settings, User, Globe, Download, Trash2, ShieldCheck, CheckCircle2, AlertTriangle, Zap } from 'lucide-react';
+import { Settings, User, Globe, Download, Trash2, ShieldCheck, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 export const SettingsPage = ({ setActiveTab }) => {
-  const { user, fetchMe, logout, currency, changeCurrency } = useAuth();
+  const { user, logout, currency, changeCurrency, setStudentName, theme } = useAuth();
   const [name, setName] = useState(user?.name || '');
   
   const [message, setMessage] = useState(null);
@@ -13,71 +13,60 @@ export const SettingsPage = ({ setActiveTab }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleUpdateProfile = async (e) => {
+  const handleUpdateProfile = (e) => {
     e.preventDefault();
     setMessage(null);
     setError(null);
-    try {
-      const token = localStorage.getItem('wb_token');
-      const res = await fetch('/api/user/profile', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ name })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-
-      setMessage('Profile updated successfully!');
-      fetchMe();
-    } catch (err) {
-      setError(err.message);
-    }
+    setStudentName(name);
+    setMessage('Student name updated successfully!');
   };
 
   const handleExportData = () => {
-    const token = localStorage.getItem('wb_token');
-    window.open(`/api/privacy/export-data?token=${token}`, '_blank');
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+      studentName: user?.name,
+      currency,
+      exportedAt: new Date().toISOString()
+    }));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "weightbuddy_student_data.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
   };
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('wb_token');
-      const res = await fetch('/api/privacy/delete-account', {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (res.ok) {
-        logout();
-        setActiveTab('landing');
-      }
+      // Purge student data from local session
+      logout();
+      setShowDeleteModal(false);
+      // Transfer user immediately to front / landing page
+      setActiveTab('landing');
     } catch (err) {
-      setError('Failed to delete account.');
+      setError('Failed to purge student data.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="animate-fade-in" style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+    <div className="animate-fade-in" style={{ maxWidth: '900px', margin: '2rem auto', padding: '0 1.5rem' }}>
       <div style={{ marginBottom: '2rem' }}>
-        <h1 className="font-heading" style={{ fontSize: '2rem', fontWeight: 800, color: '#ffffff' }}>Account & Settings</h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+        <h1 className="font-heading" style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--text-primary)' }}>Account & Settings</h1>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 600 }}>
           Manage your student profile, default currency formatting, and automated campus preferences.
         </p>
       </div>
 
       {message && (
-        <div style={{ padding: '0.85rem 1.25rem', background: 'rgba(217, 119, 6, 0.15)', border: '1px solid rgba(217, 119, 6, 0.3)', color: '#fbbf24', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <CheckCircle2 size={18} color="#fbbf24" /> {message}
+        <div style={{ padding: '0.85rem 1.25rem', background: 'rgba(217, 119, 6, 0.15)', border: '1.5px solid rgba(217, 119, 6, 0.3)', color: '#d97706', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', fontWeight: 700, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <CheckCircle2 size={18} color="#d97706" /> {message}
         </div>
       )}
 
       {error && (
-        <div style={{ padding: '0.85rem 1.25rem', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#fca5a5', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+        <div style={{ padding: '0.85rem 1.25rem', background: '#fef2f2', border: '1.5px solid #fecaca', color: '#dc2626', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', fontWeight: 700, marginBottom: '1.5rem' }}>
           {error}
         </div>
       )}
@@ -88,36 +77,31 @@ export const SettingsPage = ({ setActiveTab }) => {
       </div>
 
       {/* SECTION 2: PROFILE DETAILS */}
-      <div className="glass-card" style={{ padding: '2rem', background: '#14141a', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>
+      <div className="glass-card" style={{ padding: '2rem', background: theme === 'dark' ? '#14141a' : '#ffffff', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-          <User size={20} color="#ffffff" />
-          <h2 className="font-heading" style={{ fontSize: '1.3rem', color: '#ffffff' }}>Profile Information</h2>
+          <User size={20} color="var(--text-primary)" />
+          <h2 className="font-heading" style={{ fontSize: '1.3rem', color: 'var(--text-primary)' }}>Profile Information</h2>
         </div>
 
         <form onSubmit={handleUpdateProfile}>
           <div className="form-group">
-            <label className="form-label">Full Name</label>
+            <label className="form-label">Student Display Name</label>
             <input type="text" className="form-input" value={name} onChange={(e) => setName(e.target.value)} required />
           </div>
-          <div className="form-group">
-            <label className="form-label">Email Address</label>
-            <input type="email" className="form-input" value={user?.email || ''} disabled style={{ opacity: 0.6 }} />
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Email address cannot be modified.</span>
-          </div>
-          <button type="submit" className="btn-secondary" style={{ padding: '0.6rem 1.25rem', fontSize: '0.85rem' }}>
+          <button type="submit" className="btn-secondary" style={{ padding: '0.65rem 1.25rem', fontSize: '0.85rem' }}>
             Save Name Changes
           </button>
         </form>
       </div>
 
       {/* SECTION 3: CURRENCY FORMATTING */}
-      <div className="glass-card" style={{ padding: '2rem', background: '#14141a', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>
+      <div className="glass-card" style={{ padding: '2rem', background: theme === 'dark' ? '#14141a' : '#ffffff', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
           <Globe size={20} color="#d97706" />
-          <h2 className="font-heading" style={{ fontSize: '1.3rem', color: '#ffffff' }}>Preferred Currency</h2>
+          <h2 className="font-heading" style={{ fontSize: '1.3rem', color: 'var(--text-primary)' }}>Preferred Currency</h2>
         </div>
 
-        <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
+        <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.25rem', fontWeight: 600 }}>
           Default currency is set to <strong>INR (₹)</strong> for Indian students. Select a different currency to automatically convert meal prices across all plans.
         </p>
 
@@ -138,14 +122,14 @@ export const SettingsPage = ({ setActiveTab }) => {
       </div>
 
       {/* SECTION 4: PRIVACY, DATA EXPORT & DELETION */}
-      <div className="glass-card" style={{ padding: '2rem', background: '#14141a', border: '1.5px solid var(--border-medium)' }}>
+      <div className="glass-card" style={{ padding: '2rem', background: theme === 'dark' ? '#14141a' : '#ffffff', border: '1.5px solid var(--border-medium)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
           <ShieldCheck size={20} color="#d97706" />
-          <h2 className="font-heading" style={{ fontSize: '1.3rem', color: '#ffffff' }}>Privacy & Data Ownership</h2>
+          <h2 className="font-heading" style={{ fontSize: '1.3rem', color: 'var(--text-primary)' }}>Privacy & Data Ownership</h2>
         </div>
 
-        <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: '1.5' }}>
-          WeightBuddy adheres strictly to standard data protection policies. Your health data is never sold or shared with third parties.
+        <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: '1.5', fontWeight: 600 }}>
+          WeightBuddy adheres strictly to standard data protection policies. Your health data is stored locally and never sold or shared with third parties.
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
@@ -153,12 +137,12 @@ export const SettingsPage = ({ setActiveTab }) => {
             <Download size={16} /> Export All My Data (JSON)
           </button>
           <button className="btn-danger" onClick={() => setShowDeleteModal(true)}>
-            <Trash2 size={16} /> Delete Account & Data
+            <Trash2 size={16} /> Delete Data & Reset Session
           </button>
         </div>
       </div>
 
-      {/* DELETE ACCOUNT CONFIRMATION MODAL */}
+      {/* DELETE DATA CONFIRMATION MODAL */}
       {showDeleteModal && (
         <div style={{
           position: 'fixed',
@@ -170,20 +154,20 @@ export const SettingsPage = ({ setActiveTab }) => {
           zIndex: 1000,
           padding: '1rem'
         }}>
-          <div className="glass-card" style={{ maxWidth: '440px', width: '100%', padding: '2rem', background: '#14141a', border: '1.5px solid rgba(239, 68, 68, 0.4)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#fca5a5', marginBottom: '1rem' }}>
-              <AlertTriangle size={24} />
-              <h3 className="font-heading" style={{ fontSize: '1.3rem', color: '#ffffff' }}>Confirm Permanent Deletion</h3>
+          <div className="glass-card" style={{ maxWidth: '440px', width: '100%', padding: '2rem', background: theme === 'dark' ? '#14141a' : '#ffffff', border: '1.5px solid rgba(239, 68, 68, 0.4)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#dc2626', marginBottom: '1rem' }}>
+              <AlertTriangle size={24} color="#dc2626" />
+              <h3 className="font-heading" style={{ fontSize: '1.3rem', color: 'var(--text-primary)' }}>Confirm Permanent Deletion</h3>
             </div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5', marginBottom: '1.5rem' }}>
-              Are you sure you want to delete your WeightBuddy account? This will permanently purge all your weight logs, custom meal plans, and chat history.
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: '1.5', marginBottom: '1.5rem', fontWeight: 600 }}>
+              Are you sure you want to purge your data? This will clear your student session and transfer you directly back to the Front Landing Page.
             </p>
             <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
               <button className="btn-secondary" onClick={() => setShowDeleteModal(false)} disabled={loading}>
                 Cancel
               </button>
               <button className="btn-danger" onClick={handleDeleteAccount} disabled={loading}>
-                {loading ? 'Deleting...' : 'Yes, Delete Everything'}
+                {loading ? 'Deleting...' : 'Yes, Delete & Return to Front Page'}
               </button>
             </div>
           </div>
