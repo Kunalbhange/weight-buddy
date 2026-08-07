@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { calculateBmiFlexible, feetInchesToCm, lbsToKg } from '../utils/bmiCalculator';
-import { ArrowRight, ArrowLeft, Check, Sparkles, Utensils, Scale, Activity, Flame, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, Sparkles, Utensils, Scale, Activity, Flame, ShieldCheck, CheckCircle2, Calendar, Dumbbell } from 'lucide-react';
 
 export const OnboardingPage = ({ setActiveTab }) => {
   const { fetchMe, updateOnboardingState } = useAuth();
@@ -9,25 +9,24 @@ export const OnboardingPage = ({ setActiveTab }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Form State
+  // Form State - Step 1: Basic Stats
   const [age, setAge] = useState(21);
   const [sex, setSex] = useState('male');
-  
-  // Height & Weight independent unit controls
   const [heightUnit, setHeightUnit] = useState('cm');
   const [heightCm, setHeightCm] = useState(172);
   const [heightFeet, setHeightFeet] = useState(5);
   const [heightInches, setHeightInches] = useState(8);
-
   const [weightUnit, setWeightUnit] = useState('kg');
   const [weightVal, setWeightVal] = useState(68);
 
+  // Step 2: Activity Level
   const [activityLevel, setActivityLevel] = useState('moderate');
+
+  // Step 3: Schedule Density & Dietary Preference
   const [scheduleDensity, setScheduleDensity] = useState('moderate');
-  
-  // Dietary Preference (Veg, Non-Veg, Vegan)
   const [dietaryCategory, setDietaryCategory] = useState('vegetarian');
 
+  // Step 4: Primary Goal
   const [goal, setGoal] = useState('gain_muscle');
 
   // Compute preview metrics
@@ -47,7 +46,6 @@ export const OnboardingPage = ({ setActiveTab }) => {
     try {
       const token = localStorage.getItem('wb_token');
       
-      // Calculate final Height in CM & Weight in KG
       let finalHeightCm = heightUnit === 'cm' ? Number(heightCm) : feetInchesToCm(heightFeet, heightInches);
       let finalWeightKg = weightUnit === 'kg' ? Number(weightVal) : lbsToKg(weightVal);
 
@@ -77,8 +75,8 @@ export const OnboardingPage = ({ setActiveTab }) => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to save onboarding data.');
 
-      updateOnboardingState(data.onboarding);
-      await fetchMe();
+      updateOnboardingState(data.onboarding || payload);
+      if (fetchMe) await fetchMe();
       setActiveTab('dashboard');
     } catch (err) {
       setError(err.message);
@@ -88,31 +86,32 @@ export const OnboardingPage = ({ setActiveTab }) => {
   };
 
   return (
-    <div className="animate-fade-in" style={{ maxWidth: '820px', margin: '2.5rem auto', padding: '0 1.5rem' }}>
+    <div className="animate-fade-in" style={{ maxWidth: '840px', margin: '2.5rem auto', padding: '0 1.5rem' }}>
       <div className="glass-card" style={{ padding: '2.5rem 2.25rem', background: 'var(--bg-card)', border: '1.5px solid var(--border-medium)', boxShadow: 'var(--shadow-float)' }}>
         
         {/* PROGRESS STEP INDICATOR */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
           <div>
             <span className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>
-              <Sparkles size={12} color="#b45309" /> Step {step} of 3
+              <Sparkles size={12} color="#b45309" /> Step {step} of 4
             </span>
             <h2 className="font-heading" style={{ fontSize: '1.65rem', fontWeight: 900, color: 'var(--text-primary)' }}>
-              {step === 1 && 'Student Body Baseline & Unit Preferences'}
-              {step === 2 && 'Dietary Preferences & Campus Schedule'}
-              {step === 3 && 'Physique Goals & Target Selection'}
+              {step === 1 && 'Basic Stats & Body Metrics'}
+              {step === 2 && 'Daily Activity & Energy Output'}
+              {step === 3 && 'Campus Schedule & Diet Preferences'}
+              {step === 4 && 'Primary Target & Physique Goal'}
             </h2>
           </div>
 
           <div style={{ display: 'flex', gap: '0.5rem' }}>
-            {[1, 2, 3].map(i => (
+            {[1, 2, 3, 4].map(i => (
               <div 
                 key={i} 
                 style={{
-                  width: step === i ? '28px' : '12px',
+                  width: step === i ? '28px' : '10px',
                   height: '10px',
                   borderRadius: '5px',
-                  background: step === i ? 'var(--text-primary)' : '#e2e8f0',
+                  background: step === i ? 'var(--text-primary)' : 'var(--border-medium)',
                   transition: 'all 0.3s ease'
                 }} 
               />
@@ -126,7 +125,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
           </div>
         )}
 
-        {/* STEP 1: BODY BASELINE & UNITS */}
+        {/* STEP 1: BASIC STATS & METRICS */}
         {step === 1 && (
           <div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.5rem' }}>
@@ -188,20 +187,73 @@ export const OnboardingPage = ({ setActiveTab }) => {
             </div>
 
             {/* PREVIEW BASELINE CARD */}
-            <div style={{ padding: '1.25rem', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', border: '1.5px solid var(--border-medium)', textAlign: 'center', marginBottom: '1.75rem' }}>
+            <div style={{ padding: '1.25rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1.5px solid var(--border-medium)', textAlign: 'center', marginBottom: '1.75rem' }}>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 900 }}>REAL-TIME CALCULATED BMI BASELINE</div>
               <div className="font-heading" style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--text-primary)', margin: '0.2rem 0' }}>{previewMetrics.bmi}</div>
               <div className={`badge ${previewMetrics.badgeClass}`} style={{ fontSize: '0.85rem' }}>{previewMetrics.category}</div>
             </div>
 
             <button className="btn-primary" onClick={() => setStep(2)} style={{ width: '100%', padding: '0.85rem' }}>
-              Next: Dietary Preferences & Schedule <ArrowRight size={16} />
+              Next: Activity Level <ArrowRight size={16} />
             </button>
           </div>
         )}
 
-        {/* STEP 2: DIETARY PREFERENCE & SCHEDULE */}
+        {/* STEP 2: ACTIVITY LEVEL */}
         {step === 2 && (
+          <div>
+            <label className="form-label" style={{ fontSize: '1rem', fontWeight: 900, marginBottom: '1rem', display: 'block', color: 'var(--text-primary)' }}>
+              How active is your average day?
+            </label>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', marginBottom: '1.75rem' }}>
+              {[
+                { id: 'sedentary', title: '🪑 Sedentary', desc: 'Mostly sitting (studying in library, desk work, minimal walking)' },
+                { id: 'light', title: '🚶 Lightly Active', desc: 'Walking around campus between classes (5,000–8,000 steps daily)' },
+                { id: 'moderate', title: '🏋️ Moderately Active', desc: 'Gym sessions 3–4 days a week + campus walking' },
+                { id: 'active', title: '⚡ Highly Active', desc: 'Daily intense workouts, sports, or physical campus jobs' }
+              ].map((opt) => (
+                <div 
+                  key={opt.id}
+                  onClick={() => setActivityLevel(opt.id)}
+                  style={{
+                    padding: '1.25rem 1.5rem',
+                    borderRadius: 'var(--radius-md)',
+                    background: activityLevel === opt.id ? 'var(--bg-elevated)' : 'var(--bg-card)',
+                    border: activityLevel === opt.id ? '2.5px solid var(--accent-gold)' : '1.5px solid var(--border-medium)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    display: 'flex',
+                    justify: 'space-between',
+                    alignItems: 'center'
+                  }}
+                >
+                  <div>
+                    <div style={{ fontWeight: 900, fontSize: '1.05rem', color: 'var(--text-primary)', marginBottom: '0.2rem' }}>
+                      {opt.title}
+                    </div>
+                    <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+                      {opt.desc}
+                    </div>
+                  </div>
+                  {activityLevel === opt.id && <CheckCircle2 size={20} color="var(--accent-gold)" />}
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <button className="btn-secondary" onClick={() => setStep(1)} style={{ flex: 1, padding: '0.8rem' }}>
+                <ArrowLeft size={16} /> Back
+              </button>
+              <button className="btn-primary" onClick={() => setStep(3)} style={{ flex: 2, padding: '0.8rem' }}>
+                Next: Diet & Schedule <ArrowRight size={16} />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* STEP 3: DIETARY PREFERENCE & SCHEDULE */}
+        {step === 3 && (
           <div>
             <div style={{ marginBottom: '1.75rem' }}>
               <label className="form-label" style={{ fontSize: '1rem', fontWeight: 900, marginBottom: '0.8rem', display: 'block', color: 'var(--text-primary)' }}>
@@ -219,8 +271,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
                     border: dietaryCategory === 'vegetarian' ? '2.5px solid var(--accent-emerald)' : '1.5px solid var(--border-medium)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
-                    textAlign: 'center',
-                    boxShadow: dietaryCategory === 'vegetarian' ? '0 8px 20px rgba(22, 163, 74, 0.15)' : 'none'
+                    textAlign: 'center'
                   }}
                 >
                   <div style={{ fontSize: '2.2rem', marginBottom: '0.4rem' }}>🥦</div>
@@ -240,8 +291,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
                     border: dietaryCategory === 'non-veg' ? '2.5px solid #e11d48' : '1.5px solid var(--border-medium)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
-                    textAlign: 'center',
-                    boxShadow: dietaryCategory === 'non-veg' ? '0 8px 20px rgba(225, 29, 72, 0.15)' : 'none'
+                    textAlign: 'center'
                   }}
                 >
                   <div style={{ fontSize: '2.2rem', marginBottom: '0.4rem' }}>🍗</div>
@@ -261,8 +311,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
                     border: dietaryCategory === 'vegan' ? '2.5px solid var(--accent-emerald)' : '1.5px solid var(--border-medium)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
-                    textAlign: 'center',
-                    boxShadow: dietaryCategory === 'vegan' ? '0 8px 20px rgba(5, 150, 105, 0.15)' : 'none'
+                    textAlign: 'center'
                   }}
                 >
                   <div style={{ fontSize: '2.2rem', marginBottom: '0.4rem' }}>🌿</div>
@@ -285,18 +334,18 @@ export const OnboardingPage = ({ setActiveTab }) => {
             </div>
 
             <div style={{ display: 'flex', gap: '0.75rem' }}>
-              <button className="btn-secondary" onClick={() => setStep(1)} style={{ flex: 1, padding: '0.8rem' }}>
+              <button className="btn-secondary" onClick={() => setStep(2)} style={{ flex: 1, padding: '0.8rem' }}>
                 <ArrowLeft size={16} /> Back
               </button>
-              <button className="btn-primary" onClick={() => setStep(3)} style={{ flex: 2, padding: '0.8rem' }}>
+              <button className="btn-primary" onClick={() => setStep(4)} style={{ flex: 2, padding: '0.8rem' }}>
                 Next: Fitness Goal <ArrowRight size={16} />
               </button>
             </div>
           </div>
         )}
 
-        {/* STEP 3: FITNESS GOAL SELECTION */}
-        {step === 3 && (
+        {/* STEP 4: FITNESS GOAL SELECTION */}
+        {step === 4 && (
           <div>
             <div style={{ marginBottom: '1.75rem' }}>
               <label className="form-label" style={{ fontSize: '1rem', fontWeight: 900, marginBottom: '0.8rem', display: 'block', color: 'var(--text-primary)' }}>
@@ -379,7 +428,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
             </div>
 
             <div style={{ display: 'flex', gap: '0.75rem' }}>
-              <button className="btn-secondary" onClick={() => setStep(2)} style={{ flex: 1, padding: '0.8rem' }}>
+              <button className="btn-secondary" onClick={() => setStep(3)} style={{ flex: 1, padding: '0.8rem' }}>
                 <ArrowLeft size={16} /> Back
               </button>
               <button className="btn-primary" onClick={handleSubmit} disabled={loading} style={{ flex: 2, padding: '0.8rem' }}>
