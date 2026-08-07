@@ -1,23 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 
 export const Floating3DFoodCanvas = ({ activeTab }) => {
-  const [scrollY, setScrollY] = useState(0);
+  const itemRefs = useRef([]);
   const isFrontPage = activeTab === 'landing';
-
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Use much larger sizes and varying rotations for a 3D realistic feel
   const foodItems = useMemo(() => [
@@ -28,6 +13,30 @@ export const Floating3DFoodCanvas = ({ activeTab }) => {
     { icon: '🥚', top: '75%', left: '6%', speed: 0.14, size: '4.2rem', delay: 1.5, rotate: '-10deg' },
     { icon: '🍋', top: '88%', right: '6%', speed: -0.11, size: '3.8rem', delay: 3, rotate: '15deg' },
   ], []);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const sy = window.scrollY;
+          itemRefs.current.forEach((el, idx) => {
+            if (el) {
+              const item = foodItems[idx];
+              const translateY = sy * item.speed;
+              el.style.transform = `translate3d(0, ${translateY}px, 0) rotate(${item.rotate})`;
+            }
+          });
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Trigger once to set initial position
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [foodItems]);
 
   // If not on the front page, make them subtle. If on front page, make them pop.
   const baseOpacity = isFrontPage ? 0.9 : 0.15;
@@ -60,10 +69,10 @@ export const Floating3DFoodCanvas = ({ activeTab }) => {
       </style>
       
       {foodItems.map((item, idx) => {
-        const translateY = scrollY * item.speed;
         return (
           <div
             key={idx}
+            ref={el => itemRefs.current[idx] = el}
             style={{
               position: 'absolute',
               top: item.top,
@@ -72,9 +81,9 @@ export const Floating3DFoodCanvas = ({ activeTab }) => {
               fontSize: isFrontPage ? item.size : '2rem', // Shrink when not on front page
               opacity: baseOpacity,
               filter: baseFilter,
-              transform: `translate3d(0, ${translateY}px, 0) rotate(${item.rotate})`,
+              transform: `translate3d(0, 0px, 0) rotate(${item.rotate})`,
               willChange: 'transform, opacity, filter',
-              transition: 'transform 0.15s ease-out, opacity 0.5s ease, filter 0.5s ease, font-size 0.5s ease',
+              transition: 'opacity 0.5s ease, filter 0.5s ease, font-size 0.5s ease',
             }}
           >
             {/* The inner div handles the continuous bobbing animation */}
