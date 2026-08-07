@@ -72,9 +72,9 @@ export const Floating3DFoodCanvas = ({ activeTab }) => {
               fontSize: isFrontPage ? item.size : '2rem', // Shrink when not on front page
               opacity: baseOpacity,
               filter: baseFilter,
-              transform: `translateY(${translateY}px) rotate(${item.rotate})`,
-              willChange: 'transform',
-              transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: `translate3d(0, ${translateY}px, 0) rotate(${item.rotate})`,
+              willChange: 'transform, opacity, filter',
+              transition: 'transform 0.15s ease-out, opacity 0.5s ease, filter 0.5s ease, font-size 0.5s ease',
             }}
           >
             {/* The inner div handles the continuous bobbing animation */}
