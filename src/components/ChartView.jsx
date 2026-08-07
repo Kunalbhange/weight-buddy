@@ -123,7 +123,7 @@ export const ChartView = ({ logs = [], goal = 'maintain' }) => {
           {/* Points */}
           {points.map((pt, i) => (
             <g key={i} onMouseEnter={() => setHoveredPoint(pt)} onMouseLeave={() => setHoveredPoint(null)} style={{ cursor: 'pointer' }}>
-              <circle cx={pt.x} cy={pt.y} r={hoveredPoint?.id === pt.id ? 7 : 4.5} fill="#0a0a0a" stroke="var(--accent-primary)" strokeWidth="2.5" />
+              <circle cx={pt.x} cy={pt.y} r={hoveredPoint?.id === pt.id ? 7 : 4.5} fill="var(--bg-card)" stroke="var(--accent-primary)" strokeWidth="2.5" />
               <text x={pt.x} y={height - 12} fill="var(--text-muted)" fontSize="10" textAnchor="middle">
                 {pt.date.slice(5)}
               </text>
@@ -138,8 +138,8 @@ export const ChartView = ({ logs = [], goal = 'maintain' }) => {
           position: 'absolute',
           top: '20px',
           right: '20px',
-          background: 'rgba(20, 20, 20, 0.95)',
-          border: '1px solid var(--accent-primary)',
+          background: 'var(--bg-card)',
+          border: '1.5px solid var(--accent-primary)',
           borderRadius: 'var(--radius-sm)',
           padding: '0.5rem 0.75rem',
           fontSize: '0.8rem',

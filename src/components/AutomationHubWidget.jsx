@@ -64,22 +64,22 @@ export const AutomationHubWidget = () => {
   return (
     <div className="glass-card" style={{
       padding: '1.75rem',
-      background: '#14141a',
+      background: 'var(--bg-card)',
       border: '1.5px solid var(--border-medium)',
       borderRadius: 'var(--radius-md)'
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
         <div>
           <div className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>
-            <Zap size={12} color="#d97706" /> Automated Campus Engine
+            <Zap size={12} color="var(--accent-gold)" /> Automated Campus Engine
           </div>
-          <h3 className="font-heading" style={{ fontSize: '1.35rem', color: '#ffffff' }}>
+          <h3 className="font-heading" style={{ fontSize: '1.35rem', color: 'var(--text-primary)' }}>
             Smart Automations & Reminders
           </h3>
         </div>
         {savedNotice && (
-          <span style={{ fontSize: '0.78rem', color: '#d97706', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-            <CheckCircle2 size={14} color="#d97706" /> Saved Live
+          <span style={{ fontSize: '0.78rem', color: 'var(--accent-gold)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+            <CheckCircle2 size={14} color="var(--accent-gold)" /> Saved Live
           </span>
         )}
       </div>
@@ -88,16 +88,16 @@ export const AutomationHubWidget = () => {
         {/* Automation 1: Exam Stress Mode */}
         <div style={{
           padding: '1rem 1.25rem',
-          background: reminders.examStressMode ? 'rgba(217, 119, 6, 0.15)' : 'rgba(255, 255, 255, 0.04)',
-          border: reminders.examStressMode ? '1.5px solid #d97706' : '1px solid var(--border-subtle)',
+          background: reminders.examStressMode ? 'rgba(217, 119, 6, 0.15)' : 'var(--bg-elevated)',
+          border: reminders.examStressMode ? '1.5px solid var(--accent-gold)' : '1px solid var(--border-medium)',
           borderRadius: 'var(--radius-sm)',
           display: 'flex',
           justify: 'space-between',
           alignItems: 'center'
         }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, color: '#ffffff', fontSize: '0.95rem' }}>
-              <Calendar size={16} color={reminders.examStressMode ? '#d97706' : '#ffffff'} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, color: 'var(--text-primary)', fontSize: '0.95rem' }}>
+              <Calendar size={16} color={reminders.examStressMode ? 'var(--accent-gold)' : 'var(--text-primary)'} />
               🎓 Exam Crunch Week (Stress Mode)
             </div>
             <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
@@ -109,9 +109,9 @@ export const AutomationHubWidget = () => {
             style={{
               padding: '0.4rem 0.9rem',
               borderRadius: 'var(--radius-full)',
-              background: reminders.examStressMode ? '#d97706' : 'rgba(255, 255, 255, 0.1)',
-              color: reminders.examStressMode ? '#050507' : '#ffffff',
-              border: 'none',
+              background: reminders.examStressMode ? 'var(--accent-gold)' : 'var(--bg-card)',
+              color: reminders.examStressMode ? '#ffffff' : 'var(--text-primary)',
+              border: '1px solid var(--border-medium)',
               fontWeight: 900,
               fontSize: '0.78rem',
               cursor: 'pointer'
@@ -124,16 +124,16 @@ export const AutomationHubWidget = () => {
         {/* Automation 2: Auto Macro Adjustment */}
         <div style={{
           padding: '1rem 1.25rem',
-          background: 'rgba(255, 255, 255, 0.04)',
-          border: '1px solid var(--border-subtle)',
+          background: 'var(--bg-elevated)',
+          border: '1px solid var(--border-medium)',
           borderRadius: 'var(--radius-sm)',
           display: 'flex',
           justify: 'space-between',
           alignItems: 'center'
         }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, color: '#ffffff', fontSize: '0.95rem' }}>
-              <TrendingUp size={16} color="#ffffff" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, color: 'var(--text-primary)', fontSize: '0.95rem' }}>
+              <TrendingUp size={16} color="var(--text-primary)" />
               ⚡ Real-Time Auto-Macro Recalculation
             </div>
             <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
@@ -145,9 +145,9 @@ export const AutomationHubWidget = () => {
             style={{
               padding: '0.4rem 0.9rem',
               borderRadius: 'var(--radius-full)',
-              background: reminders.autoMacroAdjust ? '#ffffff' : 'rgba(255, 255, 255, 0.1)',
-              color: reminders.autoMacroAdjust ? '#050507' : '#ffffff',
-              border: 'none',
+              background: reminders.autoMacroAdjust ? 'var(--accent-gold)' : 'var(--bg-card)',
+              color: reminders.autoMacroAdjust ? '#ffffff' : 'var(--text-primary)',
+              border: '1px solid var(--border-medium)',
               fontWeight: 900,
               fontSize: '0.78rem',
               cursor: 'pointer'
@@ -160,16 +160,16 @@ export const AutomationHubWidget = () => {
         {/* Automation 3: Daily Campus Hydration & Meal Prep Alerts */}
         <div style={{
           padding: '1rem 1.25rem',
-          background: 'rgba(255, 255, 255, 0.04)',
-          border: '1px solid var(--border-subtle)',
+          background: 'var(--bg-elevated)',
+          border: '1px solid var(--border-medium)',
           borderRadius: 'var(--radius-sm)',
           display: 'flex',
           justify: 'space-between',
           alignItems: 'center'
         }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, color: '#ffffff', fontSize: '0.95rem' }}>
-              <Bell size={16} color="#ffffff" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, color: 'var(--text-primary)', fontSize: '0.95rem' }}>
+              <Bell size={16} color="var(--text-primary)" />
               🍳 Meal Prep & Hydration Campus Alerts
             </div>
             <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
@@ -181,9 +181,9 @@ export const AutomationHubWidget = () => {
             style={{
               padding: '0.4rem 0.9rem',
               borderRadius: 'var(--radius-full)',
-              background: reminders.mealPrepAlerts ? '#ffffff' : 'rgba(255, 255, 255, 0.1)',
-              color: reminders.mealPrepAlerts ? '#050507' : '#ffffff',
-              border: 'none',
+              background: reminders.mealPrepAlerts ? 'var(--accent-gold)' : 'var(--bg-card)',
+              color: reminders.mealPrepAlerts ? '#ffffff' : 'var(--text-primary)',
+              border: '1px solid var(--border-medium)',
               fontWeight: 900,
               fontSize: '0.78rem',
               cursor: 'pointer'
