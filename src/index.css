@@ -445,17 +445,24 @@ p { color: var(--text-secondary); }
 .ice-cube-float-2 { animation: iceFloat 5s ease-in-out infinite 0.8s; }
 .ice-cube-float-3 { animation: iceFloat 4.5s ease-in-out infinite 1.5s; }
 
-/* ═══════ MOBILE & TABLET OPTIMIZATIONS (iOS & ANDROID) ═══════ */
-* {
-  -webkit-tap-highlight-color: transparent;
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
-html, body {
+body {
+  width: 100%;
+  min-height: 100vh;
+  -webkit-overflow-scrolling: touch;
+}
+
+#root {
   overflow-x: hidden;
-  max-width: 100vw;
+  width: 100%;
+  position: relative;
 }
 
-/* Touch momentum scrolling for scrollable containers */
+/* Touch momentum scrolling for all scrollable containers */
 .no-scrollbar, div[style*="overflow"] {
   -webkit-overflow-scrolling: touch;
 }

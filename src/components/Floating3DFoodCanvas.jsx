@@ -15,6 +15,9 @@ export const Floating3DFoodCanvas = ({ activeTab }) => {
   ], []);
 
   useEffect(() => {
+    // Disable scroll event listener on mobile devices to guarantee 100% 60fps smooth touch scrolling
+    if (window.innerWidth <= 768) return;
+
     let ticking = false;
     const handleScroll = () => {
       if (!ticking) {
@@ -33,7 +36,6 @@ export const Floating3DFoodCanvas = ({ activeTab }) => {
       }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    // Trigger once to set initial position
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, [foodItems]);
