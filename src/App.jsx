@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { Floating3DFoodCanvas } from './components/Floating3DFoodCanvas';
+import { motion, AnimatePresence } from 'framer-motion';
 
 
 // Dedicated Standalone Frontend View Components
@@ -53,7 +54,18 @@ const AppContent = () => {
         <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
       )}
       <main style={{ flex: 1, zIndex: 2, position: 'relative' }}>
-        {renderCurrentPage()}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            style={{ width: '100%', minHeight: '100%' }}
+          >
+            {renderCurrentPage()}
+          </motion.div>
+        </AnimatePresence>
       </main>
       <Footer setActiveTab={setActiveTab} />
     </div>

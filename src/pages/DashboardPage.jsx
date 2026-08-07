@@ -26,6 +26,7 @@ import {
   Camera,
   Image as ImageIcon
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const DashboardPage = ({ setActiveTab }) => {
   const { user, onboarding, currency, theme } = useAuth();
@@ -265,28 +266,54 @@ export const DashboardPage = ({ setActiveTab }) => {
                 onClick={() => { setActiveSlide(idx); setIsAutoAdvancing(false); }}
                 style={{
                   display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.3rem',
+                  padding: '0',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  scrollSnapAlign: 'start',
+                  outline: 'none',
+                  minWidth: '160px'
+                }}
+              >
+                <div style={{
+                  display: 'flex',
                   alignItems: 'center',
                   gap: '0.6rem',
                   padding: '0.75rem 1.4rem',
                   borderRadius: 'var(--radius-full)',
                   fontSize: '0.9rem',
                   fontWeight: 800,
+                  width: '100%',
                   color: 'var(--text-primary)',
                   background: isActive ? slide.activeColor : (theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : '#ffffff'),
                   border: isActive ? `1.5px solid ${slide.activeColor}` : (theme === 'dark' ? '1.5px solid var(--border-subtle)' : '1.5px solid #cbd5e1'),
                   opacity: isActive ? 1 : 0.85,
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
                   transition: 'all 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
                   boxShadow: isActive ? `0 8px 24px ${slide.glowColor}` : '0 4px 12px rgba(0,0,0,0.04)',
                   transform: isActive ? 'translateY(-3px)' : 'none',
-                  scrollSnapAlign: 'start'
-                }}
-              >
-                <Icon size={16} color={isActive ? '#ffffff' : ('var(--text-primary)')} />
-                <span style={{ color: isActive ? '#ffffff' : ('var(--text-primary)') }}>
-                  {slide.title}
-                </span>
+                }}>
+                  <Icon size={16} color={isActive ? '#ffffff' : ('var(--text-primary)')} />
+                  <span style={{ color: isActive ? '#ffffff' : ('var(--text-primary)') }}>
+                    {slide.title}
+                  </span>
+                </div>
+                
+                {/* Premium Animated Progress Indicator */}
+                <div style={{ height: '3px', width: '100%', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', overflow: 'hidden', opacity: isActive ? 1 : 0 }}>
+                  {isActive && isAutoAdvancing && (
+                    <motion.div
+                      initial={{ width: '0%' }}
+                      animate={{ width: '100%' }}
+                      transition={{ duration: 7, ease: "linear" }}
+                      style={{ height: '100%', background: slide.activeColor, borderRadius: '4px' }}
+                    />
+                  )}
+                  {isActive && !isAutoAdvancing && (
+                    <div style={{ height: '100%', width: '100%', background: slide.activeColor, borderRadius: '4px' }} />
+                  )}
+                </div>
               </button>
             );
           })}
@@ -307,8 +334,17 @@ export const DashboardPage = ({ setActiveTab }) => {
           boxShadow: 'var(--shadow-float)'
         }}
       >
-        {/* SLIDE 1: TODAY'S MEAL PLAN */}
-        {activeSlide === 0 && (
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeSlide}
+            initial={{ opacity: 0, scale: 0.97, x: 20 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.97, x: -20 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            style={{ width: '100%', height: '100%' }}
+          >
+            {/* SLIDE 1: TODAY'S MEAL PLAN */}
+            {activeSlide === 0 && (
           <div className="animate-fade-in">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '1rem' }}>
               <div>
@@ -529,27 +565,29 @@ export const DashboardPage = ({ setActiveTab }) => {
           </div>
         )}
 
-        {/* SLIDE 8: MOTIVATION WALL */}
-        {activeSlide === 7 && (
-          <div className="animate-fade-in">
-            <div style={{ marginBottom: '1.75rem' }}>
-              <span className="badge badge-amber" style={{ marginBottom: '0.4rem' }}>Campus Student Inspiration</span>
-              <h3 className="font-heading" style={{ fontSize: '1.5rem', color: 'var(--text-primary)' }}>Campus Motivation Wall</h3>
-            </div>
+            {/* SLIDE 8: MOTIVATION WALL */}
+            {activeSlide === 7 && (
+              <div>
+                <div style={{ marginBottom: '1.75rem' }}>
+                  <span className="badge badge-amber" style={{ marginBottom: '0.4rem' }}>Campus Student Inspiration</span>
+                  <h3 className="font-heading" style={{ fontSize: '1.5rem', color: 'var(--text-primary)' }}>Campus Motivation Wall</h3>
+                </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
-              <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid #eab308' }}>
-                <div style={{ fontWeight: 900, color: '#eab308', fontSize: '0.85rem', marginBottom: '0.4rem' }}>⚡ HABIT BUILDING</div>
-                <p style={{ color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 700 }}>"Exams are temporary, gains are forever. 15 mins of dorm pushups beat 0 mins."</p>
-              </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
+                  <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid #eab308' }}>
+                    <div style={{ fontWeight: 900, color: '#eab308', fontSize: '0.85rem', marginBottom: '0.4rem' }}>⚡ HABIT BUILDING</div>
+                    <p style={{ color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 700 }}>"Exams are temporary, gains are forever. 15 mins of dorm pushups beat 0 mins."</p>
+                  </div>
 
-              <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid #10b981' }}>
-                <div style={{ fontWeight: 900, color: '#10b981', fontSize: '0.85rem', marginBottom: '0.4rem' }}>💡 HOSTEL HACKS</div>
-                <p style={{ color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 700 }}>"Taking stairs instead of hostel elevator adds 1,500 extra steps daily."</p>
+                  <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid #10b981' }}>
+                    <div style={{ fontWeight: 900, color: '#10b981', fontSize: '0.85rem', marginBottom: '0.4rem' }}>💡 HOSTEL HACKS</div>
+                    <p style={{ color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 700 }}>"Taking stairs instead of hostel elevator adds 1,500 extra steps daily."</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        )}
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* QUICK LOG MODAL */}
