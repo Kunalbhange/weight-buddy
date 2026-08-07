@@ -8,24 +8,20 @@ const { Pool } = pg;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Supabase PostgreSQL Connection Credentials
-const SUPABASE_PROJECT_ID = 'yguremfshazxizbwsmfk';
-const SUPABASE_HOST = `db.${SUPABASE_PROJECT_ID}.supabase.co`;
-const SUPABASE_URL = `https://${SUPABASE_PROJECT_ID}.supabase.co`;
-
-const DATABASE_URL = process.env.DATABASE_URL || `postgresql://postgres:${process.env.SUPABASE_DB_PASSWORD || 'postgres'}@${SUPABASE_HOST}:5432/postgres`;
+// PostgreSQL Connection Credentials (loaded strictly from server-side environment)
+const DATABASE_URL = process.env.DATABASE_URL;
 
 // Configure Postgres Connection Pool
 let pool = null;
-if (process.env.DATABASE_URL || process.env.SUPABASE_DB_PASSWORD) {
+if (DATABASE_URL) {
   try {
     pool = new Pool({
       connectionString: DATABASE_URL,
       ssl: { rejectUnauthorized: false }
     });
-    console.log('✅ Supabase PostgreSQL Pool initialized.');
+    console.log('✅ PostgreSQL Pool initialized.');
   } catch (e) {
-    console.warn('⚠️ Supabase Postgres pool fallback:', e.message);
+    console.warn('⚠️ Postgres pool fallback:', e.message);
   }
 }
 
