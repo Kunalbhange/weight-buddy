@@ -32,7 +32,7 @@ export const LandingPage = ({ setActiveTab }) => {
 
   return (
     <div className="animate-fade-in" style={{ maxWidth: '1240px', margin: '0 auto', padding: '2.5rem 1.75rem' }}>
-      {/* HERO SECTION */}
+      {/* HERO SECTION WITH FLOATING ANIMATED BADGES */}
       <section style={{
         padding: '2.5rem 1rem 3rem',
         position: 'relative'
@@ -45,8 +45,8 @@ export const LandingPage = ({ setActiveTab }) => {
         }}>
           {/* HERO LEFT */}
           <div>
-            <div className="badge badge-amber" style={{ marginBottom: '1.25rem' }}>
-              <ShieldCheck size={15} color="#d97706" /> Free Student Fitness & Nutrition Engine
+            <div className="badge badge-amber float-animation" style={{ marginBottom: '1.25rem' }}>
+              <ShieldCheck size={15} color="#b45309" /> Free Student Fitness & Nutrition Engine
             </div>
 
             <h1 className="font-heading" style={{
@@ -54,11 +54,11 @@ export const LandingPage = ({ setActiveTab }) => {
               fontWeight: 900,
               lineHeight: 1.12,
               marginBottom: '1.25rem',
-              color: '#ffffff'
+              color: '#0f172a'
             }}>
               Nail Your College Nutrition <br />
               <span style={{
-                background: 'linear-gradient(135deg, #ffffff 0%, #d97706 70%, #b45309 100%)',
+                background: 'linear-gradient(135deg, #0f172a 0%, #d97706 70%, #b45309 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
               }}>
@@ -68,7 +68,7 @@ export const LandingPage = ({ setActiveTab }) => {
 
             <p style={{
               fontSize: '1.08rem',
-              color: 'var(--text-secondary)',
+              color: '#334155',
               marginBottom: '2.25rem',
               lineHeight: 1.65
             }}>
@@ -90,36 +90,37 @@ export const LandingPage = ({ setActiveTab }) => {
               gap: '1.75rem',
               flexWrap: 'wrap',
               fontSize: '0.9rem',
-              fontWeight: 700,
-              color: 'var(--text-secondary)'
+              fontWeight: 800,
+              color: '#1e293b'
             }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: '#ffffff' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
                 <Check size={16} color="#d97706" /> 5-10 Min Hostel Meals
               </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: '#ffffff' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
                 <Check size={16} color="#d97706" /> Under {minPrice} – {maxPrice} / Meal
               </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', color: '#ffffff' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
                 <Check size={16} color="#d97706" /> Multi-Language AI Companion
               </span>
             </div>
           </div>
 
-          {/* HERO RIGHT: RETRO LIVE BMI CALCULATOR CARD */}
-          <div className="glass-card" style={{
+          {/* HERO RIGHT: FLOATING RETRO LIVE BMI CALCULATOR CARD */}
+          <div className="glass-card float-slow" style={{
             padding: '2.25rem',
-            background: '#14141a',
-            border: '1.5px solid var(--border-medium)',
-            borderRadius: 'var(--radius-md)'
+            background: '#ffffff',
+            border: '1.5px solid #cbd5e1',
+            borderRadius: 'var(--radius-md)',
+            boxShadow: 'var(--shadow-float)'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontWeight: 800, fontSize: '1.1rem', color: '#ffffff' }}>
-                <div style={{ width: '38px', height: '38px', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontWeight: 800, fontSize: '1.1rem', color: '#0f172a' }}>
+                <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0f172a' }}>
                   <Scale size={20} />
                 </div>
                 <span>Live Interactive BMI Engine</span>
               </div>
-              <span className="badge badge-zinc">Real-Time</span>
+              <span className="badge badge-amber pulse-glow">Real-Time</span>
             </div>
 
             {/* HEIGHT INPUT CONTROL */}
@@ -134,11 +135,11 @@ export const LandingPage = ({ setActiveTab }) => {
 
               {heightUnit === 'cm' ? (
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', color: '#475569', marginBottom: '0.3rem' }}>
                     <span>Centimeters</span>
-                    <strong style={{ color: '#fff', fontSize: '1rem' }}>{heightCm} cm</strong>
+                    <strong style={{ color: '#0f172a', fontSize: '1rem' }}>{heightCm} cm</strong>
                   </div>
-                  <input type="range" min="130" max="220" value={heightCm} onChange={(e) => setHeightCm(Number(e.target.value))} style={{ width: '100%', accentColor: '#ffffff' }} />
+                  <input type="range" min="130" max="220" value={heightCm} onChange={(e) => setHeightCm(Number(e.target.value))} style={{ width: '100%', accentColor: '#0f172a' }} />
                 </div>
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
@@ -157,35 +158,35 @@ export const LandingPage = ({ setActiveTab }) => {
                   <button type="button" className={`unit-toggle-btn ${weightUnit === 'lbs' ? 'active' : ''}`} onClick={() => { if (weightUnit === 'kg') setWeightVal(kgToLbs(weightVal)); setWeightUnit('lbs'); }}>lbs</button>
                 </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', color: '#475569', marginBottom: '0.3rem' }}>
                 <span>Weight Value</span>
-                <strong style={{ color: '#fff', fontSize: '1rem' }}>{weightVal} {weightUnit}</strong>
+                <strong style={{ color: '#0f172a', fontSize: '1rem' }}>{weightVal} {weightUnit}</strong>
               </div>
-              <input type="range" min={weightUnit === 'kg' ? "40" : "88"} max={weightUnit === 'kg' ? "160" : "350"} value={weightVal} onChange={(e) => setWeightVal(Number(e.target.value))} style={{ width: '100%', accentColor: '#ffffff' }} />
+              <input type="range" min={weightUnit === 'kg' ? "40" : "88"} max={weightUnit === 'kg' ? "160" : "350"} value={weightVal} onChange={(e) => setWeightVal(Number(e.target.value))} style={{ width: '100%', accentColor: '#0f172a' }} />
             </div>
 
             {/* RESULT STAT CARD */}
             <div style={{
-              background: '#050507',
+              background: '#f8fafc',
               borderRadius: 'var(--radius-sm)',
               padding: '1.35rem',
-              border: '1.5px solid var(--border-medium)',
+              border: '1.5px solid #cbd5e1',
               display: 'flex',
               alignItems: 'center',
               justify: 'space-between'
             }}>
               <div>
-                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 800 }}>CALCULATED BMI</div>
-                <div className="font-heading" style={{ fontSize: '2.8rem', fontWeight: 900, color: '#ffffff', lineHeight: 1, marginTop: '0.2rem' }}>
+                <div style={{ fontSize: '0.72rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 800 }}>CALCULATED BMI</div>
+                <div className="font-heading" style={{ fontSize: '2.8rem', fontWeight: 900, color: '#0f172a', lineHeight: 1, marginTop: '0.2rem' }}>
                   {metrics.bmi}
                 </div>
               </div>
 
               <div style={{ textAlign: 'right' }}>
-                <div className={`badge ${metrics.badgeClass}`} style={{ fontSize: '0.82rem', padding: '0.45rem 1rem', marginBottom: '0.4rem' }}>
+                <div className="badge badge-amber" style={{ fontSize: '0.82rem', padding: '0.45rem 1rem', marginBottom: '0.4rem' }}>
                   {metrics.category}
                 </div>
-                <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+                <div style={{ fontSize: '0.82rem', color: '#334155', fontWeight: 700 }}>
                   {metrics.weightKg} kg ({metrics.weightLbs} lbs)
                 </div>
               </div>
@@ -194,16 +195,16 @@ export const LandingPage = ({ setActiveTab }) => {
         </div>
       </section>
 
-      {/* CORE FEATURE CARDS GRID */}
+      {/* CORE FEATURE CARDS GRID WITH FLOATING HOVER EFFECTS */}
       <section style={{ margin: '4.5rem 0 3.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <div className="badge badge-amber" style={{ marginBottom: '0.5rem' }}>
-            <Zap size={12} color="#d97706" /> Student Essential Features
+          <div className="badge badge-amber float-animation" style={{ marginBottom: '0.5rem' }}>
+            <Zap size={12} color="#b45309" /> Student Essential Features
           </div>
-          <h2 className="font-heading" style={{ fontSize: '2.4rem', fontWeight: 900, color: '#ffffff' }}>
+          <h2 className="font-heading" style={{ fontSize: '2.4rem', fontWeight: 900, color: '#0f172a' }}>
             Built For Modern Campus Life
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginTop: '0.2rem' }}>
+          <p style={{ color: '#475569', fontSize: '1rem', marginTop: '0.2rem' }}>
             Designed around tight class schedules, hostel kitchens, and zero budget.
           </p>
         </div>
@@ -215,62 +216,63 @@ export const LandingPage = ({ setActiveTab }) => {
         }}>
           {/* Feature 1 */}
           <div className="glass-card glass-card-interactive" style={{ padding: '1.75rem' }}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', marginBottom: '1.25rem' }}>
-              <Clock size={22} />
+            <div style={{ width: '46px', height: '46px', borderRadius: '12px', background: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', marginBottom: '1.25rem', boxShadow: '0 6px 16px rgba(15,23,42,0.2)' }}>
+              <Clock size={22} color="#ffffff" />
             </div>
-            <h3 className="font-heading" style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#ffffff' }}>Schedule Density Aware</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+            <h3 className="font-heading" style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#0f172a' }}>Schedule Density Aware</h3>
+            <p style={{ color: '#334155', fontSize: '0.9rem', lineHeight: '1.6' }}>
               Heavy class day? WeightBuddy prioritizes 5-10 minute grab-and-go meal suggestions like peanut butter oats, egg bhurji wraps, and high-protein shakes.
             </p>
           </div>
 
           {/* Feature 2 */}
           <div className="glass-card glass-card-interactive" style={{ padding: '1.75rem' }}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(217, 119, 6, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fbbf24', marginBottom: '1.25rem' }}>
-              <DollarSign size={22} />
+            <div style={{ width: '46px', height: '46px', borderRadius: '12px', background: '#fef3c7', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#b45309', marginBottom: '1.25rem', border: '1.5px solid #fcd34d' }}>
+              <DollarSign size={22} color="#b45309" />
             </div>
-            <h3 className="font-heading" style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#ffffff' }}>Student Budget Friendly</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+            <h3 className="font-heading" style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#0f172a' }}>Student Budget Friendly</h3>
+            <p style={{ color: '#334155', fontSize: '0.9rem', lineHeight: '1.6' }}>
               No expensive organic meal subscriptions. Every recipe uses accessible, cheap ingredients tagged with cost estimates from {minPrice} to {maxPrice}.
             </p>
           </div>
 
           {/* Feature 3 */}
           <div className="glass-card glass-card-interactive" style={{ padding: '1.75rem' }}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', marginBottom: '1.25rem' }}>
-              <Bot size={22} />
+            <div style={{ width: '46px', height: '46px', borderRadius: '12px', background: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', marginBottom: '1.25rem', boxShadow: '0 6px 16px rgba(15,23,42,0.2)' }}>
+              <Bot size={22} color="#ffffff" />
             </div>
-            <h3 className="font-heading" style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#ffffff' }}>Multi-Language AI Companion</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+            <h3 className="font-heading" style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#0f172a' }}>Multi-Language AI Companion</h3>
+            <p style={{ color: '#334155', fontSize: '0.9rem', lineHeight: '1.6' }}>
               Ask questions in English, Hinglish, Hindi, Spanish, or French. Self-contained intelligence helps you adjust meals and understand trends.
             </p>
           </div>
 
           {/* Feature 4 */}
           <div className="glass-card glass-card-interactive" style={{ padding: '1.75rem' }}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', marginBottom: '1.25rem' }}>
-              <Activity size={22} />
+            <div style={{ width: '46px', height: '46px', borderRadius: '12px', background: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', marginBottom: '1.25rem', boxShadow: '0 6px 16px rgba(15,23,42,0.2)' }}>
+              <Activity size={22} color="#ffffff" />
             </div>
-            <h3 className="font-heading" style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#ffffff' }}>Milestone & Trend Tracking</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+            <h3 className="font-heading" style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: '#0f172a' }}>Milestone & Trend Tracking</h3>
+            <p style={{ color: '#334155', fontSize: '0.9rem', lineHeight: '1.6' }}>
               Mix and match units (lbs, kgs, cm, ft+in). View smooth SVG trendlines and clear milestone markers celebrating your progress.
             </p>
           </div>
         </div>
       </section>
 
-      {/* FINAL RETRO CTA BANNER */}
-      <section className="glass-card" style={{
+      {/* FINAL RETRO CTA BANNER WITH FLOATING SHADOW */}
+      <section className="glass-card float-slow" style={{
         padding: '3.5rem 2.5rem',
         textAlign: 'center',
-        background: '#14141a',
-        border: '1.5px solid var(--border-medium)',
-        borderRadius: 'var(--radius-md)'
+        background: '#ffffff',
+        border: '1.5px solid #cbd5e1',
+        borderRadius: 'var(--radius-md)',
+        boxShadow: 'var(--shadow-float)'
       }}>
-        <h2 className="font-heading" style={{ fontSize: '2.4rem', fontWeight: 900, marginBottom: '0.6rem', color: '#ffffff' }}>
+        <h2 className="font-heading" style={{ fontSize: '2.4rem', fontWeight: 900, marginBottom: '0.6rem', color: '#0f172a' }}>
           Ready To Take Control Of Your Student Diet?
         </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: '620px', margin: '0 auto 2rem', lineHeight: '1.6' }}>
+        <p style={{ color: '#334155', fontSize: '1.05rem', maxWidth: '620px', margin: '0 auto 2rem', lineHeight: '1.6' }}>
           Create your free account in under 60 seconds. No subscription traps, no external trackers.
         </p>
         <button className="btn-primary" onClick={() => setActiveTab('signup')} style={{ padding: '1rem 2.6rem', fontSize: '1.05rem' }}>
