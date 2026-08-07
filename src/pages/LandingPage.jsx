@@ -29,9 +29,38 @@ export const LandingPage = ({ setActiveTab }) => {
   ];
 
   return (
-    <div className="animate-fade-in" style={{ maxWidth: '1140px', margin: '0 auto', padding: '3rem 1.5rem' }}>
+    <div className="animate-fade-in">
+      {/* ═══ BRANDING HEADER ═══ */}
+      <header style={{ maxWidth: '1140px', margin: '0 auto', padding: '1.5rem 1.5rem 0', display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          <div style={{
+            width: '34px',
+            height: '34px',
+            borderRadius: '9px',
+            background: 'var(--accent-gold)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontWeight: 900,
+            color: '#ffffff',
+            fontSize: '1.1rem',
+            fontFamily: 'var(--font-heading)'
+          }}>
+            W
+          </div>
+          <div>
+            <div className="font-heading" style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.1 }}>
+              Weight<span style={{ color: 'var(--accent-gold)' }}>Buddy</span>
+            </div>
+            <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontWeight: 600, letterSpacing: '0.04em' }}>
+              Student Nutrition
+            </div>
+          </div>
+        </div>
+      </header>
 
-      {/* ═══ HERO ═══ */}
+      <div style={{ maxWidth: '1140px', margin: '0 auto', padding: '2rem 1.5rem 3rem' }}>
+        {/* ═══ HERO ═══ */}
       <section style={{ paddingBottom: '4rem' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '3rem', alignItems: 'center' }}>
           <div>
@@ -229,6 +258,7 @@ export const LandingPage = ({ setActiveTab }) => {
           Open Portal <ArrowRight size={16} />
         </button>
       </section>
+      </div>
     </div>
   );
 };
