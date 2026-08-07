@@ -94,65 +94,7 @@ export const SettingsPage = ({ setActiveTab }) => {
         </form>
       </div>
 
-      {/* SECTION 2.5: APPEARANCE & THEME MODE */}
-      <div className="glass-card" style={{ padding: '2rem', background: 'var(--bg-card)', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-          {theme === 'dark' ? <Moon size={20} color="var(--accent-gold)" /> : <Sun size={20} color="#f59e0b" />}
-          <h2 className="font-heading" style={{ fontSize: '1.3rem', color: 'var(--text-primary)' }}>Appearance & Theme</h2>
-        </div>
 
-        <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.25rem', fontWeight: 600 }}>
-          Switch between sleek <strong>Dark Mode</strong> (OLED black with neon accents) and clean <strong>Light Mode</strong> (high contrast for bright study environments).
-        </p>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-          <div 
-            onClick={() => setTheme('dark')}
-            style={{
-              padding: '1.25rem',
-              borderRadius: 'var(--radius-md)',
-              background: theme === 'dark' ? 'var(--bg-elevated)' : 'var(--bg-card)',
-              border: theme === 'dark' ? '2.5px solid var(--accent-gold)' : '1.5px solid var(--border-medium)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#0a0a0a', border: '1px solid #333', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Moon size={20} color="#fbbf24" />
-            </div>
-            <div>
-              <div style={{ fontWeight: 800, fontSize: '0.95rem', color: 'var(--text-primary)' }}>Dark Mode</div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>OLED Deep Black</div>
-            </div>
-          </div>
-
-          <div 
-            onClick={() => setTheme('light')}
-            style={{
-              padding: '1.25rem',
-              borderRadius: 'var(--radius-md)',
-              background: theme === 'light' ? 'var(--bg-elevated)' : 'var(--bg-card)',
-              border: theme === 'light' ? '2.5px solid var(--accent-gold)' : '1.5px solid var(--border-medium)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: '#f8fafc', border: '1px solid #cbd5e1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Sun size={20} color="#d97706" />
-            </div>
-            <div>
-              <div style={{ fontWeight: 800, fontSize: '0.95rem', color: 'var(--text-primary)' }}>Light Mode</div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Pure Clean White</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* SECTION 3: CURRENCY FORMATTING */}
       <div className="glass-card" style={{ padding: '2rem', background: 'var(--bg-card)', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>

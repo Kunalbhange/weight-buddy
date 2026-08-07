@@ -5,9 +5,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [onboarding, setOnboarding] = useState(null);
-  const [currency, setCurrency] = useState(localStorage.getItem('wb_currency') || 'INR');
-  const [theme, setTheme] = useState(localStorage.getItem('wb_theme') || 'dark');
   const [loading, setLoading] = useState(true);
+  const theme = 'light';
 
   const checkAuth = async () => {
     try {
@@ -36,11 +35,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     checkAuth();
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('wb_theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+    document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('wb_theme', 'light');
+  }, []);
   const changeCurrency = (code) => {
     setCurrency(code);
     localStorage.setItem('wb_currency', code);
@@ -95,9 +92,7 @@ export const AuthProvider = ({ children }) => {
       onboarding,
       currency,
       changeCurrency,
-      theme,
-      toggleTheme,
-      setTheme,
+      theme: 'light',
       loading,
       login,
       signup,

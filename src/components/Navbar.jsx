@@ -108,11 +108,6 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
             </button>
           )}
 
-          {/* Theme */}
-          <button onClick={toggleTheme} title="Toggle theme" style={controlStyle}>
-            {theme === 'dark' ? <Sun size={14} color="#fbbf24" /> : <Moon size={14} />}
-          </button>
-
           {/* Currency */}
           <div style={controlStyle}>
             <Globe size={13} color="var(--accent-gold)" />
