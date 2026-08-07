@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { CURRENCY_MAP } from '../utils/currency';
-import { Settings, User, Globe, Download, Trash2, ShieldCheck, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { AutomationHubWidget } from '../components/AutomationHubWidget';
+import { Settings, User, Globe, Download, Trash2, ShieldCheck, CheckCircle2, AlertTriangle, Zap } from 'lucide-react';
 
 export const SettingsPage = ({ setActiveTab }) => {
   const { user, fetchMe, logout, currency, changeCurrency } = useAuth();
@@ -63,15 +64,15 @@ export const SettingsPage = ({ setActiveTab }) => {
   return (
     <div className="animate-fade-in" style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem 1.5rem' }}>
       <div style={{ marginBottom: '2rem' }}>
-        <h1 className="font-heading" style={{ fontSize: '2rem', fontWeight: 800 }}>Account & Settings</h1>
+        <h1 className="font-heading" style={{ fontSize: '2rem', fontWeight: 800, color: '#ffffff' }}>Account & Settings</h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-          Manage your student profile, default currency formatting, and data export.
+          Manage your student profile, default currency formatting, and automated campus preferences.
         </p>
       </div>
 
       {message && (
-        <div style={{ padding: '0.85rem 1.25rem', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#34d399', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <CheckCircle2 size={18} /> {message}
+        <div style={{ padding: '0.85rem 1.25rem', background: 'rgba(217, 119, 6, 0.15)', border: '1px solid rgba(217, 119, 6, 0.3)', color: '#fbbf24', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <CheckCircle2 size={18} color="#fbbf24" /> {message}
         </div>
       )}
 
@@ -81,11 +82,16 @@ export const SettingsPage = ({ setActiveTab }) => {
         </div>
       )}
 
-      {/* SECTION 1: PROFILE DETAILS */}
-      <div className="glass-card" style={{ padding: '2rem', background: '#141414', marginBottom: '2rem' }}>
+      {/* SECTION 1: AUTOMATIONS CONTROL HUB */}
+      <div style={{ marginBottom: '2rem' }}>
+        <AutomationHubWidget />
+      </div>
+
+      {/* SECTION 2: PROFILE DETAILS */}
+      <div className="glass-card" style={{ padding: '2rem', background: '#14141a', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-          <User size={20} color="var(--accent-primary)" />
-          <h2 className="font-heading" style={{ fontSize: '1.3rem' }}>Profile Information</h2>
+          <User size={20} color="#ffffff" />
+          <h2 className="font-heading" style={{ fontSize: '1.3rem', color: '#ffffff' }}>Profile Information</h2>
         </div>
 
         <form onSubmit={handleUpdateProfile}>
@@ -104,11 +110,11 @@ export const SettingsPage = ({ setActiveTab }) => {
         </form>
       </div>
 
-      {/* SECTION 2: CURRENCY FORMATTING */}
-      <div className="glass-card" style={{ padding: '2rem', background: '#141414', marginBottom: '2rem' }}>
+      {/* SECTION 3: CURRENCY FORMATTING */}
+      <div className="glass-card" style={{ padding: '2rem', background: '#14141a', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-          <Globe size={20} color="var(--accent-primary)" />
-          <h2 className="font-heading" style={{ fontSize: '1.3rem' }}>Preferred Currency</h2>
+          <Globe size={20} color="#d97706" />
+          <h2 className="font-heading" style={{ fontSize: '1.3rem', color: '#ffffff' }}>Preferred Currency</h2>
         </div>
 
         <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
@@ -131,11 +137,11 @@ export const SettingsPage = ({ setActiveTab }) => {
         </div>
       </div>
 
-      {/* SECTION 3: PRIVACY, DATA EXPORT & DELETION */}
-      <div className="glass-card" style={{ padding: '2rem', background: '#141414' }}>
+      {/* SECTION 4: PRIVACY, DATA EXPORT & DELETION */}
+      <div className="glass-card" style={{ padding: '2rem', background: '#14141a', border: '1.5px solid var(--border-medium)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-          <ShieldCheck size={20} color="var(--accent-primary)" />
-          <h2 className="font-heading" style={{ fontSize: '1.3rem' }}>Privacy & Data Ownership</h2>
+          <ShieldCheck size={20} color="#d97706" />
+          <h2 className="font-heading" style={{ fontSize: '1.3rem', color: '#ffffff' }}>Privacy & Data Ownership</h2>
         </div>
 
         <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: '1.5' }}>
@@ -160,14 +166,14 @@ export const SettingsPage = ({ setActiveTab }) => {
           background: 'rgba(0,0,0,0.85)',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          justify: 'center',
           zIndex: 1000,
           padding: '1rem'
         }}>
-          <div className="glass-card" style={{ maxWidth: '440px', width: '100%', padding: '2rem', background: '#141414', border: '1px solid rgba(239, 68, 68, 0.4)' }}>
+          <div className="glass-card" style={{ maxWidth: '440px', width: '100%', padding: '2rem', background: '#14141a', border: '1.5px solid rgba(239, 68, 68, 0.4)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#fca5a5', marginBottom: '1rem' }}>
               <AlertTriangle size={24} />
-              <h3 className="font-heading" style={{ fontSize: '1.3rem' }}>Confirm Permanent Deletion</h3>
+              <h3 className="font-heading" style={{ fontSize: '1.3rem', color: '#ffffff' }}>Confirm Permanent Deletion</h3>
             </div>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5', marginBottom: '1.5rem' }}>
               Are you sure you want to delete your WeightBuddy account? This will permanently purge all your weight logs, custom meal plans, and chat history.
