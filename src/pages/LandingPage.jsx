@@ -59,63 +59,66 @@ export const LandingPage = ({ setActiveTab }) => {
         </div>
       </header>
 
-      <div style={{ maxWidth: '1140px', margin: '0 auto', padding: '2rem 1.5rem 3rem' }}>
+      <div style={{ maxWidth: '1140px', margin: '0 auto', padding: '4rem 1.5rem 5rem' }}>
         {/* ═══ HERO ═══ */}
-      <section style={{ paddingBottom: '4rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '3rem', alignItems: 'center' }}>
-          <div>
-            <span className="badge badge-amber" style={{ marginBottom: '1.25rem' }}>
-              <ShieldCheck size={13} /> Free Student Platform
-            </span>
+      <section style={{ paddingBottom: '5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+        
+        <span className="badge badge-zinc" style={{ marginBottom: '2rem', padding: '0.4rem 1rem', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <ShieldCheck size={14} style={{ color: 'var(--accent-gold)' }} /> Free Student Platform
+        </span>
 
-            <h1 className="font-heading" style={{ fontSize: 'clamp(2.2rem, 4.8vw, 3.5rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '1.25rem' }}>
-              Your campus nutrition,{' '}
-              <span style={{ color: 'var(--accent-gold)' }}>simplified.</span>
-            </h1>
+        <h1 className="font-heading" style={{ fontSize: 'clamp(2.8rem, 6vw, 4.5rem)', fontWeight: 900, lineHeight: 1.05, marginBottom: '1.5rem', maxWidth: '800px' }}>
+          Your campus nutrition, <br/>
+          <span className="text-gradient-gold">beautifully simplified.</span>
+        </h1>
 
-            <p style={{ fontSize: '1.05rem', marginBottom: '2rem', lineHeight: 1.7, fontWeight: 450, maxWidth: '480px' }}>
-              Personalized meal plans from {minPrice}–{maxPrice} per serving. 5-minute hostel-friendly recipes, body tracking, and an AI nutrition coach — all free.
-            </p>
+        <p style={{ fontSize: '1.1rem', marginBottom: '2.5rem', lineHeight: 1.7, fontWeight: 450, maxWidth: '600px', color: 'var(--text-secondary)' }}>
+          Personalized meal plans from {minPrice}–{maxPrice} per serving. 5-minute hostel-friendly recipes, body tracking, and an AI nutrition coach — all completely free.
+        </p>
 
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
-              <button className="btn-primary" onClick={() => setActiveTab('dashboard')} style={{ padding: '0.85rem 2rem' }}>
-                Open Student Portal <ArrowRight size={16} />
-              </button>
-              <button className="btn-secondary" onClick={() => setActiveTab('onboarding')}>
-                Set Up Profile
-              </button>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '4rem' }}>
+          <button className="btn-primary" onClick={() => setActiveTab('dashboard')} style={{ padding: '0.9rem 2.2rem', fontSize: '0.95rem' }}>
+            Open Student Portal <ArrowRight size={16} />
+          </button>
+          <button className="btn-secondary" onClick={() => setActiveTab('onboarding')} style={{ padding: '0.9rem 2.2rem', fontSize: '0.95rem' }}>
+            Set Up Profile
+          </button>
+        </div>
+
+        <div style={{ display: 'flex', gap: '3rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '2rem', marginBottom: '5rem', justifyContent: 'center', width: '100%', maxWidth: '600px' }}>
+          {[
+            { value: '15k+', label: 'Students' },
+            { value: '99%', label: 'Satisfaction' },
+            { value: 'Free', label: 'Forever' }
+          ].map(stat => (
+            <div key={stat.label}>
+              <div className="font-heading" style={{ fontSize: '1.75rem', fontWeight: 900, color: 'var(--text-primary)' }}>{stat.value}</div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{stat.label}</div>
             </div>
+          ))}
+        </div>
 
-            <div style={{ display: 'flex', gap: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border-subtle)' }}>
-              {[
-                { value: '15k+', label: 'Students' },
-                { value: '99%', label: 'Satisfaction' },
-                { value: 'Free', label: 'Forever' }
-              ].map(stat => (
-                <div key={stat.label}>
-                  <div className="font-heading" style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--text-primary)' }}>{stat.value}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>{stat.label}</div>
+        {/* BMI Calculator Card (Centered & Premium) */}
+        <div style={{ width: '100%', maxWidth: '540px', margin: '0 auto' }}>
+          <div className="glass-card float-slow" style={{ padding: '2.5rem', textAlign: 'left', position: 'relative' }}>
+            
+            {/* Subtle glow effect behind card */}
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80%', height: '80%', background: 'var(--accent-gold)', filter: 'blur(100px)', opacity: 0.05, zIndex: -1, pointerEvents: 'none' }}></div>
+            
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Scale size={18} className="text-gradient-gold" style={{ color: 'var(--accent-gold-light)' }} />
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* BMI Calculator Card */}
-          <div className="glass-card" style={{ padding: '2rem', boxShadow: 'var(--shadow-float)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '9px', background: 'var(--bg-elevated)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Scale size={18} color="var(--accent-gold)" />
-                </div>
-                <span style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>BMI Calculator</span>
+                <span style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--text-primary)' }}>Quick Calculator</span>
               </div>
               <span className="badge badge-amber pulse-glow">Live</span>
             </div>
 
             {/* Height */}
-            <div className="form-group">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label className="form-label">Height</label>
+            <div className="form-group" style={{ marginBottom: '1.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <label className="form-label" style={{ fontSize: '0.75rem' }}>Height</label>
                 <div className="unit-toggle-group">
                   <button type="button" className={`unit-toggle-btn ${heightUnit === 'cm' ? 'active' : ''}`} onClick={() => setHeightUnit('cm')}>cm</button>
                   <button type="button" className={`unit-toggle-btn ${heightUnit === 'ft_in' ? 'active' : ''}`} onClick={() => setHeightUnit('ft_in')}>ft/in</button>
@@ -123,7 +126,7 @@ export const LandingPage = ({ setActiveTab }) => {
               </div>
               {heightUnit === 'cm' ? (
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.25rem', fontWeight: 600 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem', fontWeight: 600 }}>
                     <span>Value</span>
                     <strong style={{ color: 'var(--text-primary)' }}>{heightCm} cm</strong>
                   </div>
@@ -131,7 +134,7 @@ export const LandingPage = ({ setActiveTab }) => {
                     style={{ width: '100%', accentColor: 'var(--accent-gold)' }} />
                 </div>
               ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                   <input type="number" min="3" max="8" value={heightFeet} onChange={e => setHeightFeet(Number(e.target.value))} className="form-input" placeholder="Feet" />
                   <input type="number" min="0" max="11" value={heightInches} onChange={e => setHeightInches(Number(e.target.value))} className="form-input" placeholder="Inches" />
                 </div>
@@ -139,9 +142,9 @@ export const LandingPage = ({ setActiveTab }) => {
             </div>
 
             {/* Weight */}
-            <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label className="form-label">Weight</label>
+            <div className="form-group" style={{ marginBottom: '2.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <label className="form-label" style={{ fontSize: '0.75rem' }}>Weight</label>
                 <div className="unit-toggle-group">
                   <button type="button" className={`unit-toggle-btn ${weightUnit === 'kg' ? 'active' : ''}`}
                     onClick={() => { if (weightUnit === 'lbs') setWeightVal(lbsToKg(weightVal)); setWeightUnit('kg'); }}>kg</button>
@@ -149,7 +152,7 @@ export const LandingPage = ({ setActiveTab }) => {
                     onClick={() => { if (weightUnit === 'kg') setWeightVal(kgToLbs(weightVal)); setWeightUnit('lbs'); }}>lbs</button>
                 </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.25rem', fontWeight: 600 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem', fontWeight: 600 }}>
                 <span>Value</span>
                 <strong style={{ color: 'var(--text-primary)' }}>{weightVal} {weightUnit}</strong>
               </div>
@@ -159,14 +162,14 @@ export const LandingPage = ({ setActiveTab }) => {
             </div>
 
             {/* Result */}
-            <div style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', padding: '1.25rem', border: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ background: 'rgba(0,0,0,0.2)', borderRadius: 'var(--radius-md)', padding: '1.5rem', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.2)' }}>
               <div>
-                <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>Your BMI</div>
-                <div className="font-heading" style={{ fontSize: '2.5rem', fontWeight: 900, lineHeight: 1 }}>{metrics.bmi}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700, marginBottom: '0.2rem' }}>Your BMI</div>
+                <div className="font-heading text-gradient" style={{ fontSize: '3rem', fontWeight: 900, lineHeight: 1 }}>{metrics.bmi}</div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <span className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>{metrics.category}</span>
-                <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', fontWeight: 600 }}>{metrics.weightKg} kg · {metrics.weightLbs} lbs</div>
+                <span className="badge badge-amber" style={{ marginBottom: '0.5rem' }}>{metrics.category}</span>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>{metrics.weightKg} kg · {metrics.weightLbs} lbs</div>
               </div>
             </div>
           </div>
