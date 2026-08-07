@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { CURRENCY_MAP } from '../utils/currency';
-import { LayoutDashboard, Utensils, Activity, Bot, Settings, Menu, X, Globe, Dumbbell, Moon, Sun, User, Check, Edit2 } from 'lucide-react';
+import { LayoutDashboard, Utensils, Activity, Bot, Settings, Menu, X, Globe, Dumbbell, User, Check, Edit2, Sparkles } from 'lucide-react';
 
 export const Navbar = ({ activeTab, setActiveTab }) => {
-  const { user, setStudentName, currency, changeCurrency, theme, toggleTheme } = useAuth();
+  const { user, setStudentName, currency, changeCurrency } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [tempName, setTempName] = useState(user?.name || 'Student');
@@ -12,8 +12,8 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'diet', label: 'Diet Plan', icon: Utensils },
-    { id: 'bmi', label: 'BMI', icon: Activity },
-    { id: 'physique', label: 'Physique', icon: Dumbbell },
+    { id: 'bmi', label: 'BMI Baseline', icon: Activity },
+    { id: 'physique', label: 'Physique Hub', icon: Dumbbell },
     { id: 'ai', label: 'AI Coach', icon: Bot },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
@@ -53,29 +53,30 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       <div style={{
         maxWidth: '1280px',
         margin: '0 auto',
-        padding: '0.85rem 1.5rem',
+        padding: '0.75rem 1.25rem',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: '1.25rem'
+        justify: 'space-between',
+        gap: '0.75rem'
       }}>
-        {/* Brand */}
+        {/* BRAND LOGO */}
         <div
           onClick={() => setActiveTab('landing')}
           style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.6rem', flexShrink: 0 }}
         >
           <div style={{
-            width: '34px',
-            height: '34px',
-            borderRadius: '9px',
+            width: '36px',
+            height: '36px',
+            borderRadius: '10px',
             background: 'var(--accent-gold)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justify: 'center',
             fontWeight: 900,
             color: '#ffffff',
-            fontSize: '1.1rem',
-            fontFamily: 'var(--font-heading)'
+            fontSize: '1.15rem',
+            fontFamily: 'var(--font-heading)',
+            boxShadow: '0 4px 12px rgba(217, 119, 6, 0.25)'
           }}>
             W
           </div>
@@ -89,8 +90,8 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
           </div>
         </div>
 
-        {/* Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'nowrap' }}>
+        {/* DESKTOP CONTROLS & NAV */}
+        <div className="desktop-nav-group" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           {/* Student Name */}
           {isEditingName ? (
             <form onSubmit={handleSaveName} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
@@ -103,12 +104,12 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
           ) : (
             <button onClick={() => setIsEditingName(true)} style={{ ...controlStyle, color: 'var(--accent-gold)', borderColor: 'var(--border-accent)' }}>
               <User size={13} />
-              <span style={{ maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.name || 'Student'}</span>
+              <span style={{ maxWidth: '85px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.name || 'Student'}</span>
               <Edit2 size={10} style={{ opacity: 0.6 }} />
             </button>
           )}
 
-          {/* Currency */}
+          {/* Currency Dropdown */}
           <div style={controlStyle}>
             <Globe size={13} color="var(--accent-gold)" />
             <select value={currency} onChange={e => changeCurrency(e.target.value)}
@@ -121,8 +122,8 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
             </select>
           </div>
 
-          {/* Desktop Nav */}
-          <nav className="desktop-nav" style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
+          {/* Nav Items */}
+          <nav style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
             {navItems.map(item => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
@@ -142,39 +143,87 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
               );
             })}
           </nav>
-
-          {/* Mobile Toggle */}
-          <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            style={{ ...controlStyle, display: 'none' }}>
-            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
         </div>
+
+        {/* MOBILE HAMBURGER BUTTON */}
+        <button 
+          className="mobile-hamburger-btn" 
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{
+            ...controlStyle,
+            padding: '0.55rem 0.85rem',
+            background: mobileMenuOpen ? 'var(--accent-gold)' : 'var(--bg-elevated)',
+            color: mobileMenuOpen ? '#ffffff' : 'var(--text-primary)',
+            borderColor: mobileMenuOpen ? 'var(--accent-gold)' : 'var(--border-medium)',
+            minHeight: '44px'
+          }}
+        >
+          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          <span style={{ fontSize: '0.82rem', fontWeight: 800 }}>Menu</span>
+        </button>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* MOBILE DRAWER OVERLAY */}
       {mobileMenuOpen && (
-        <div style={{
-          padding: '1rem 1.25rem',
-          background: 'var(--bg-surface)',
-          borderBottom: '1px solid var(--border-subtle)',
-          display: 'flex', flexDirection: 'column', gap: '0.5rem'
-        }}>
+        <div 
+          className="animate-fade-in"
+          style={{
+            padding: '1.25rem',
+            background: 'var(--bg-surface)',
+            borderBottom: '2px solid var(--border-medium)',
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: '0.85rem',
+            boxShadow: '0 12px 28px rgba(0, 0, 0, 0.15)'
+          }}
+        >
+          {/* Mobile Student Profile & Currency Bar */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '0.25rem' }}>
+            <button onClick={() => setIsEditingName(true)} style={{ ...controlStyle, justifyContent: 'center', padding: '0.65rem', minHeight: '44px', color: 'var(--accent-gold)' }}>
+              <User size={15} />
+              <span style={{ fontWeight: 800 }}>{user?.name || 'Student'}</span>
+            </button>
+
+            <div style={{ ...controlStyle, justifyContent: 'center', padding: '0.65rem', minHeight: '44px' }}>
+              <Globe size={15} color="var(--accent-gold)" />
+              <select value={currency} onChange={e => changeCurrency(e.target.value)}
+                style={{ background: 'none', border: 'none', color: 'var(--text-primary)', fontSize: '0.85rem', fontWeight: 800, cursor: 'pointer', outline: 'none', fontFamily: 'inherit' }}>
+                {Object.keys(CURRENCY_MAP).map(code => (
+                  <option key={code} value={code} style={{ background: 'var(--bg-card)', color: 'var(--text-primary)' }}>
+                    {CURRENCY_MAP[code].label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Mobile Navigation Links */}
           {navItems.map(item => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
-              <button key={item.id}
+              <button 
+                key={item.id}
                 onClick={() => { setActiveTab(item.id); setMobileMenuOpen(false); }}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: '0.6rem',
-                  padding: '0.7rem 1rem', borderRadius: 'var(--radius-sm)',
-                  fontSize: '0.88rem', fontWeight: isActive ? 700 : 600,
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '0.75rem',
+                  padding: '0.85rem 1.1rem', 
+                  borderRadius: 'var(--radius-md)',
+                  fontSize: '0.95rem', 
+                  fontWeight: isActive ? 800 : 600,
                   color: isActive ? '#ffffff' : 'var(--text-primary)',
                   background: isActive ? 'var(--accent-gold)' : 'var(--bg-elevated)',
-                  border: '1px solid var(--border-subtle)',
-                  width: '100%', textAlign: 'left', cursor: 'pointer'
-                }}>
-                <Icon size={16} />
+                  border: isActive ? 'none' : '1px solid var(--border-subtle)',
+                  width: '100%', 
+                  textAlign: 'left', 
+                  cursor: 'pointer',
+                  minHeight: '48px',
+                  boxShadow: isActive ? '0 4px 14px rgba(217, 119, 6, 0.3)' : 'none'
+                }}
+              >
+                <Icon size={18} />
                 {item.label}
               </button>
             );

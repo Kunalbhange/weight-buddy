@@ -460,9 +460,11 @@ html, body {
   -webkit-overflow-scrolling: touch;
 }
 
+.mobile-hamburger-btn { display: none !important; }
+
 @media (max-width: 768px) {
-  .desktop-nav { display: none !important; }
-  .mobile-menu-btn { display: flex !important; }
+  .desktop-nav-group { display: none !important; }
+  .mobile-hamburger-btn { display: flex !important; }
   body { font-size: 0.9rem; }
   
   .glass-card { 
