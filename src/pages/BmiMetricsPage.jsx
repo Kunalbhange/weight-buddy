@@ -88,7 +88,7 @@ export const BmiMetricsPage = () => {
       {/* CALCULATOR & LIVE METRICS WITH SEPARATE TOGGLES */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
         {/* Input Card */}
-        <div className="glass-card" style={{ padding: '1.75rem', background: '#141414' }}>
+        <div className="glass-card" style={{ padding: '1.75rem', background: 'var(--bg-card)' }}>
           <h3 className="font-heading" style={{ fontSize: '1.25rem', marginBottom: '1.25rem' }}>Live Calculator Input</h3>
 
           {/* HEIGHT INPUT WITH UNIT TOGGLE */}
@@ -197,7 +197,7 @@ export const BmiMetricsPage = () => {
         </div>
 
         {/* Results Card */}
-        <div className="glass-card" style={{ padding: '1.75rem', background: '#141414', textAlign: 'center' }}>
+        <div className="glass-card" style={{ padding: '1.75rem', background: 'var(--bg-card)', textAlign: 'center' }}>
           <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Computed Body Mass Index</div>
           <div className="font-heading" style={{ fontSize: '3.6rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
             {computed.bmi}
@@ -241,19 +241,19 @@ export const BmiMetricsPage = () => {
       </div>
 
       {/* STANDARD CATEGORIES RANGE REFERENCE */}
-      <div className="glass-card" style={{ padding: '1.5rem', background: '#141414', marginBottom: '2.5rem' }}>
+      <div className="glass-card" style={{ padding: '1.5rem', background: 'var(--bg-card)', marginBottom: '2.5rem' }}>
         <h3 className="font-heading" style={{ fontSize: '1.15rem', marginBottom: '1rem' }}>Standard BMI Category Ranges</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
           <div style={{ padding: '0.75rem', background: 'rgba(245, 158, 11, 0.08)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
-            <div style={{ fontWeight: 700, color: '#fbbf24', fontSize: '0.85rem' }}>Underweight</div>
+            <div style={{ fontWeight: 700, color: 'var(--accent-gold)', fontSize: '0.85rem' }}>Underweight</div>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>BMI &lt; 18.5</div>
           </div>
           <div style={{ padding: '0.75rem', background: 'rgba(16, 185, 129, 0.08)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
-            <div style={{ fontWeight: 700, color: '#34d399', fontSize: '0.85rem' }}>Normal Weight</div>
+            <div style={{ fontWeight: 700, color: 'var(--accent-emerald)', fontSize: '0.85rem' }}>Normal Weight</div>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>BMI 18.5 – 24.9</div>
           </div>
           <div style={{ padding: '0.75rem', background: 'rgba(245, 158, 11, 0.08)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
-            <div style={{ fontWeight: 700, color: '#fbbf24', fontSize: '0.85rem' }}>Overweight</div>
+            <div style={{ fontWeight: 700, color: 'var(--accent-gold)', fontSize: '0.85rem' }}>Overweight</div>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>BMI 25.0 – 29.9</div>
           </div>
           <div style={{ padding: '0.75rem', background: 'rgba(255, 255, 255, 0.05)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
@@ -268,13 +268,13 @@ export const BmiMetricsPage = () => {
       </div>
 
       {/* SVG TREND CHART */}
-      <div className="glass-card" style={{ padding: '1.75rem', background: '#141414', marginBottom: '2.5rem' }}>
+      <div className="glass-card" style={{ padding: '1.75rem', background: 'var(--bg-card)', marginBottom: '2.5rem' }}>
         <h3 className="font-heading" style={{ fontSize: '1.3rem', marginBottom: '1.25rem' }}>Weight & BMI History Trend</h3>
         <ChartView logs={logs} goal={onboarding?.goal} />
       </div>
 
       {/* HISTORICAL LOGS TABLE */}
-      <div className="glass-card" style={{ padding: '1.75rem', background: '#141414' }}>
+      <div className="glass-card" style={{ padding: '1.75rem', background: 'var(--bg-card)' }}>
         <h3 className="font-heading" style={{ fontSize: '1.3rem', marginBottom: '1rem' }}>Timestamped Weight Log History</h3>
 
         {logs.length === 0 ? (
@@ -299,7 +299,7 @@ export const BmiMetricsPage = () => {
                     <tr key={log.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                       <td style={{ padding: '0.75rem', color: 'var(--text-primary)', fontWeight: 600 }}>{log.date}</td>
                       <td style={{ padding: '0.75rem', color: 'var(--accent-primary)', fontWeight: 700 }}>{log.weightKg} kg</td>
-                      <td style={{ padding: '0.75rem', color: '#fbbf24', fontWeight: 700 }}>{lbsVal} lbs</td>
+                      <td style={{ padding: '0.75rem', color: 'var(--accent-gold)', fontWeight: 700 }}>{lbsVal} lbs</td>
                       <td style={{ padding: '0.75rem', color: 'var(--text-primary)' }}>{log.bmi}</td>
                       <td style={{ padding: '0.75rem' }}>
                         <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>{log.category}</span>

@@ -104,7 +104,7 @@ export const AiChatPage = () => {
           <div className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>
             <Globe size={12} /> Speaks English, Hinglish, Hindi, Spanish & More
           </div>
-          <h1 className="font-heading" style={{ fontSize: '1.8rem', fontWeight: 800, color: '#ffffff' }}>AI Food & Nutrition Intelligence</h1>
+          <h1 className="font-heading" style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--text-primary)' }}>AI Food & Nutrition Intelligence</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
             Ask about ANY food item, calorie counts, recipes, or home vs gym exercises.
           </p>
@@ -122,7 +122,7 @@ export const AiChatPage = () => {
               borderRadius: 'var(--radius-full)',
               background: 'rgba(255, 255, 255, 0.08)',
               border: '1px solid var(--border-subtle)',
-              color: '#ffffff',
+              color: 'var(--text-primary)',
               fontSize: '0.78rem',
               fontWeight: 700,
               cursor: 'pointer',
@@ -140,7 +140,7 @@ export const AiChatPage = () => {
         maxHeight: '520px',
         overflowY: 'auto',
         padding: '1.5rem',
-        background: '#09090d',
+        background: 'var(--bg-card)',
         border: '1.5px solid var(--border-medium)',
         display: 'flex',
         flexDirection: 'column',
@@ -165,13 +165,13 @@ export const AiChatPage = () => {
                   height: '34px',
                   borderRadius: '10px',
                   background: 'rgba(255, 255, 255, 0.1)',
-                  color: '#ffffff',
+                  color: 'var(--text-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0
                 }}>
-                  <Bot size={18} color="#ffffff" />
+                  <Bot size={18} color="var(--text-primary)" />
                 </div>
               )}
 
@@ -179,9 +179,9 @@ export const AiChatPage = () => {
                 maxWidth: '80%',
                 padding: '0.9rem 1.2rem',
                 borderRadius: isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                background: isUser ? '#ffffff' : '#14141a',
-                color: isUser ? '#050507' : '#ffffff',
-                border: isUser ? '1.5px solid #ffffff' : '1.5px solid var(--border-subtle)',
+                background: isUser ? 'var(--text-primary)' : 'var(--bg-card)',
+                color: isUser ? 'var(--text-primary)' : 'var(--text-primary)',
+                border: isUser ? '1.5px solid var(--text-primary)' : '1.5px solid var(--border-subtle)',
                 fontSize: '0.92rem',
                 fontWeight: isUser ? '700' : '400',
                 lineHeight: '1.6',
@@ -210,15 +210,15 @@ export const AiChatPage = () => {
                   width: '34px',
                   height: '34px',
                   borderRadius: '10px',
-                  background: '#ffffff',
-                  color: '#050507',
+                  background: 'var(--bg-card)',
+                  color: 'var(--text-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontWeight: 900,
                   flexShrink: 0
                 }}>
-                  <User size={18} color="#050507" />
+                  <User size={18} color="var(--text-primary)" />
                 </div>
               )}
             </div>

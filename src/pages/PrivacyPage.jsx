@@ -14,7 +14,7 @@ export const PrivacyPage = () => {
         </p>
       </div>
 
-      <div className="glass-card" style={{ padding: '2.5rem', background: '#141414', border: '1px solid var(--border-medium)' }}>
+      <div className="glass-card" style={{ padding: '2.5rem', background: 'var(--bg-card)', border: '1px solid var(--border-medium)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           <div>
             <h3 className="font-heading" style={{ fontSize: '1.25rem', color: 'var(--accent-primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

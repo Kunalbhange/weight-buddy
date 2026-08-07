@@ -13,7 +13,7 @@ export const PhysiquePage = () => {
       title: 'Weight Loss (Cut)',
       subtitle: 'Gradual fat loss without extreme skipping or muscle loss',
       badge: '🔥 Fat Loss Focus',
-      color: '#d97706',
+      color: 'var(--accent-gold)',
       caloriesTip: 'Mild 20% deficit (~1,700 - 1,900 kcal/day)',
       macrosRatio: '30% Protein • 45% Carbs • 25% Fat',
       physiqueTarget: 'Lean Athletic & Toned',
@@ -26,7 +26,7 @@ export const PhysiquePage = () => {
       title: 'Healthy Weight Maintenance',
       subtitle: 'Steady energy, stamina, and zero weight fluctuation',
       badge: '⚖️ Stamina & Focus',
-      color: '#059669',
+      color: 'var(--accent-emerald)',
       caloriesTip: 'Balanced TDEE (~2,000 - 2,200 kcal/day)',
       macrosRatio: '25% Protein • 50% Carbs • 25% Fat',
       physiqueTarget: 'Balanced Fit & Energized',
@@ -118,7 +118,7 @@ export const PhysiquePage = () => {
         <div className="badge badge-emerald" style={{ marginBottom: '0.4rem' }}>
           <Sparkles size={14} /> Student Workout Guide
         </div>
-        <h1 className="font-heading" style={{ fontSize: '2rem', fontWeight: 800, color: '#ffffff' }}>Goal & Physique Strategy Hub</h1>
+        <h1 className="font-heading" style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)' }}>Goal & Physique Strategy Hub</h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>
           Explore custom nutrition, INR hostel budgets, and student workouts (Gym vs Easy Home No-Equipment options).
         </p>
@@ -142,7 +142,7 @@ export const PhysiquePage = () => {
                 padding: '0.75rem 1.25rem',
                 borderRadius: 'var(--radius-md)',
                 background: isActive ? g.color : 'rgba(255, 255, 255, 0.06)',
-                color: '#ffffff',
+                color: 'var(--text-primary)',
                 fontWeight: 800,
                 fontSize: '0.88rem',
                 border: isActive ? 'none' : '1px solid var(--border-subtle)',
@@ -162,16 +162,16 @@ export const PhysiquePage = () => {
       {/* SELECTED GOAL STRATEGY DISPLAY */}
       <div className="glass-card" style={{
         padding: '2rem',
-        background: '#14161d',
+        background: 'var(--bg-card)',
         border: `1px solid ${currentGoal.color}60`,
         marginBottom: '2.5rem'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
           <div>
-            <span className="badge" style={{ background: `${currentGoal.color}30`, color: '#ffffff', border: `1px solid ${currentGoal.color}`, marginBottom: '0.4rem' }}>
+            <span className="badge" style={{ background: `${currentGoal.color}30`, color: 'var(--text-primary)', border: `1px solid ${currentGoal.color}`, marginBottom: '0.4rem' }}>
               {currentGoal.badge}
             </span>
-            <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff' }}>{currentGoal.title}</h2>
+            <h2 className="font-heading" style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)' }}>{currentGoal.title}</h2>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{currentGoal.subtitle}</p>
           </div>
 
@@ -183,7 +183,7 @@ export const PhysiquePage = () => {
             textAlign: 'center'
           }}>
             <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 700 }}>TARGET PHYSIQUE</div>
-            <div style={{ fontWeight: 800, fontSize: '1rem', color: '#ffffff' }}>{currentGoal.physiqueTarget}</div>
+            <div style={{ fontWeight: 800, fontSize: '1rem', color: 'var(--text-primary)' }}>{currentGoal.physiqueTarget}</div>
           </div>
         </div>
 
@@ -196,33 +196,33 @@ export const PhysiquePage = () => {
         }}>
           <div style={{ padding: '1.1rem', background: 'rgba(255, 255, 255, 0.04)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 700 }}>DAILY CALORIE STRATEGY</div>
-            <div style={{ fontSize: '1rem', fontWeight: 800, color: '#ffffff', marginTop: '0.2rem' }}>{currentGoal.caloriesTip}</div>
+            <div style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)', marginTop: '0.2rem' }}>{currentGoal.caloriesTip}</div>
           </div>
 
           <div style={{ padding: '1.1rem', background: 'rgba(255, 255, 255, 0.04)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 700 }}>MACRO SPLIT RATIO</div>
-            <div style={{ fontSize: '1rem', fontWeight: 800, color: '#ffffff', marginTop: '0.2rem' }}>{currentGoal.macrosRatio}</div>
+            <div style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)', marginTop: '0.2rem' }}>{currentGoal.macrosRatio}</div>
           </div>
         </div>
 
         {/* STRATEGY SECTIONS */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
           <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '0.95rem', color: '#34d399', marginBottom: '0.75rem' }}>
-              <Flame size={16} color="#34d399" /> Best Dorm & Hostel Foods
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '0.95rem', color: 'var(--accent-emerald)', marginBottom: '0.75rem' }}>
+              <Flame size={16} color="var(--accent-emerald)" /> Best Dorm & Hostel Foods
             </div>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
               {currentGoal.dormFoods.map((food, i) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: '#ffffff' }}>
-                  <Check size={14} color="#34d399" /> {food}
+                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--text-primary)' }}>
+                  <Check size={14} color="var(--accent-emerald)" /> {food}
                 </li>
               ))}
             </ul>
           </div>
 
           <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '0.95rem', color: '#fbbf24', marginBottom: '0.75rem' }}>
-              <Trophy size={16} color="#fbbf24" /> Student Training Focus
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '0.95rem', color: 'var(--accent-gold)', marginBottom: '0.75rem' }}>
+              <Trophy size={16} color="var(--accent-gold)" /> Student Training Focus
             </div>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
               {currentGoal.trainingStrategy}
@@ -232,13 +232,13 @@ export const PhysiquePage = () => {
       </div>
 
       {/* COMPOUND EXERCISE LIBRARY */}
-      <div className="glass-card" style={{ padding: '2rem', background: '#14161d' }}>
+      <div className="glass-card" style={{ padding: '2rem', background: 'var(--bg-card)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
           <div>
             <span className="badge badge-emerald" style={{ marginBottom: '0.3rem' }}>
               <Dumbbell size={12} /> Exercise Library
             </span>
-            <h3 className="font-heading" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ffffff' }}>
+            <h3 className="font-heading" style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
               Main Compound Exercises (Gym vs Easy Home Alternatives)
             </h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
@@ -283,7 +283,7 @@ export const PhysiquePage = () => {
             }}>
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                  <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#34d399', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--accent-emerald)', textTransform: 'uppercase' }}>
                     {ex.target}
                   </span>
                   <span className="badge badge-emerald" style={{ fontSize: '0.68rem' }}>{ex.genZTag}</span>
@@ -295,24 +295,24 @@ export const PhysiquePage = () => {
                     <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
                       <Building2 size={12} /> GYM COMPOUND VERSION
                     </div>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#ffffff', marginTop: '0.1rem' }}>{ex.gym}</div>
+                    <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--text-primary)', marginTop: '0.1rem' }}>{ex.gym}</div>
                   </div>
                 )}
 
                 {/* Home Version */}
                 {(exerciseMode === 'both' || exerciseMode === 'home') && (
                   <div style={{ padding: '0.65rem 0.85rem', background: 'rgba(16, 185, 129, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(16, 185, 129, 0.3)', marginBottom: '0.75rem' }}>
-                    <div style={{ fontSize: '0.72rem', color: '#34d399', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--accent-emerald)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
                       <Home size={12} /> EASY HOME / DORM ALTERNATIVE
                     </div>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#ffffff', marginTop: '0.1rem' }}>{ex.home}</div>
+                    <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--text-primary)', marginTop: '0.1rem' }}>{ex.home}</div>
                   </div>
                 )}
 
                 {/* Easy Execution Steps */}
                 <div style={{ marginTop: '0.75rem' }}>
                   <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#e5e7eb', marginBottom: '0.4rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                    <BookOpen size={12} color="#34d399" /> EASY EXECUTION STEPS:
+                    <BookOpen size={12} color="var(--accent-emerald)" /> EASY EXECUTION STEPS:
                   </div>
                   <ol style={{ paddingLeft: '1.2rem', fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
                     {ex.easySteps.map((step, sIdx) => (

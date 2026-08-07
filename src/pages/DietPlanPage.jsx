@@ -123,15 +123,15 @@ export const DietPlanPage = () => {
             </div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>PROTEIN</div>
-              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#fff' }}>{currentDay.totals.protein}g</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-primary)' }}>{currentDay.totals.protein}g</div>
             </div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>CARBS</div>
-              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#fff' }}>{currentDay.totals.carbs}g</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-primary)' }}>{currentDay.totals.carbs}g</div>
             </div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>FAT</div>
-              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#fff' }}>{currentDay.totals.fat}g</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-primary)' }}>{currentDay.totals.fat}g</div>
             </div>
           </div>
 
@@ -142,7 +142,7 @@ export const DietPlanPage = () => {
               if (!meal) return null;
               const formattedPrice = formatCurrency(meal.priceInr || 50, currency);
               return (
-                <div key={type} className="glass-card" style={{ padding: '1.5rem', background: '#141414', border: '1px solid var(--border-medium)' }}>
+                <div key={type} className="glass-card" style={{ padding: '1.5rem', background: 'var(--bg-card)', border: '1px solid var(--border-medium)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
                     <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', fontWeight: 800, color: 'var(--text-muted)', letterSpacing: '0.05em' }}>
                       {type}

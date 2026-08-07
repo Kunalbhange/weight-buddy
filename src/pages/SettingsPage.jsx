@@ -60,8 +60,8 @@ export const SettingsPage = ({ setActiveTab }) => {
       </div>
 
       {message && (
-        <div style={{ padding: '0.85rem 1.25rem', background: 'rgba(217, 119, 6, 0.15)', border: '1.5px solid rgba(217, 119, 6, 0.3)', color: '#d97706', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', fontWeight: 700, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <CheckCircle2 size={18} color="#d97706" /> {message}
+        <div style={{ padding: '0.85rem 1.25rem', background: 'rgba(217, 119, 6, 0.15)', border: '1.5px solid rgba(217, 119, 6, 0.3)', color: 'var(--accent-gold)', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', fontWeight: 700, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <CheckCircle2 size={18} color="var(--accent-gold)" /> {message}
         </div>
       )}
 
@@ -77,7 +77,7 @@ export const SettingsPage = ({ setActiveTab }) => {
       </div>
 
       {/* SECTION 2: PROFILE DETAILS */}
-      <div className="glass-card" style={{ padding: '2rem', background: theme === 'dark' ? '#14141a' : '#ffffff', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>
+      <div className="glass-card" style={{ padding: '2rem', background: 'var(--bg-card)', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
           <User size={20} color="var(--text-primary)" />
           <h2 className="font-heading" style={{ fontSize: '1.3rem', color: 'var(--text-primary)' }}>Profile Information</h2>
@@ -95,9 +95,9 @@ export const SettingsPage = ({ setActiveTab }) => {
       </div>
 
       {/* SECTION 3: CURRENCY FORMATTING */}
-      <div className="glass-card" style={{ padding: '2rem', background: theme === 'dark' ? '#14141a' : '#ffffff', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>
+      <div className="glass-card" style={{ padding: '2rem', background: 'var(--bg-card)', border: '1.5px solid var(--border-medium)', marginBottom: '2rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-          <Globe size={20} color="#d97706" />
+          <Globe size={20} color="var(--accent-gold)" />
           <h2 className="font-heading" style={{ fontSize: '1.3rem', color: 'var(--text-primary)' }}>Preferred Currency</h2>
         </div>
 
@@ -122,9 +122,9 @@ export const SettingsPage = ({ setActiveTab }) => {
       </div>
 
       {/* SECTION 4: PRIVACY, DATA EXPORT & DELETION */}
-      <div className="glass-card" style={{ padding: '2rem', background: theme === 'dark' ? '#14141a' : '#ffffff', border: '1.5px solid var(--border-medium)' }}>
+      <div className="glass-card" style={{ padding: '2rem', background: 'var(--bg-card)', border: '1.5px solid var(--border-medium)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-          <ShieldCheck size={20} color="#d97706" />
+          <ShieldCheck size={20} color="var(--accent-gold)" />
           <h2 className="font-heading" style={{ fontSize: '1.3rem', color: 'var(--text-primary)' }}>Privacy & Data Ownership</h2>
         </div>
 
@@ -154,7 +154,7 @@ export const SettingsPage = ({ setActiveTab }) => {
           zIndex: 1000,
           padding: '1rem'
         }}>
-          <div className="glass-card" style={{ maxWidth: '440px', width: '100%', padding: '2rem', background: theme === 'dark' ? '#14141a' : '#ffffff', border: '1.5px solid rgba(239, 68, 68, 0.4)' }}>
+          <div className="glass-card" style={{ maxWidth: '440px', width: '100%', padding: '2rem', background: 'var(--bg-card)', border: '1.5px solid rgba(239, 68, 68, 0.4)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#dc2626', marginBottom: '1rem' }}>
               <AlertTriangle size={24} color="#dc2626" />
               <h3 className="font-heading" style={{ fontSize: '1.3rem', color: 'var(--text-primary)' }}>Confirm Permanent Deletion</h3>

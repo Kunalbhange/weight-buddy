@@ -89,7 +89,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
 
   return (
     <div className="animate-fade-in" style={{ maxWidth: '820px', margin: '2.5rem auto', padding: '0 1.5rem' }}>
-      <div className="glass-card" style={{ padding: '2.5rem 2.25rem', background: '#ffffff', border: '1.5px solid #cbd5e1', boxShadow: 'var(--shadow-float)' }}>
+      <div className="glass-card" style={{ padding: '2.5rem 2.25rem', background: 'var(--bg-card)', border: '1.5px solid var(--border-medium)', boxShadow: 'var(--shadow-float)' }}>
         
         {/* PROGRESS STEP INDICATOR */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
@@ -97,7 +97,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
             <span className="badge badge-amber" style={{ marginBottom: '0.3rem' }}>
               <Sparkles size={12} color="#b45309" /> Step {step} of 3
             </span>
-            <h2 className="font-heading" style={{ fontSize: '1.65rem', fontWeight: 900, color: '#0f172a' }}>
+            <h2 className="font-heading" style={{ fontSize: '1.65rem', fontWeight: 900, color: 'var(--text-primary)' }}>
               {step === 1 && 'Student Body Baseline & Unit Preferences'}
               {step === 2 && 'Dietary Preferences & Campus Schedule'}
               {step === 3 && 'Physique Goals & Target Selection'}
@@ -112,7 +112,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   width: step === i ? '28px' : '12px',
                   height: '10px',
                   borderRadius: '5px',
-                  background: step === i ? '#0f172a' : '#e2e8f0',
+                  background: step === i ? 'var(--text-primary)' : '#e2e8f0',
                   transition: 'all 0.3s ease'
                 }} 
               />
@@ -157,11 +157,11 @@ export const OnboardingPage = ({ setActiveTab }) => {
 
               {heightUnit === 'cm' ? (
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: '#334155', marginBottom: '0.3rem', fontWeight: 700 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.3rem', fontWeight: 700 }}>
                     <span>Centimeters Value</span>
-                    <strong style={{ color: '#0f172a', fontSize: '1.05rem' }}>{heightCm} cm</strong>
+                    <strong style={{ color: 'var(--text-primary)', fontSize: '1.05rem' }}>{heightCm} cm</strong>
                   </div>
-                  <input type="range" min="130" max="220" value={heightCm} onChange={(e) => setHeightCm(Number(e.target.value))} style={{ width: '100%', accentColor: '#0f172a' }} />
+                  <input type="range" min="130" max="220" value={heightCm} onChange={(e) => setHeightCm(Number(e.target.value))} style={{ width: '100%', accentColor: 'var(--text-primary)' }} />
                 </div>
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
@@ -180,17 +180,17 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   <button type="button" className={`unit-toggle-btn ${weightUnit === 'lbs' ? 'active' : ''}`} onClick={() => setWeightUnit('lbs')}>lbs</button>
                 </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: '#334155', marginBottom: '0.3rem', fontWeight: 700 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.3rem', fontWeight: 700 }}>
                 <span>Current Weight Value</span>
-                <strong style={{ color: '#0f172a', fontSize: '1.05rem' }}>{weightVal} {weightUnit}</strong>
+                <strong style={{ color: 'var(--text-primary)', fontSize: '1.05rem' }}>{weightVal} {weightUnit}</strong>
               </div>
-              <input type="range" min={weightUnit === 'kg' ? "35" : "75"} max={weightUnit === 'kg' ? "160" : "350"} value={weightVal} onChange={(e) => setWeightVal(Number(e.target.value))} style={{ width: '100%', accentColor: '#0f172a' }} />
+              <input type="range" min={weightUnit === 'kg' ? "35" : "75"} max={weightUnit === 'kg' ? "160" : "350"} value={weightVal} onChange={(e) => setWeightVal(Number(e.target.value))} style={{ width: '100%', accentColor: 'var(--text-primary)' }} />
             </div>
 
             {/* PREVIEW BASELINE CARD */}
-            <div style={{ padding: '1.25rem', background: '#f8fafc', borderRadius: 'var(--radius-sm)', border: '1.5px solid #cbd5e1', textAlign: 'center', marginBottom: '1.75rem' }}>
-              <div style={{ fontSize: '0.75rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 900 }}>REAL-TIME CALCULATED BMI BASELINE</div>
-              <div className="font-heading" style={{ fontSize: '2.5rem', fontWeight: 900, color: '#0f172a', margin: '0.2rem 0' }}>{previewMetrics.bmi}</div>
+            <div style={{ padding: '1.25rem', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', border: '1.5px solid var(--border-medium)', textAlign: 'center', marginBottom: '1.75rem' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 900 }}>REAL-TIME CALCULATED BMI BASELINE</div>
+              <div className="font-heading" style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--text-primary)', margin: '0.2rem 0' }}>{previewMetrics.bmi}</div>
               <div className={`badge ${previewMetrics.badgeClass}`} style={{ fontSize: '0.85rem' }}>{previewMetrics.category}</div>
             </div>
 
@@ -204,7 +204,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
         {step === 2 && (
           <div>
             <div style={{ marginBottom: '1.75rem' }}>
-              <label className="form-label" style={{ fontSize: '1rem', fontWeight: 900, marginBottom: '0.8rem', display: 'block', color: '#0f172a' }}>
+              <label className="form-label" style={{ fontSize: '1rem', fontWeight: 900, marginBottom: '0.8rem', display: 'block', color: 'var(--text-primary)' }}>
                 Select Your Primary Dietary Preference
               </label>
 
@@ -215,8 +215,8 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   style={{
                     padding: '1.35rem 1.1rem',
                     borderRadius: 'var(--radius-md)',
-                    background: dietaryCategory === 'vegetarian' ? '#f0fdf4' : '#ffffff',
-                    border: dietaryCategory === 'vegetarian' ? '2.5px solid #16a34a' : '1.5px solid #cbd5e1',
+                    background: dietaryCategory === 'vegetarian' ? 'var(--bg-elevated)' : 'var(--bg-card)',
+                    border: dietaryCategory === 'vegetarian' ? '2.5px solid var(--accent-emerald)' : '1.5px solid var(--border-medium)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     textAlign: 'center',
@@ -224,10 +224,10 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   }}
                 >
                   <div style={{ fontSize: '2.2rem', marginBottom: '0.4rem' }}>🥦</div>
-                  <div style={{ fontWeight: 900, fontSize: '1.05rem', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem' }}>
-                    Vegetarian {dietaryCategory === 'vegetarian' && <CheckCircle2 size={16} color="#16a34a" />}
+                  <div style={{ fontWeight: 900, fontSize: '1.05rem', color: 'var(--accent-emerald)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem' }}>
+                    Vegetarian {dietaryCategory === 'vegetarian' && <CheckCircle2 size={16} color="var(--accent-emerald)" />}
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: '#334155', marginTop: '0.35rem', fontWeight: 600 }}>Paneer, lentils, oats, seeds & dairy. (No meat or eggs)</p>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.35rem', fontWeight: 600 }}>Paneer, lentils, oats, seeds & dairy. (No meat or eggs)</p>
                 </div>
 
                 {/* Non-Veg Option */}
@@ -236,8 +236,8 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   style={{
                     padding: '1.35rem 1.1rem',
                     borderRadius: 'var(--radius-md)',
-                    background: dietaryCategory === 'non-veg' ? '#fff1f2' : '#ffffff',
-                    border: dietaryCategory === 'non-veg' ? '2.5px solid #e11d48' : '1.5px solid #cbd5e1',
+                    background: dietaryCategory === 'non-veg' ? 'var(--bg-elevated)' : 'var(--bg-card)',
+                    border: dietaryCategory === 'non-veg' ? '2.5px solid #e11d48' : '1.5px solid var(--border-medium)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     textAlign: 'center',
@@ -248,7 +248,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   <div style={{ fontWeight: 900, fontSize: '1.05rem', color: '#e11d48', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem' }}>
                     Non-Vegetarian {dietaryCategory === 'non-veg' && <CheckCircle2 size={16} color="#e11d48" />}
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: '#334155', marginTop: '0.35rem', fontWeight: 600 }}>Eggs, chicken breast, fish bowls & all foods.</p>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.35rem', fontWeight: 600 }}>Eggs, chicken breast, fish bowls & all foods.</p>
                 </div>
 
                 {/* Vegan Option */}
@@ -257,8 +257,8 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   style={{
                     padding: '1.35rem 1.1rem',
                     borderRadius: 'var(--radius-md)',
-                    background: dietaryCategory === 'vegan' ? '#ecfdf5' : '#ffffff',
-                    border: dietaryCategory === 'vegan' ? '2.5px solid #059669' : '1.5px solid #cbd5e1',
+                    background: dietaryCategory === 'vegan' ? 'var(--bg-elevated)' : 'var(--bg-card)',
+                    border: dietaryCategory === 'vegan' ? '2.5px solid var(--accent-emerald)' : '1.5px solid var(--border-medium)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     textAlign: 'center',
@@ -266,10 +266,10 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   }}
                 >
                   <div style={{ fontSize: '2.2rem', marginBottom: '0.4rem' }}>🌿</div>
-                  <div style={{ fontWeight: 900, fontSize: '1.05rem', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem' }}>
-                    Vegan {dietaryCategory === 'vegan' && <CheckCircle2 size={16} color="#059669" />}
+                  <div style={{ fontWeight: 900, fontSize: '1.05rem', color: 'var(--accent-emerald)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem' }}>
+                    Vegan {dietaryCategory === 'vegan' && <CheckCircle2 size={16} color="var(--accent-emerald)" />}
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: '#334155', marginTop: '0.35rem', fontWeight: 600 }}>100% plant-based (Soya, tofu, fruit, nuts; no dairy/eggs)</p>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.35rem', fontWeight: 600 }}>100% plant-based (Soya, tofu, fruit, nuts; no dairy/eggs)</p>
                 </div>
               </div>
             </div>
@@ -299,7 +299,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
         {step === 3 && (
           <div>
             <div style={{ marginBottom: '1.75rem' }}>
-              <label className="form-label" style={{ fontSize: '1rem', fontWeight: 900, marginBottom: '0.8rem', display: 'block', color: '#0f172a' }}>
+              <label className="form-label" style={{ fontSize: '1rem', fontWeight: 900, marginBottom: '0.8rem', display: 'block', color: 'var(--text-primary)' }}>
                 Select Your Primary Body Target
               </label>
 
@@ -309,17 +309,17 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   style={{
                     padding: '1.25rem',
                     borderRadius: 'var(--radius-md)',
-                    background: goal === 'lose' ? '#fffbe6' : '#ffffff',
-                    border: goal === 'lose' ? '2.5px solid #d97706' : '1.5px solid #cbd5e1',
+                    background: goal === 'lose' ? 'var(--bg-elevated)' : 'var(--bg-card)',
+                    border: goal === 'lose' ? '2.5px solid var(--accent-gold)' : '1.5px solid var(--border-medium)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease'
                   }}
                 >
                   <div style={{ fontWeight: 900, fontSize: '1.05rem', color: '#b45309', marginBottom: '0.2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>📉 Weight Loss (Cut)</span>
-                    {goal === 'lose' && <CheckCircle2 size={16} color="#d97706" />}
+                    {goal === 'lose' && <CheckCircle2 size={16} color="var(--accent-gold)" />}
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: '#334155', fontWeight: 600 }}>Gradual fat loss without skipping meals or muscle degradation</p>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Gradual fat loss without skipping meals or muscle degradation</p>
                 </div>
 
                 <div 
@@ -327,17 +327,17 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   style={{
                     padding: '1.25rem',
                     borderRadius: 'var(--radius-md)',
-                    background: goal === 'maintain' ? '#f0fdf4' : '#ffffff',
-                    border: goal === 'maintain' ? '2.5px solid #16a34a' : '1.5px solid #cbd5e1',
+                    background: goal === 'maintain' ? 'var(--bg-elevated)' : 'var(--bg-card)',
+                    border: goal === 'maintain' ? '2.5px solid var(--accent-emerald)' : '1.5px solid var(--border-medium)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease'
                   }}
                 >
-                  <div style={{ fontWeight: 900, fontSize: '1.05rem', color: '#16a34a', marginBottom: '0.2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ fontWeight: 900, fontSize: '1.05rem', color: 'var(--accent-emerald)', marginBottom: '0.2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>⚖️ Maintain Weight</span>
-                    {goal === 'maintain' && <CheckCircle2 size={16} color="#16a34a" />}
+                    {goal === 'maintain' && <CheckCircle2 size={16} color="var(--accent-emerald)" />}
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: '#334155', fontWeight: 600 }}>Steady energy, stamina, and zero weight fluctuation</p>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Steady energy, stamina, and zero weight fluctuation</p>
                 </div>
 
                 <div 
@@ -345,8 +345,8 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   style={{
                     padding: '1.25rem',
                     borderRadius: 'var(--radius-md)',
-                    background: goal === 'gain_weight' ? '#f0f9ff' : '#ffffff',
-                    border: goal === 'gain_weight' ? '2.5px solid #0284c7' : '1.5px solid #cbd5e1',
+                    background: goal === 'gain_weight' ? 'var(--bg-elevated)' : 'var(--bg-card)',
+                    border: goal === 'gain_weight' ? '2.5px solid #0284c7' : '1.5px solid var(--border-medium)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease'
                   }}
@@ -355,7 +355,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
                     <span>📈 Weight Gain (Bulk)</span>
                     {goal === 'gain_weight' && <CheckCircle2 size={16} color="#0284c7" />}
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: '#334155', fontWeight: 600 }}>Nutrient-dense calorie surplus for skinny frame</p>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Nutrient-dense calorie surplus for skinny frame</p>
                 </div>
 
                 <div 
@@ -363,8 +363,8 @@ export const OnboardingPage = ({ setActiveTab }) => {
                   style={{
                     padding: '1.25rem',
                     borderRadius: 'var(--radius-md)',
-                    background: goal === 'gain_muscle' ? '#fff1f2' : '#ffffff',
-                    border: goal === 'gain_muscle' ? '2.5px solid #e11d48' : '1.5px solid #cbd5e1',
+                    background: goal === 'gain_muscle' ? 'var(--bg-elevated)' : 'var(--bg-card)',
+                    border: goal === 'gain_muscle' ? '2.5px solid #e11d48' : '1.5px solid var(--border-medium)',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease'
                   }}
@@ -373,7 +373,7 @@ export const OnboardingPage = ({ setActiveTab }) => {
                     <span>💪 Build Muscle (Hypertrophy)</span>
                     {goal === 'gain_muscle' && <CheckCircle2 size={16} color="#e11d48" />}
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: '#334155', fontWeight: 600 }}>High protein ratio for broad shoulders & V-taper physique</p>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>High protein ratio for broad shoulders & V-taper physique</p>
                 </div>
               </div>
             </div>

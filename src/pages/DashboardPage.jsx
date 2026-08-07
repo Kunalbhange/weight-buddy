@@ -271,7 +271,7 @@ export const DashboardPage = ({ setActiveTab }) => {
                   borderRadius: 'var(--radius-full)',
                   fontSize: '0.9rem',
                   fontWeight: 800,
-                  color: '#ffffff',
+                  color: 'var(--text-primary)',
                   background: isActive ? slide.activeColor : (theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : '#ffffff'),
                   border: isActive ? `1.5px solid ${slide.activeColor}` : (theme === 'dark' ? '1.5px solid var(--border-subtle)' : '1.5px solid #cbd5e1'),
                   opacity: isActive ? 1 : 0.85,
@@ -283,8 +283,8 @@ export const DashboardPage = ({ setActiveTab }) => {
                   scrollSnapAlign: 'start'
                 }}
               >
-                <Icon size={16} color={isActive ? '#ffffff' : (theme === 'dark' ? '#ffffff' : '#0f172a')} />
-                <span style={{ color: isActive ? '#ffffff' : (theme === 'dark' ? '#ffffff' : '#0f172a') }}>
+                <Icon size={16} color={isActive ? '#ffffff' : ('var(--text-primary)')} />
+                <span style={{ color: isActive ? '#ffffff' : ('var(--text-primary)') }}>
                   {slide.title}
                 </span>
               </button>
@@ -324,7 +324,7 @@ export const DashboardPage = ({ setActiveTab }) => {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem' }}>
               {/* Breakfast */}
-              <div style={{ padding: '1.35rem', background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f8fafc', borderRadius: 'var(--radius-sm)', border: '1.5px solid var(--border-medium)' }}>
+              <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-medium)' }}>
                 <div style={{ fontSize: '0.78rem', color: '#d97706', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.3rem' }}>BREAKFAST (8:00 AM)</div>
                 <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.4rem' }}>Oats with Peanut Butter & Banana</h4>
                 <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.85rem' }}>🔥 420 kcal | 💡 5-min dorm prep</div>
@@ -332,7 +332,7 @@ export const DashboardPage = ({ setActiveTab }) => {
               </div>
 
               {/* Lunch */}
-              <div style={{ padding: '1.35rem', background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f8fafc', borderRadius: 'var(--radius-sm)', border: '1.5px solid var(--border-medium)' }}>
+              <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-medium)' }}>
                 <div style={{ fontSize: '0.78rem', color: '#d97706', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.3rem' }}>LUNCH (1:30 PM)</div>
                 <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.4rem' }}>Paneer Bhurji / Egg Roll with Chapatti</h4>
                 <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.85rem' }}>🔥 510 kcal | 💡 High protein fuel</div>
@@ -340,7 +340,7 @@ export const DashboardPage = ({ setActiveTab }) => {
               </div>
 
               {/* Dinner */}
-              <div style={{ padding: '1.35rem', background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f8fafc', borderRadius: 'var(--radius-sm)', border: '1.5px solid var(--border-medium)' }}>
+              <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-medium)' }}>
                 <div style={{ fontSize: '0.78rem', color: '#d97706', fontWeight: 800, textTransform: 'uppercase', marginBottom: '0.3rem' }}>DINNER (8:30 PM)</div>
                 <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.4rem' }}>Dal Tadka with Steamed Rice & Salad</h4>
                 <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.85rem' }}>🔥 480 kcal | 💡 Cheap hostel staple</div>
@@ -362,7 +362,7 @@ export const DashboardPage = ({ setActiveTab }) => {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', alignItems: 'center' }}>
-              <div style={{ padding: '2rem', background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f8fafc', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-medium)', textAlign: 'center' }}>
+              <div style={{ padding: '2rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-medium)', textAlign: 'center' }}>
                 <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: '#06b6d4', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem', boxShadow: '0 8px 20px rgba(6, 182, 212, 0.35)' }}>
                   <Camera size={26} />
                 </div>
@@ -372,7 +372,7 @@ export const DashboardPage = ({ setActiveTab }) => {
               </div>
 
               {scannedFood ? (
-                <div style={{ padding: '1.5rem', background: theme === 'dark' ? '#0e0e12' : '#ffffff', borderRadius: 'var(--radius-md)', border: '1.5px solid #06b6d4' }}>
+                <div style={{ padding: '1.5rem', background: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid #06b6d4' }}>
                   <span className="badge badge-amber" style={{ marginBottom: '0.4rem' }}>Analysis Complete</span>
                   <h4 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.6rem' }}>{scannedFood.name}</h4>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', fontSize: '0.85rem' }}>
@@ -435,19 +435,19 @@ export const DashboardPage = ({ setActiveTab }) => {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem' }}>
-              <div style={{ padding: '1.35rem', background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f8fafc', borderRadius: 'var(--radius-sm)', border: '1.5px solid var(--border-medium)' }}>
+              <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-medium)' }}>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 800 }}>BMI SCORE</div>
                 <div className="font-heading" style={{ fontSize: '2.5rem', fontWeight: 900, color: '#10b981', marginTop: '0.2rem' }}>{metrics.bmi}</div>
                 <div className={`badge ${metrics.badgeClass}`}>{metrics.category}</div>
               </div>
 
-              <div style={{ padding: '1.35rem', background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f8fafc', borderRadius: 'var(--radius-sm)', border: '1.5px solid var(--border-medium)' }}>
+              <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-medium)' }}>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 800 }}>CURRENT WEIGHT</div>
                 <div className="font-heading" style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--text-primary)', marginTop: '0.2rem' }}>{metrics.weightKg} kg</div>
                 <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', fontWeight: 700 }}>({metrics.weightLbs} lbs)</div>
               </div>
 
-              <div style={{ padding: '1.35rem', background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f8fafc', borderRadius: 'var(--radius-sm)', border: '1.5px solid var(--border-medium)' }}>
+              <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-medium)' }}>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 800 }}>HEIGHT BASELINE</div>
                 <div className="font-heading" style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--text-primary)', marginTop: '0.2rem' }}>{onboarding?.heightCm || 175} cm</div>
                 <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', fontWeight: 700 }}>Standard Height</div>
@@ -466,12 +466,12 @@ export const DashboardPage = ({ setActiveTab }) => {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {weightHistory.map(log => (
-                <div key={log.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 1.25rem', background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f8fafc', borderRadius: 'var(--radius-sm)', border: '1.5px solid var(--border-medium)' }}>
+                <div key={log.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 1.25rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-medium)' }}>
                   <div>
                     <strong style={{ color: 'var(--text-primary)', fontSize: '1rem' }}>{log.date}</strong>
                     <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginLeft: '0.75rem' }}>BMI: {log.bmi}</span>
                   </div>
-                  <div style={{ fontWeight: 900, fontSize: '1.1rem', color: '#f59e0b' }}>
+                  <div style={{ fontWeight: 900, fontSize: '1.1rem', color: 'var(--accent-gold)' }}>
                     {log.weightKg} kg
                   </div>
                 </div>
@@ -489,21 +489,21 @@ export const DashboardPage = ({ setActiveTab }) => {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.25rem' }}>
-              <div style={{ padding: '1.35rem', background: theme === 'dark' ? 'rgba(244,63,94,0.1)' : '#fff1f2', borderRadius: 'var(--radius-sm)', border: '1.5px solid #f43f5e' }}>
+              <div style={{ padding: '1.35rem', background: 'rgba(244,63,94,0.08)', borderRadius: 'var(--radius-sm)', border: '1px solid #f43f5e' }}>
                 <div style={{ color: '#f43f5e', fontWeight: 900, fontSize: '0.82rem' }}>PROTEIN (30%)</div>
                 <div className="font-heading" style={{ fontSize: '2.2rem', fontWeight: 900, color: '#f43f5e', marginTop: '0.2rem' }}>140g</div>
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>Paneer, soya, eggs, lentils</p>
               </div>
 
-              <div style={{ padding: '1.35rem', background: theme === 'dark' ? 'rgba(56,189,248,0.1)' : '#f0f9ff', borderRadius: 'var(--radius-sm)', border: '1.5px solid #38bdf8' }}>
+              <div style={{ padding: '1.35rem', background: 'rgba(56,189,248,0.08)', borderRadius: 'var(--radius-sm)', border: '1px solid #38bdf8' }}>
                 <div style={{ color: '#38bdf8', fontWeight: 900, fontSize: '0.82rem' }}>CARBS (50%)</div>
                 <div className="font-heading" style={{ fontSize: '2.2rem', fontWeight: 900, color: '#38bdf8', marginTop: '0.2rem' }}>230g</div>
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>Oats, rice, chapattis, bananas</p>
               </div>
 
-              <div style={{ padding: '1.35rem', background: theme === 'dark' ? 'rgba(245,158,11,0.1)' : '#fffbe6', borderRadius: 'var(--radius-sm)', border: '1.5px solid #f59e0b' }}>
-                <div style={{ color: '#f59e0b', fontWeight: 900, fontSize: '0.82rem' }}>FATS (20%)</div>
-                <div className="font-heading" style={{ fontSize: '2.2rem', fontWeight: 900, color: '#f59e0b', marginTop: '0.2rem' }}>55g</div>
+              <div style={{ padding: '1.35rem', background: 'rgba(245,158,11,0.08)', borderRadius: 'var(--radius-sm)', border: '1px solid #f59e0b' }}>
+                <div style={{ color: 'var(--accent-gold)', fontWeight: 900, fontSize: '0.82rem' }}>FATS (20%)</div>
+                <div className="font-heading" style={{ fontSize: '2.2rem', fontWeight: 900, color: 'var(--accent-gold)', marginTop: '0.2rem' }}>55g</div>
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>Peanut butter, almonds, seeds</p>
               </div>
             </div>
@@ -518,7 +518,7 @@ export const DashboardPage = ({ setActiveTab }) => {
               <h3 className="font-heading" style={{ fontSize: '1.5rem', color: 'var(--text-primary)' }}>Your Personal Campus AI Coach</h3>
             </div>
 
-            <div style={{ padding: '1.75rem', background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f8fafc', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-medium)' }}>
+            <div style={{ padding: '1.75rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-medium)' }}>
               <p style={{ fontSize: '1.05rem', color: 'var(--text-primary)', lineHeight: 1.6, marginBottom: '1.5rem', fontStyle: 'italic' }}>
                 "Hey! Remember to keep your water bottle handy during lectures today. Aiming for 140g protein on a student budget is easy with peanut butter oats and soya chunk rolls!"
               </p>
@@ -538,12 +538,12 @@ export const DashboardPage = ({ setActiveTab }) => {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
-              <div style={{ padding: '1.35rem', background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f8fafc', borderRadius: 'var(--radius-sm)', border: '1.5px solid #eab308' }}>
+              <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid #eab308' }}>
                 <div style={{ fontWeight: 900, color: '#eab308', fontSize: '0.85rem', marginBottom: '0.4rem' }}>⚡ HABIT BUILDING</div>
                 <p style={{ color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 700 }}>"Exams are temporary, gains are forever. 15 mins of dorm pushups beat 0 mins."</p>
               </div>
 
-              <div style={{ padding: '1.35rem', background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f8fafc', borderRadius: 'var(--radius-sm)', border: '1.5px solid #10b981' }}>
+              <div style={{ padding: '1.35rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid #10b981' }}>
                 <div style={{ fontWeight: 900, color: '#10b981', fontSize: '0.85rem', marginBottom: '0.4rem' }}>💡 HOSTEL HACKS</div>
                 <p style={{ color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 700 }}>"Taking stairs instead of hostel elevator adds 1,500 extra steps daily."</p>
               </div>
@@ -564,7 +564,7 @@ export const DashboardPage = ({ setActiveTab }) => {
           zIndex: 1000,
           padding: '1rem'
         }}>
-          <div className="glass-card" style={{ maxWidth: '440px', width: '100%', padding: '2rem', background: theme === 'dark' ? '#14141a' : '#ffffff', border: '1.5px solid #d97706' }}>
+          <div className="glass-card" style={{ maxWidth: '440px', width: '100%', padding: '2rem', background: 'var(--bg-card)', border: '1px solid #d97706' }}>
             <h3 className="font-heading" style={{ fontSize: '1.4rem', color: 'var(--text-primary)', marginBottom: '1.25rem' }}>Quick Weight Log</h3>
             
             <form onSubmit={handleSaveWeightLog}>
