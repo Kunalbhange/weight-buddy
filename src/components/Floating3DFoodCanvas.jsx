@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 
-export const Floating3DFoodCanvas = () => {
+export const Floating3DFoodCanvas = ({ activeTab }) => {
   const [scrollY, setScrollY] = useState(0);
+  const isFrontPage = activeTab === 'landing';
 
   useEffect(() => {
     let ticking = false;
@@ -18,14 +19,23 @@ export const Floating3DFoodCanvas = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Use much larger sizes and varying rotations for a 3D realistic feel
   const foodItems = useMemo(() => [
-    { icon: '🥑', top: '8%', left: '2%', speed: 0.12, size: '1.8rem', delay: 0 },
-    { icon: '🍊', top: '20%', right: '3%', speed: -0.15, size: '1.6rem', delay: 1 },
-    { icon: '🥦', top: '40%', left: '1.5%', speed: 0.1, size: '1.5rem', delay: 2 },
-    { icon: '🫐', top: '55%', right: '2%', speed: -0.13, size: '1.4rem', delay: 0.5 },
-    { icon: '🥚', top: '72%', left: '3%', speed: 0.11, size: '1.5rem', delay: 1.5 },
-    { icon: '🍋', top: '85%', right: '2.5%', speed: -0.09, size: '1.3rem', delay: 3 },
+    { icon: '🥑', top: '15%', left: '4%', speed: 0.15, size: '5rem', delay: 0, rotate: '-15deg' },
+    { icon: '🍊', top: '25%', right: '5%', speed: -0.18, size: '4.5rem', delay: 1, rotate: '10deg' },
+    { icon: '🥦', top: '45%', left: '3%', speed: 0.12, size: '4rem', delay: 2, rotate: '-5deg' },
+    { icon: '🫐', top: '60%', right: '4%', speed: -0.15, size: '3.5rem', delay: 0.5, rotate: '20deg' },
+    { icon: '🥚', top: '75%', left: '6%', speed: 0.14, size: '4.2rem', delay: 1.5, rotate: '-10deg' },
+    { icon: '🍋', top: '88%', right: '6%', speed: -0.11, size: '3.8rem', delay: 3, rotate: '15deg' },
   ], []);
+
+  // If not on the front page, make them subtle. If on front page, make them pop.
+  const baseOpacity = isFrontPage ? 0.9 : 0.15;
+  const baseFilter = isFrontPage 
+    ? 'drop-shadow(0px 20px 15px rgba(0,0,0,0.3)) saturate(1.3) contrast(1.1)' 
+    : 'blur(1px)';
+  const baseZIndex = isFrontPage ? 0 : 0; 
+  // We keep zIndex 0 so it stays behind the main content which has zIndex 2
 
   return (
     <div style={{
@@ -35,30 +45,46 @@ export const Floating3DFoodCanvas = () => {
       width: '100vw',
       height: '100vh',
       pointerEvents: 'none',
-      zIndex: 1,
-      overflow: 'hidden'
+      zIndex: baseZIndex,
+      overflow: 'hidden',
+      transition: 'opacity 0.5s ease'
     }}>
+      <style>
+        {`
+          @keyframes realisticFloat {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+          }
+        `}
+      </style>
+      
       {foodItems.map((item, idx) => {
         const translateY = scrollY * item.speed;
         return (
           <div
             key={idx}
-            className="float-slow"
             style={{
               position: 'absolute',
               top: item.top,
               left: item.left,
               right: item.right,
-              transform: `translateY(${translateY}px)`,
-              fontSize: item.size,
-              opacity: 0.25,
+              fontSize: isFrontPage ? item.size : '2rem', // Shrink when not on front page
+              opacity: baseOpacity,
+              filter: baseFilter,
+              transform: `translateY(${translateY}px) rotate(${item.rotate})`,
               willChange: 'transform',
-              animationDelay: `${item.delay}s`,
-              filter: 'blur(0.5px)',
-              transition: 'transform 0.3s ease-out'
+              transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
             }}
           >
-            {item.icon}
+            {/* The inner div handles the continuous bobbing animation */}
+            <div style={{
+              animation: `realisticFloat ${4 + idx}s ease-in-out infinite`,
+              animationDelay: `${item.delay}s`,
+              display: 'inline-block'
+            }}>
+              {item.icon}
+            </div>
           </div>
         );
       })}

@@ -47,7 +47,7 @@ const AppContent = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', position: 'relative' }}>
-      <Floating3DFoodCanvas />
+      <Floating3DFoodCanvas activeTab={activeTab} />
 
       {activeTab !== 'landing' && (
         <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
