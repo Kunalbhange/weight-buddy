@@ -55,12 +55,8 @@ router.post('/signup', async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
-    return res.status(201).json({
-      message: 'Account created successfully!',
-      user: { id: newUser.id, email: newUser.email, name: newUser.name, isVerified: newUser.isVerified },
-      token,
-      verificationToken
-    });
+    // PRG Pattern: Redirect to GET /me after successful signup
+    return res.redirect(303, '/api/auth/me');
   } catch (err) {
     console.error('Signup error:', err);
     return res.status(500).json({ error: 'Internal server error during registration.' });
@@ -110,11 +106,8 @@ router.post('/login', authLimiter, async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
-    return res.json({
-      message: 'Login successful',
-      token,
-      user: { id: user.id, email: user.email, name: user.name, isVerified: user.isVerified }
-    });
+    // PRG Pattern: Redirect to GET /me after successful login
+    return res.redirect(303, '/api/auth/me');
   } catch (err) {
     console.error('Login error:', err);
     return res.status(500).json({ error: 'Server error during login authentication.' });
@@ -124,7 +117,8 @@ router.post('/login', authLimiter, async (req, res) => {
 // 4. Logout
 router.post('/logout', (req, res) => {
   res.clearCookie('token');
-  return res.json({ message: 'Logged out successfully.' });
+  // PRG Pattern
+  return res.redirect(303, '/api/auth/me');
 });
 
 // 5. Forgot Password Request
@@ -179,6 +173,7 @@ router.post('/reset-password', authLimiter, async (req, res) => {
 // 7. Get Current User Profile (`/me`)
 router.get('/me', requireAuth, (req, res) => {
   const onboarding = db.getOnboarding(req.user.id);
+  const token = generateToken(req.user);
   return res.json({
     user: {
       id: req.user.id,
@@ -187,7 +182,8 @@ router.get('/me', requireAuth, (req, res) => {
       isVerified: req.user.isVerified,
       createdAt: req.user.createdAt
     },
-    onboarding
+    onboarding,
+    token
   });
 });
 

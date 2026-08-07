@@ -129,8 +129,8 @@ router.post('/generate', requireAuth, (req, res) => {
 
   const plan = generateWeeklyPlan(onboarding, allMeals);
   db.saveMealPlan(req.user.id, plan);
-
-  return res.json({ message: 'New diet plan generated!', plan });
+  // PRG Pattern
+  return res.redirect(303, '/api/diet/plan');
 });
 
 // 3. Swap a Single Meal
@@ -162,7 +162,8 @@ router.post('/swap-meal', requireAuth, (req, res) => {
   };
 
   db.saveMealPlan(req.user.id, plan);
-  return res.json({ message: 'Meal swapped successfully!', plan });
+  // PRG Pattern
+  return res.redirect(303, '/api/diet/plan');
 });
 
 // 4. Get Available Alternative Swaps for a meal type

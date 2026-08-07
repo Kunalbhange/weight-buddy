@@ -22,7 +22,8 @@ router.post('/reminders', requireAuth, (req, res) => {
   };
 
   db.saveReminders(req.user.id, updated);
-  return res.json({ message: 'Automation & reminder preferences saved.', reminders: updated });
+  // PRG Pattern
+  return res.redirect(303, '/api/automations/reminders');
 });
 
 // 3. Server-side Weekly Auto-Generated Summary

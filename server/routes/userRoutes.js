@@ -50,7 +50,8 @@ router.post('/onboarding', requireAuth, (req, res) => {
     });
   }
 
-  return res.json({ message: 'Onboarding completed successfully!', onboarding: saved });
+  // PRG Pattern: Redirect to GET /me
+  return res.redirect(303, '/api/auth/me');
 });
 
 // Update Profile
@@ -59,7 +60,8 @@ router.put('/profile', requireAuth, (req, res) => {
   if (!name) return res.status(400).json({ error: 'Name cannot be empty.' });
 
   const updated = db.updateUser(req.user.id, { name: name.trim() });
-  return res.json({ message: 'Profile updated successfully.', user: { id: updated.id, name: updated.name, email: updated.email } });
+  // PRG Pattern
+  return res.redirect(303, '/api/auth/me');
 });
 
 export default router;

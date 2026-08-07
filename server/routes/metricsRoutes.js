@@ -139,11 +139,8 @@ router.post('/log', requireAuth, (req, res) => {
 
   db.addWeightLog(logEntry);
 
-  return res.status(201).json({
-    message: 'Weight logged successfully!',
-    log: logEntry,
-    metrics
-  });
+  // PRG Pattern: Redirect to fresh GET request to prevent duplicate submissions
+  return res.redirect(303, '/api/metrics/logs');
 });
 
 export default router;
