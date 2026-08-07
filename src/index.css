@@ -1,4 +1,4 @@
-/* Classic Black & White Combination Design System with Floating 3D Food Animations */
+/* Classic Black & White Combination Design System with Floating 3D Food & Dynamic Color-Changing Background */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap');
 
 :root {
@@ -40,7 +40,7 @@
 }
 
 body {
-  background-color: var(--bg-main);
+  background-color: #f8fafc;
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 0.95rem;
@@ -50,12 +50,10 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
-  /* Black & White Dynamic Combination Background */
-  background-image: 
-    radial-gradient(circle at 50% 0%, rgba(15, 23, 42, 0.08), transparent 45%),
-    radial-gradient(circle at 85% 60%, rgba(217, 119, 6, 0.06), transparent 40%),
-    radial-gradient(circle at 10% 85%, rgba(0, 0, 0, 0.04), transparent 50%);
-  background-attachment: fixed;
+  /* DYNAMIC COLOR-CHANGING BACKGROUND ANIMATION */
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 25%, #fff7ed 50%, #f0f9ff 75%, #ffffff 100%);
+  background-size: 400% 400%;
+  animation: bgGradientShift 14s ease infinite;
 }
 
 h1, h2, h3, h4, .font-heading {
@@ -81,6 +79,20 @@ h1, h2, h3, h4, .font-heading {
   background: #94a3b8;
 }
 
+/* DYNAMIC BACKGROUND GRADIENT SHIFT KEYFRAME */
+@keyframes bgGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ZOOM IN ZOOM OUT KEYFRAME ANIMATION */
+@keyframes zoomPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.025); }
+  100% { transform: scale(1); }
+}
+
 /* FLOATING 3D KEYFRAME ANIMATIONS */
 @keyframes float {
   0% { transform: translateY(0px) rotate(0deg); }
@@ -98,6 +110,10 @@ h1, h2, h3, h4, .font-heading {
   0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.35); }
   70% { box-shadow: 0 0 0 12px rgba(217, 119, 6, 0); }
   100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+}
+
+.zoom-pulse-animation {
+  animation: zoomPulse 4s ease-in-out infinite;
 }
 
 .float-animation {

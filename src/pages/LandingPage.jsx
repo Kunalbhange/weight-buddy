@@ -32,7 +32,7 @@ export const LandingPage = ({ setActiveTab }) => {
 
   return (
     <div className="animate-fade-in" style={{ maxWidth: '1240px', margin: '0 auto', padding: '2.5rem 1.75rem' }}>
-      {/* HERO SECTION WITH FLOATING ANIMATED BADGES */}
+      {/* HERO SECTION WITH DYNAMIC ZOOM BMI CALCULATOR */}
       <section style={{
         padding: '2.5rem 1rem 3rem',
         position: 'relative'
@@ -105,8 +105,8 @@ export const LandingPage = ({ setActiveTab }) => {
             </div>
           </div>
 
-          {/* HERO RIGHT: FLOATING RETRO LIVE BMI CALCULATOR CARD */}
-          <div className="glass-card float-slow" style={{
+          {/* HERO RIGHT: ZOOM IN / ZOOM OUT LIVE BMI CALCULATOR CARD */}
+          <div className="glass-card zoom-pulse-animation" style={{
             padding: '2.25rem',
             background: '#ffffff',
             border: '1.5px solid #cbd5e1',
@@ -195,7 +195,7 @@ export const LandingPage = ({ setActiveTab }) => {
         </div>
       </section>
 
-      {/* CORE FEATURE CARDS GRID WITH FLOATING HOVER EFFECTS */}
+      {/* CORE FEATURE CARDS GRID */}
       <section style={{ margin: '4.5rem 0 3.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <div className="badge badge-amber float-animation" style={{ marginBottom: '0.5rem' }}>
@@ -260,8 +260,8 @@ export const LandingPage = ({ setActiveTab }) => {
         </div>
       </section>
 
-      {/* FINAL RETRO CTA BANNER WITH FLOATING SHADOW */}
-      <section className="glass-card float-slow" style={{
+      {/* FINAL RETRO CTA BANNER */}
+      <section className="glass-card" style={{
         padding: '3.5rem 2.5rem',
         textAlign: 'center',
         background: '#ffffff',
