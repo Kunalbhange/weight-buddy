@@ -4,18 +4,25 @@ node_modules/
 # Production build outputs
 dist/
 
-# Environment files
+# Environment & Secret files (NEVER commit to GitHub)
 .env
 .env.local
+.env.production
+.env.development
+.env.*.local
+*.pem
+*.key
 
-# Database temporary files
+# Database temporary & state files
 server/data/weightbuddy_db.json
 
-# OS files
+# OS & IDE files
 .DS_Store
 Thumbs.db
+.vscode/
+.idea/
 
-# Logs
+# Logs & Vercel local cache
 *.log
 npm-debug.log*
 .vercel
