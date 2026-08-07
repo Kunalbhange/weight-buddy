@@ -3,18 +3,30 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [onboarding, setOnboarding] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    const savedName = localStorage.getItem('wb_student_name');
+    return savedName ? { id: 'student_active', name: savedName } : { id: 'student_active', name: 'Campus Student' };
+  });
+
+  const [onboarding, setOnboarding] = useState({
+    age: 21,
+    sex: 'male',
+    heightCm: 175,
+    weightKg: 70,
+    activityLevel: 'moderate',
+    scheduleDensity: 'moderate',
+    dietaryRestrictions: ['vegetarian'],
+    goal: 'gain_muscle'
+  });
+
+  const [currency, setCurrency] = useState(localStorage.getItem('wb_currency') || 'INR');
+  const [loading, setLoading] = useState(false);
   const theme = 'light';
 
   const checkAuth = async () => {
     try {
       const token = localStorage.getItem('wb_token');
-      if (!token) {
-        setLoading(false);
-        return;
-      }
+      if (!token) return;
       const res = await fetch('/api/auth/me', {
         credentials: 'same-origin',
         headers: { 'Authorization': `Bearer ${token}` }
@@ -23,13 +35,9 @@ export const AuthProvider = ({ children }) => {
       if (res.ok && data.user) {
         setUser(data.user);
         if (data.onboarding) setOnboarding(data.onboarding);
-      } else {
-        localStorage.removeItem('wb_token');
       }
     } catch (err) {
-      console.error('Check auth error', err);
-    } finally {
-      setLoading(false);
+      console.warn('Check auth notice:', err);
     }
   };
 
@@ -38,6 +46,13 @@ export const AuthProvider = ({ children }) => {
     document.documentElement.setAttribute('data-theme', 'light');
     localStorage.setItem('wb_theme', 'light');
   }, []);
+
+  const setStudentName = (name) => {
+    const cleanName = name.trim() || 'Campus Student';
+    localStorage.setItem('wb_student_name', cleanName);
+    setUser(prev => ({ ...(prev || { id: 'student_active' }), name: cleanName }));
+  };
+
   const changeCurrency = (code) => {
     setCurrency(code);
     localStorage.setItem('wb_currency', code);
@@ -53,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Login failed');
     if (data.token) localStorage.setItem('wb_token', data.token);
-    setUser(data.user);
+    if (data.user) setUser(data.user);
     if (data.onboarding) setOnboarding(data.onboarding);
   };
 
@@ -67,19 +82,23 @@ export const AuthProvider = ({ children }) => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Signup failed');
     if (data.token) localStorage.setItem('wb_token', data.token);
-    setUser(data.user);
+    if (data.user) setUser(data.user);
   };
 
   const logout = async () => {
-    const token = localStorage.getItem('wb_token');
-    await fetch('/api/auth/logout', { 
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: { 'Authorization': `Bearer ${token}` } 
-    });
+    try {
+      const token = localStorage.getItem('wb_token');
+      if (token) {
+        await fetch('/api/auth/logout', { 
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Authorization': `Bearer ${token}` } 
+        });
+      }
+    } catch (e) {}
     localStorage.removeItem('wb_token');
-    setUser(null);
-    setOnboarding(null);
+    localStorage.removeItem('wb_student_name');
+    setUser({ id: 'student_active', name: 'Campus Student' });
   };
 
   const updateOnboardingState = (data) => {
@@ -97,6 +116,8 @@ export const AuthProvider = ({ children }) => {
       login,
       signup,
       logout,
+      fetchMe: checkAuth,
+      setStudentName,
       updateOnboardingState
     }}>
       {children}
