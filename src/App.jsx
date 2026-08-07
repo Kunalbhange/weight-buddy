@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { Floating3DFoodCanvas } from './components/Floating3DFoodCanvas';
+import { AestheticCoffee3D } from './components/AestheticCoffee3D';
 
 // Dedicated Standalone Frontend View Components
 import { LandingPage } from './pages/LandingPage';
@@ -47,6 +48,7 @@ const AppContent = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', position: 'relative' }}>
       <Floating3DFoodCanvas />
+      <AestheticCoffee3D />
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
       <main style={{ flex: 1, zIndex: 2, position: 'relative' }}>
         {renderCurrentPage()}
