@@ -64,7 +64,7 @@ export const WeightLogModal = ({ isOpen, onClose, onLogSuccess }) => {
         maxWidth: '460px',
         width: '100%',
         padding: '1.75rem',
-        background: '#141414',
+        background: 'var(--bg-card)',
         border: '1px solid var(--border-medium)',
         position: 'relative'
       }}>
