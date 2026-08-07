@@ -177,9 +177,9 @@ export const PhysiquePage = () => {
 
           <div style={{
             padding: '0.85rem 1.25rem',
-            background: 'rgba(0,0,0,0.5)',
+            background: 'var(--bg-elevated)',
             borderRadius: 'var(--radius-md)',
-            border: '1px solid var(--border-subtle)',
+            border: '1px solid var(--border-medium)',
             textAlign: 'center'
           }}>
             <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 700 }}>TARGET PHYSIQUE</div>
@@ -194,12 +194,12 @@ export const PhysiquePage = () => {
           gap: '1rem',
           marginBottom: '1.75rem'
         }}>
-          <div style={{ padding: '1.1rem', background: 'rgba(255, 255, 255, 0.04)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ padding: '1.1rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-medium)' }}>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 700 }}>DAILY CALORIE STRATEGY</div>
             <div style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)', marginTop: '0.2rem' }}>{currentGoal.caloriesTip}</div>
           </div>
 
-          <div style={{ padding: '1.1rem', background: 'rgba(255, 255, 255, 0.04)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ padding: '1.1rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-medium)' }}>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 700 }}>MACRO SPLIT RATIO</div>
             <div style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)', marginTop: '0.2rem' }}>{currentGoal.macrosRatio}</div>
           </div>
@@ -207,7 +207,7 @@ export const PhysiquePage = () => {
 
         {/* STRATEGY SECTIONS */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-          <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ padding: '1.25rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-medium)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '0.95rem', color: 'var(--accent-emerald)', marginBottom: '0.75rem' }}>
               <Flame size={16} color="var(--accent-emerald)" /> Best Dorm & Hostel Foods
             </div>
@@ -220,7 +220,7 @@ export const PhysiquePage = () => {
             </ul>
           </div>
 
-          <div style={{ padding: '1.25rem', background: 'rgba(0,0,0,0.4)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ padding: '1.25rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-medium)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '0.95rem', color: 'var(--accent-gold)', marginBottom: '0.75rem' }}>
               <Trophy size={16} color="var(--accent-gold)" /> Student Training Focus
             </div>

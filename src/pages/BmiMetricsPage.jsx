@@ -210,9 +210,9 @@ export const BmiMetricsPage = () => {
           <div style={{
             marginTop: '1.25rem',
             padding: '1rem',
-            background: 'rgba(255, 255, 255, 0.03)',
+            background: 'var(--bg-elevated)',
             borderRadius: 'var(--radius-sm)',
-            border: '1px solid var(--border-subtle)',
+            border: '1px solid var(--border-medium)',
             display: 'flex',
             justify: 'space-around',
             fontSize: '0.88rem'
@@ -256,8 +256,8 @@ export const BmiMetricsPage = () => {
             <div style={{ fontWeight: 700, color: 'var(--accent-gold)', fontSize: '0.85rem' }}>Overweight</div>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>BMI 25.0 – 29.9</div>
           </div>
-          <div style={{ padding: '0.75rem', background: 'rgba(255, 255, 255, 0.05)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-            <div style={{ fontWeight: 700, color: '#d4d4d8', fontSize: '0.85rem' }}>Obese</div>
+          <div style={{ padding: '0.75rem', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-medium)' }}>
+            <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.85rem' }}>Obese</div>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>BMI ≥ 30.0</div>
           </div>
         </div>
