@@ -86,8 +86,8 @@ export const DietPlanPage = () => {
               style={{
                 padding: '0.75rem 1.25rem',
                 borderRadius: 'var(--radius-md)',
-                background: isActive ? 'var(--accent-primary)' : 'rgba(24, 24, 27, 0.7)',
-                color: isActive ? '#000' : 'var(--text-primary)',
+                background: isActive ? 'var(--accent-primary)' : 'var(--bg-elevated)',
+                color: isActive ? '#ffffff' : 'var(--text-primary)',
                 fontWeight: 700,
                 fontSize: '0.88rem',
                 border: isActive ? 'none' : '1px solid var(--border-subtle)',
@@ -111,9 +111,9 @@ export const DietPlanPage = () => {
             justify: 'space-around',
             gap: '1rem',
             padding: '1.25rem',
-            background: 'rgba(24, 24, 27, 0.7)',
+            background: 'var(--bg-elevated)',
             borderRadius: 'var(--radius-md)',
-            border: '1px solid var(--border-subtle)',
+            border: '1px solid var(--border-medium)',
             marginBottom: '2rem',
             flexWrap: 'wrap'
           }}>

@@ -179,14 +179,14 @@ export const AiChatPage = () => {
                 maxWidth: '80%',
                 padding: '0.9rem 1.2rem',
                 borderRadius: isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-                background: isUser ? 'var(--text-primary)' : 'var(--bg-card)',
-                color: isUser ? 'var(--text-primary)' : 'var(--text-primary)',
-                border: isUser ? '1.5px solid var(--text-primary)' : '1.5px solid var(--border-subtle)',
+                background: isUser ? 'var(--accent-gold)' : 'var(--bg-elevated)',
+                color: isUser ? '#ffffff' : 'var(--text-primary)',
+                border: isUser ? '1.5px solid var(--accent-gold)' : '1.5px solid var(--border-medium)',
                 fontSize: '0.92rem',
-                fontWeight: isUser ? '700' : '400',
+                fontWeight: isUser ? '600' : '400',
                 lineHeight: '1.6',
                 whiteSpace: 'pre-line',
-                boxShadow: isUser ? '0 4px 15px rgba(255, 255, 255, 0.25)' : 'none'
+                boxShadow: isUser ? '0 4px 15px rgba(217, 119, 6, 0.25)' : 'none'
               }}>
                 {msg.isMedical && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#fca5a5', fontWeight: 700, marginBottom: '0.4rem', fontSize: '0.8rem' }}>
@@ -197,7 +197,7 @@ export const AiChatPage = () => {
                 <div style={{
                   fontSize: '0.68rem',
                   fontWeight: 600,
-                  color: isUser ? 'rgba(5, 5, 7, 0.65)' : 'var(--text-muted)',
+                  color: isUser ? 'rgba(255, 255, 255, 0.8)' : 'var(--text-muted)',
                   marginTop: '0.4rem',
                   textAlign: 'right'
                 }}>
