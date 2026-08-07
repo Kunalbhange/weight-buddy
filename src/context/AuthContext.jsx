@@ -7,8 +7,19 @@ export const AuthProvider = ({ children }) => {
   const [onboarding, setOnboarding] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('wb_token') || null);
   const [currency, setCurrency] = useState(localStorage.getItem('wb_currency') || 'INR');
+  const [theme, setTheme] = useState(localStorage.getItem('wb_theme') || (localStorage.getItem('wb_token') ? 'dark' : 'light'));
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Sync theme attribute to document element
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('wb_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   const fetchMe = async (authToken = token) => {
     if (!authToken) {
@@ -29,6 +40,10 @@ export const AuthProvider = ({ children }) => {
         setUser(data.user);
         setOnboarding(data.onboarding);
         setError(null);
+        // Automatically default to dark mode after logging in
+        if (!localStorage.getItem('wb_theme')) {
+          setTheme('dark');
+        }
       } else {
         localStorage.removeItem('wb_token');
         setToken(null);
@@ -68,6 +83,8 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('wb_token', data.token);
       setToken(data.token);
       setUser(data.user);
+      // Switch background theme to black (dark mode) after login
+      setTheme('dark');
       await fetchMe(data.token);
       return data;
     } catch (err) {
@@ -93,6 +110,8 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('wb_token', data.token);
       setToken(data.token);
       setUser(data.user);
+      // Switch background theme to black (dark mode) after signup
+      setTheme('dark');
       return data;
     } catch (err) {
       setError(err.message);
@@ -110,6 +129,7 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
     setOnboarding(null);
+    setTheme('light');
   };
 
   const updateOnboardingState = (data) => {
@@ -123,6 +143,9 @@ export const AuthProvider = ({ children }) => {
       token,
       currency,
       changeCurrency,
+      theme,
+      toggleTheme,
+      setTheme,
       loading,
       error,
       login,
