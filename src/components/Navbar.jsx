@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { CURRENCY_MAP } from '../utils/currency';
-import { LayoutDashboard, Utensils, Activity, Bot, Settings, LogOut, Menu, X, Globe, Dumbbell, Sparkles, Moon, Sun } from 'lucide-react';
+import { LayoutDashboard, Utensils, Activity, Bot, Settings, Menu, X, Globe, Dumbbell, Sparkles, Moon, Sun, User, Check, Edit2 } from 'lucide-react';
 
 export const Navbar = ({ activeTab, setActiveTab }) => {
-  const { user, logout, currency, changeCurrency, theme, toggleTheme } = useAuth();
+  const { user, setStudentName, currency, changeCurrency, theme, toggleTheme } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [tempName, setTempName] = useState(user?.name || 'Campus Student');
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -15,6 +17,12 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
     { id: 'ai', label: 'AI Assistant', icon: Bot },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
+
+  const handleSaveName = (e) => {
+    e.preventDefault();
+    setStudentName(tempName);
+    setIsEditingName(false);
+  };
 
   return (
     <header style={{
@@ -37,7 +45,7 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
       }}>
         {/* Brand Logo */}
         <div 
-          onClick={() => setActiveTab(user ? 'dashboard' : 'landing')} 
+          onClick={() => setActiveTab('dashboard')} 
           style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.65rem' }}
           className="float-animation"
         >
@@ -80,7 +88,53 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
 
         {/* Navigation Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-          {/* DARK / LIGHT MODE TOGGLE BUTTON */}
+          {/* STUDENT NAME BADGE / INSTANT EDIT */}
+          {isEditingName ? (
+            <form onSubmit={handleSaveName} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+              <input
+                type="text"
+                value={tempName}
+                onChange={(e) => setTempName(e.target.value)}
+                autoFocus
+                style={{
+                  padding: '0.3rem 0.6rem',
+                  fontSize: '0.82rem',
+                  fontWeight: 800,
+                  borderRadius: 'var(--radius-sm)',
+                  border: '1.5px solid #d97706',
+                  background: theme === 'dark' ? '#14141a' : '#ffffff',
+                  color: 'var(--text-primary)',
+                  width: '120px'
+                }}
+              />
+              <button type="submit" style={{ background: '#d97706', border: 'none', color: '#fff', padding: '0.35rem 0.55rem', borderRadius: 'var(--radius-sm)', cursor: 'pointer' }}>
+                <Check size={14} />
+              </button>
+            </form>
+          ) : (
+            <button
+              onClick={() => setIsEditingName(true)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                background: theme === 'dark' ? 'rgba(217, 119, 6, 0.18)' : '#fef3c7',
+                border: '1.5px solid rgba(217, 119, 6, 0.45)',
+                borderRadius: 'var(--radius-sm)',
+                padding: '0.35rem 0.75rem',
+                color: '#d97706',
+                fontWeight: 900,
+                fontSize: '0.82rem',
+                cursor: 'pointer'
+              }}
+            >
+              <User size={14} color="#d97706" />
+              <span>{user?.name || 'Campus Student'}</span>
+              <Edit2 size={11} color="#d97706" />
+            </button>
+          )}
+
+          {/* DARK / LIGHT MODE TOGGLE */}
           <button
             onClick={toggleTheme}
             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
@@ -136,64 +190,36 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
           </div>
 
           {/* Desktop Navigation */}
-          {user ? (
-            <nav className="desktop-nav" style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
-              {navItems.map(item => {
-                const Icon = item.icon;
-                const isActive = activeTab === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveTab(item.id)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.45rem',
-                      padding: '0.5rem 0.95rem',
-                      borderRadius: 'var(--radius-sm)',
-                      fontSize: '0.85rem',
-                      fontWeight: 800,
-                      color: isActive ? (theme === 'dark' ? '#050507' : '#ffffff') : 'var(--text-secondary)',
-                      background: isActive ? (theme === 'dark' ? '#ffffff' : '#0f172a') : 'transparent',
-                      border: isActive ? 'none' : '1.5px solid transparent',
-                      cursor: 'pointer',
-                      transition: 'var(--transition-normal)',
-                      boxShadow: isActive ? '0 6px 18px rgba(0,0,0,0.2)' : 'none'
-                    }}
-                  >
-                    <Icon size={15} color={isActive ? (theme === 'dark' ? '#050507' : '#ffffff') : 'currentColor'} />
-                    {item.label}
-                  </button>
-                );
-              })}
-              <button
-                onClick={logout}
-                title="Logout"
-                style={{
-                  background: theme === 'dark' ? 'rgba(255,255,255,0.1)' : '#f1f5f9',
-                  border: theme === 'dark' ? '1.5px solid rgba(255,255,255,0.25)' : '1.5px solid #cbd5e1',
-                  borderRadius: 'var(--radius-sm)',
-                  color: 'var(--text-primary)',
-                  cursor: 'pointer',
-                  padding: '0.5rem 0.65rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginLeft: '0.2rem'
-                }}
-              >
-                <LogOut size={15} color="currentColor" />
-              </button>
-            </nav>
-          ) : (
-            <div className="desktop-nav" style={{ display: 'flex', gap: '0.65rem', alignItems: 'center' }}>
-              <button className="btn-secondary" onClick={() => setActiveTab('login')} style={{ padding: '0.45rem 1.1rem', fontSize: '0.85rem' }}>
-                Sign In
-              </button>
-              <button className="btn-primary" onClick={() => setActiveTab('signup')} style={{ padding: '0.45rem 1.1rem', fontSize: '0.85rem' }}>
-                Get Started Free
-              </button>
-            </div>
-          )}
+          <nav className="desktop-nav" style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
+            {navItems.map(item => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    padding: '0.5rem 0.95rem',
+                    borderRadius: 'var(--radius-sm)',
+                    fontSize: '0.85rem',
+                    fontWeight: 800,
+                    color: isActive ? (theme === 'dark' ? '#050507' : '#ffffff') : 'var(--text-secondary)',
+                    background: isActive ? (theme === 'dark' ? '#ffffff' : '#0f172a') : 'transparent',
+                    border: isActive ? 'none' : '1.5px solid transparent',
+                    cursor: 'pointer',
+                    transition: 'var(--transition-normal)',
+                    boxShadow: isActive ? '0 6px 18px rgba(0,0,0,0.2)' : 'none'
+                  }}
+                >
+                  <Icon size={15} color={isActive ? (theme === 'dark' ? '#050507' : '#ffffff') : 'currentColor'} />
+                  {item.label}
+                </button>
+              );
+            })}
+          </nav>
 
           {/* Mobile Menu Toggle */}
           <button 
@@ -226,71 +252,32 @@ export const Navbar = ({ activeTab, setActiveTab }) => {
           flexDirection: 'column',
           gap: '0.6rem'
         }}>
-          {user ? (
-            <>
-              {navItems.map(item => {
-                const Icon = item.icon;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => { setActiveTab(item.id); setMobileMenuOpen(false); }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.75rem',
-                      padding: '0.8rem 1rem',
-                      borderRadius: 'var(--radius-sm)',
-                      fontSize: '0.92rem',
-                      fontWeight: 800,
-                      color: activeTab === item.id ? (theme === 'dark' ? '#050507' : '#ffffff') : 'var(--text-primary)',
-                      background: activeTab === item.id ? (theme === 'dark' ? '#ffffff' : '#0f172a') : (theme === 'dark' ? '#14141a' : '#f8fafc'),
-                      border: '1.5px solid var(--border-medium)',
-                      width: '100%',
-                      textAlign: 'left'
-                    }}
-                  >
-                    <Icon size={18} color={activeTab === item.id ? (theme === 'dark' ? '#050507' : '#ffffff') : 'currentColor'} />
-                    {item.label}
-                  </button>
-                );
-              })}
+          {navItems.map(item => {
+            const Icon = item.icon;
+            return (
               <button
-                onClick={() => { logout(); setMobileMenuOpen(false); }}
+                key={item.id}
+                onClick={() => { setActiveTab(item.id); setMobileMenuOpen(false); }}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.75rem',
                   padding: '0.8rem 1rem',
-                  color: '#dc2626',
-                  background: '#fef2f2',
-                  border: '1.5px solid #fecaca',
                   borderRadius: 'var(--radius-sm)',
-                  marginTop: '0.4rem',
-                  fontWeight: 800
+                  fontSize: '0.92rem',
+                  fontWeight: 800,
+                  color: activeTab === item.id ? (theme === 'dark' ? '#050507' : '#ffffff') : 'var(--text-primary)',
+                  background: activeTab === item.id ? (theme === 'dark' ? '#ffffff' : '#0f172a') : (theme === 'dark' ? '#14141a' : '#f8fafc'),
+                  border: '1.5px solid var(--border-medium)',
+                  width: '100%',
+                  textAlign: 'left'
                 }}
               >
-                <LogOut size={18} color="#dc2626" />
-                Logout Account
+                <Icon size={18} color={activeTab === item.id ? (theme === 'dark' ? '#050507' : '#ffffff') : 'currentColor'} />
+                {item.label}
               </button>
-            </>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <button 
-                className="btn-primary" 
-                onClick={() => { setActiveTab('signup'); setMobileMenuOpen(false); }} 
-                style={{ width: '100%', padding: '0.85rem' }}
-              >
-                Get Started Free
-              </button>
-              <button 
-                className="btn-secondary" 
-                onClick={() => { setActiveTab('login'); setMobileMenuOpen(false); }} 
-                style={{ width: '100%', padding: '0.85rem' }}
-              >
-                Sign In
-              </button>
-            </div>
-          )}
+            );
+          })}
         </div>
       )}
     </header>

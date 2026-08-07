@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -6,9 +6,6 @@ import { Floating3DFoodCanvas } from './components/Floating3DFoodCanvas';
 
 // Pages
 import { LandingPage } from './pages/LandingPage';
-import { LoginPage } from './pages/LoginPage';
-import { SignupPage } from './pages/SignupPage';
-import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { OnboardingPage } from './pages/OnboardingPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { DietPlanPage } from './pages/DietPlanPage';
@@ -19,64 +16,12 @@ import { SettingsPage } from './pages/SettingsPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 
 const AppContent = () => {
-  const { user, onboarding, loading } = useAuth();
-  const [activeTab, setActiveTab] = useState('landing');
-
-  // Handle default tab routing based on auth state
-  useEffect(() => {
-    if (!loading) {
-      if (user) {
-        if (!onboarding) {
-          setActiveTab('onboarding');
-        } else if (activeTab === 'landing' || activeTab === 'login' || activeTab === 'signup') {
-          setActiveTab('dashboard');
-        }
-      }
-    }
-  }, [user, onboarding, loading]);
-
-  if (loading) {
-    return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justify: 'center',
-        minHeight: '100vh',
-        background: '#f8fafc',
-        color: '#0f172a'
-      }}>
-        <div style={{
-          width: '36px',
-          height: '36px',
-          borderRadius: '10px',
-          background: '#0f172a',
-          color: '#ffffff',
-          display: 'flex',
-          alignItems: 'center',
-          justify: 'center',
-          fontWeight: 900,
-          fontSize: '1.3rem',
-          marginBottom: '1rem',
-          boxShadow: '0 6px 18px rgba(15, 23, 42, 0.25)'
-        }}>
-          W
-        </div>
-        <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>Loading WeightBuddy Session...</div>
-      </div>
-    );
-  }
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   const renderCurrentPage = () => {
     switch (activeTab) {
       case 'landing':
         return <LandingPage setActiveTab={setActiveTab} />;
-      case 'login':
-        return <LoginPage setActiveTab={setActiveTab} />;
-      case 'signup':
-        return <SignupPage setActiveTab={setActiveTab} />;
-      case 'forgot-password':
-        return <ForgotPasswordPage setActiveTab={setActiveTab} />;
       case 'onboarding':
         return <OnboardingPage setActiveTab={setActiveTab} />;
       case 'dashboard':
@@ -94,7 +39,7 @@ const AppContent = () => {
       case 'privacy':
         return <PrivacyPage />;
       default:
-        return <LandingPage setActiveTab={setActiveTab} />;
+        return <DashboardPage setActiveTab={setActiveTab} />;
     }
   };
 
